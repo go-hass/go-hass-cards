@@ -1,0 +1,23 @@
+import { StreamLanguage } from "@codemirror/language";
+import { Compartment } from "@codemirror/state";
+import type { KeyBinding } from "@codemirror/view";
+export { autocompletion } from "@codemirror/autocomplete";
+export { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+export { highlightingFor, foldGutter } from "@codemirror/language";
+export { highlightSelectionMatches, searchKeymap } from "@codemirror/search";
+export { EditorState } from "@codemirror/state";
+export { crosshairCursor, drawSelection, EditorView, highlightActiveLine, keymap, lineNumbers, rectangularSelection, } from "@codemirror/view";
+export { indentationMarkers } from "@replit/codemirror-indentation-markers";
+export { tags } from "@lezer/highlight";
+export declare const langs: {
+    jinja2: StreamLanguage<unknown>;
+    yaml: StreamLanguage<unknown>;
+};
+export declare const langCompartment: Compartment;
+export declare const readonlyCompartment: Compartment;
+export declare const linewrapCompartment: Compartment;
+export declare const foldingCompartment: Compartment;
+export declare const tabKeyBindings: KeyBinding[];
+export declare const haTheme: import("@codemirror/state").Extension;
+export declare const haSyntaxHighlighting: import("@codemirror/state").Extension;
+export declare const foldingOnIndent: import("@codemirror/state").Extension;
