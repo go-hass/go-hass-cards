@@ -1,0 +1,91 @@
+import type { CSSResultGroup, PropertyValues, TemplateResult } from "lit";
+import { LitElement, nothing } from "lit";
+import "../../../../components/ha-automation-row";
+import "../../../../components/ha-card";
+import "../../../../components/ha-expansion-panel";
+import "../../../../components/ha-icon-button";
+import "../../../../components/ha-md-button-menu";
+import "../../../../components/ha-md-divider";
+import "../../../../components/ha-md-menu-item";
+import type { AutomationClipboard, Condition } from "../../../../data/automation";
+import type { EntityRegistryEntry } from "../../../../data/entity_registry";
+import type { HomeAssistant } from "../../../../types";
+import "../ha-automation-editor-warning";
+import "./ha-automation-condition-editor";
+import type HaAutomationConditionEditor from "./ha-automation-condition-editor";
+import "./types/ha-automation-condition-and";
+import "./types/ha-automation-condition-device";
+import "./types/ha-automation-condition-not";
+import "./types/ha-automation-condition-numeric_state";
+import "./types/ha-automation-condition-or";
+import "./types/ha-automation-condition-state";
+import "./types/ha-automation-condition-sun";
+import "./types/ha-automation-condition-template";
+import "./types/ha-automation-condition-time";
+import "./types/ha-automation-condition-trigger";
+import "./types/ha-automation-condition-zone";
+export interface ConditionElement extends LitElement {
+    condition: Condition;
+    expandAll?: () => void;
+    collapseAll?: () => void;
+}
+export declare const handleChangeEvent: (element: ConditionElement, ev: CustomEvent) => void;
+export default class HaAutomationConditionRow extends LitElement {
+    hass: HomeAssistant;
+    condition: Condition;
+    disabled: boolean;
+    root: boolean;
+    first?: boolean;
+    last?: boolean;
+    narrow: boolean;
+    highlight?: boolean;
+    sortSelected: boolean;
+    private _collapsed;
+    private _warnings?;
+    optionsInSidebar: boolean;
+    _clipboard?: AutomationClipboard;
+    private _yamlMode;
+    private _testing;
+    private _testingResult?;
+    private _selected;
+    _entityReg: EntityRegistryEntry[];
+    conditionEditor?: HaAutomationConditionEditor;
+    private _automationRowElement?;
+    get selected(): boolean;
+    private _renderOverflowLabel;
+    private _renderRow;
+    protected render(): TemplateResult<1> | typeof nothing;
+    protected firstUpdated(changedProperties: PropertyValues): void;
+    protected willUpdate(changedProperties: any): void;
+    private _onValueChange;
+    private _setClipboard;
+    private _onDisable;
+    private _onDelete;
+    private _switchUiMode;
+    private _switchYamlMode;
+    private _testCondition;
+    private _renameCondition;
+    private _duplicateCondition;
+    private _insertAfter;
+    private _copyCondition;
+    private _cutCondition;
+    private _moveUp;
+    private _moveDown;
+    private _toggleYamlMode;
+    expand(): void;
+    collapse(): void;
+    expandAll(): void;
+    collapseAll(): void;
+    private _handleUiModeNotAvailable;
+    private _toggleSidebar;
+    openSidebar(condition?: Condition): void;
+    private _uiSupported;
+    private _toggleCollapse;
+    focus(): void;
+    static get styles(): CSSResultGroup;
+}
+declare global {
+    interface HTMLElementTagNameMap {
+        "ha-automation-condition-row": HaAutomationConditionRow;
+    }
+}
