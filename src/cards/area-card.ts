@@ -84,7 +84,7 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
           <div style="color: #fff; font-size: var(--ha-font-size-2xl); line-height: 1;">
             ${area.name}
           </div>
-          <div style="display: flex; align-items: center; gap: 4px; color: #e3e3e3; opacity: 0.6; font-size: var(--ha-font-size-l); --mdc-icon-size: 24px;">
+          <div style="display: flex; align-items: center; gap: 4px; color: #e3e3e3; opacity: 0.6; font-size: var(--ha-font-size-l); --mdc-icon-size: 24px; margin-left: -6px;">
             ${newSate}
           </div>
         </div>
