@@ -1,0 +1,12 @@
+import type { HassConfig } from "home-assistant-js-websocket";
+import type { FrontendLocaleData } from "../../data/translation";
+export declare const formatDateWeekdayDay: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDate: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDateShort: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDateNumeric: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDateVeryShort: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDateMonthYear: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDateMonth: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDateYear: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDateWeekday: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;
+export declare const formatDateWeekdayShort: (dateObj: Date, locale: FrontendLocaleData, config: HassConfig) => string;

@@ -1,0 +1,97 @@
+import type { CSSResultGroup, PropertyValues, TemplateResult } from "lit";
+import { LitElement, nothing } from "lit";
+import "../../../../components/ha-alert";
+import "../../../../components/ha-automation-row";
+import "../../../../components/ha-card";
+import "../../../../components/ha-expansion-panel";
+import "../../../../components/ha-icon-button";
+import "../../../../components/ha-md-button-menu";
+import "../../../../components/ha-md-divider";
+import "../../../../components/ha-md-menu-item";
+import "../../../../components/ha-svg-icon";
+import type { AutomationClipboard, Trigger } from "../../../../data/automation";
+import type { EntityRegistryEntry } from "../../../../data/entity_registry";
+import type { HomeAssistant } from "../../../../types";
+import "../ha-automation-editor-warning";
+import "./ha-automation-trigger-editor";
+import type HaAutomationTriggerEditor from "./ha-automation-trigger-editor";
+import "./types/ha-automation-trigger-calendar";
+import "./types/ha-automation-trigger-conversation";
+import "./types/ha-automation-trigger-device";
+import "./types/ha-automation-trigger-event";
+import "./types/ha-automation-trigger-geo_location";
+import "./types/ha-automation-trigger-homeassistant";
+import "./types/ha-automation-trigger-list";
+import "./types/ha-automation-trigger-mqtt";
+import "./types/ha-automation-trigger-numeric_state";
+import "./types/ha-automation-trigger-persistent_notification";
+import "./types/ha-automation-trigger-state";
+import "./types/ha-automation-trigger-sun";
+import "./types/ha-automation-trigger-tag";
+import "./types/ha-automation-trigger-template";
+import "./types/ha-automation-trigger-time";
+import "./types/ha-automation-trigger-time_pattern";
+import "./types/ha-automation-trigger-webhook";
+import "./types/ha-automation-trigger-zone";
+export interface TriggerElement extends LitElement {
+    trigger: Trigger;
+}
+export declare const handleChangeEvent: (element: TriggerElement, ev: CustomEvent) => void;
+export default class HaAutomationTriggerRow extends LitElement {
+    hass: HomeAssistant;
+    trigger: Trigger;
+    disabled: boolean;
+    first?: boolean;
+    last?: boolean;
+    highlight?: boolean;
+    optionsInSidebar: boolean;
+    sortSelected: boolean;
+    private _yamlMode;
+    private _triggered?;
+    private _triggerColor;
+    private _selected;
+    private _warnings?;
+    narrow: boolean;
+    triggerEditor?: HaAutomationTriggerEditor;
+    private _automationRowElement?;
+    _clipboard?: AutomationClipboard;
+    _entityReg: EntityRegistryEntry[];
+    get selected(): boolean;
+    private _triggerUnsub?;
+    private _renderOverflowLabel;
+    private _renderRow;
+    protected render(): TemplateResult<1> | typeof nothing;
+    protected willUpdate(changedProperties: any): void;
+    protected updated(changedProps: PropertyValues<this>): void;
+    connectedCallback(): void;
+    disconnectedCallback(): void;
+    private _subscribeTrigger;
+    private _doSubscribeTrigger;
+    private _handleUiModeNotAvailable;
+    private _toggleSidebar;
+    openSidebar(trigger?: Trigger): void;
+    private _setClipboard;
+    private _onDelete;
+    private _onDisable;
+    private _switchUiMode;
+    private _switchYamlMode;
+    private _showTriggeredInfo;
+    private _renameTrigger;
+    private _duplicateTrigger;
+    private _insertAfter;
+    private _copyTrigger;
+    private _cutTrigger;
+    private _moveUp;
+    private _moveDown;
+    private _toggleYamlMode;
+    expand(): void;
+    private _getType;
+    private _uiSupported;
+    focus(): void;
+    static get styles(): CSSResultGroup;
+}
+declare global {
+    interface HTMLElementTagNameMap {
+        "ha-automation-trigger-row": HaAutomationTriggerRow;
+    }
+}

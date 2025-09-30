@@ -1,0 +1,15 @@
+import type { HassEntities } from "home-assistant-js-websocket";
+import type { LocalizeFunc } from "../../../common/translations/localize";
+import type { AreasDisplayValue } from "../../../components/ha-areas-display-editor";
+import type { EnergyPreferences } from "../../../data/energy";
+import type { LovelaceCardConfig } from "../../../data/lovelace/config/card";
+import type { LovelaceSectionConfig } from "../../../data/lovelace/config/section";
+import type { LovelaceViewConfig } from "../../../data/lovelace/config/view";
+import type { HomeAssistant } from "../../../types";
+import type { EntitiesCardConfig } from "../cards/types";
+import type { LovelaceBadgeConfig } from "../../../data/lovelace/config/badge";
+export declare const computeSection: (entityIds: string[], sectionOptions?: Partial<LovelaceSectionConfig>) => LovelaceSectionConfig;
+export declare const computeCards: (states: HassEntities, entityIds: string[], entityCardOptions: Partial<EntitiesCardConfig>, renderFooterEntities?: boolean) => LovelaceCardConfig[];
+export declare const computeBadges: (_states: HassEntities, entityIds: string[]) => LovelaceBadgeConfig[];
+export declare const generateViewConfig: (localize: LocalizeFunc, path: string, title: string | undefined, icon: string | undefined, entities: HassEntities) => LovelaceViewConfig;
+export declare const generateDefaultViewConfig: (areaEntries: HomeAssistant["areas"], deviceEntries: HomeAssistant["devices"], entityEntries: HomeAssistant["entities"], entities: HassEntities, localize: LocalizeFunc, energyPrefs?: EnergyPreferences, areasPrefs?: AreasDisplayValue, hideEntitiesWithoutAreas?: boolean, hideEnergy?: boolean) => LovelaceViewConfig;
