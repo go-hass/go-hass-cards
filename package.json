@@ -1,0 +1,24 @@
+{
+  "name": "go-ha-cards",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
+  "scripts": {
+    "dev": "concurrently \"http-server dist --cors --port 8080\" \"vite build --watch\"",
+    "build": "tsc && vite build"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "home-assistant-frontend": "github:home-assistant/frontend#20250926.0",
+    "lit": "^3.3.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-replace": "^6.0.2",
+    "@types/node": "^24.6.0",
+    "concurrently": "^9.2.1",
+    "http-server": "^14.1.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7"
+  }
+}
