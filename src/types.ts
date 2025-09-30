@@ -1,11 +1,11 @@
-export type { AreaRegistryEntry } from 'home-assistant-frontend/src/data/area_registry';
-export type { LovelaceCard } from 'home-assistant-frontend/src/panels/lovelace/types';
-export type { LovelaceConfigForm } from 'home-assistant-frontend/src/panels/lovelace/types';
-export type { HuiCard } from 'home-assistant-frontend/src/panels/lovelace/cards/hui-card';
-export type { LovelaceCardConfig } from 'home-assistant-frontend/src/data/lovelace/config/card';
-export type { HomeAssistant } from 'home-assistant-frontend/src/types';
-export type { LovelaceLayoutOptions } from "home-assistant-frontend/src/panels/lovelace/types";
-import type { CustomCardsWindow } from 'home-assistant-frontend/src/data/lovelace_custom_cards';
+export type { AreaRegistryEntry } from './hass-types/data/area_registry';
+export type { LovelaceCard } from './hass-types/panels/lovelace/types';
+export type { LovelaceConfigForm } from './hass-types/panels/lovelace/types';
+export type { HuiCard } from './hass-types/panels/lovelace/cards/hui-card';
+export type { LovelaceCardConfig } from './hass-types/data/lovelace/config/card';
+export type { HomeAssistant } from './hass-types/types';
+export type { LovelaceLayoutOptions } from "./hass-types/panels/lovelace/types";
+import type { CustomCardsWindow } from './hass-types/data/lovelace_custom_cards';
 
 declare global {
   interface Window extends CustomCardsWindow {}

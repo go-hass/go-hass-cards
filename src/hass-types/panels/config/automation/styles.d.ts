@@ -1,0 +1,10 @@
+export declare const SIDEBAR_MIN_WIDTH = 375;
+export declare const CONTENT_MIN_WIDTH = 350;
+export declare const rowStyles: import("lit").CSSResult;
+export declare const editorStyles: import("lit").CSSResult;
+export declare const indentStyle: import("lit").CSSResult;
+export declare const saveFabStyles: import("lit").CSSResult;
+export declare const manualEditorStyles: import("lit").CSSResult;
+export declare const automationRowsStyles: import("lit").CSSResult;
+export declare const sidebarEditorStyles: import("lit").CSSResult;
+export declare const overflowStyles: import("lit").CSSResult;
