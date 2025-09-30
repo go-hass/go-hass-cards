@@ -37,11 +37,12 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
 
     // Initialize the content if it's not there yet.
     if (!this.content) {
+      // TODO: Do not add bright top fade if no chips are present
       this.innerHTML = `
         <ha-card style="overflow: hidden; position: relative;">
           <div style="width: 100%; background-image: url('${area.picture}'); background-size: cover; background-position: center; padding-top: ${(100 / this.getAspectRatio(config.aspect_ratio)).toFixed(2)}%;">
           </div>
-          <div class="area-card-content" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(0,rgba(33,33,33,.9) 0%,rgba(33,33,33,0) 45%); padding: 16px; box-sizing: border-box;"></div>
+          <div class="area-card-content" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(0,rgba(33,33,33,.9) 0%,rgba(33,33,33,0) 45%),linear-gradient(rgba(255,255,255,0.1) 0%,rgba(255,255,255,0) 45%); padding: 16px; box-sizing: border-box;"></div>
         </ha-card>
       `;
       this.content = this.querySelector(".area-card-content") as HTMLDivElement;
