@@ -11,7 +11,7 @@ build: ## Build Home Assistant Area Card application
 	pnpm build
 
 ssh-deploy: build ## Deploy Home Assistant Area Card over SSH
-	./scripts/ssh-deploy.sh
+	pnpm ssh-deploy
 
 types: ## Generate types from https://github.com/home-assistant/frontend.git
 	./scripts/generate-types.sh
