@@ -171,11 +171,14 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
   }
 }
 
-customElements.define("go-area-card", HomeAssistantAreaCard);
+const baseCardName = "go-area-card";
+const cardName = customElements.get(baseCardName) ? `${baseCardName}-dev` : baseCardName;
+
+customElements.define(cardName, HomeAssistantAreaCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "go-area-card",
+  type: cardName,
   name: "Go Area Card",
   preview: false, // Optional - defaults to false
   description: "A custom card for displaying an area!", // Optional
