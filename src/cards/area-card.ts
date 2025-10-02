@@ -7,6 +7,7 @@ import type {
   HomeAssistant,
   HuiCard,
 } from "../types";
+import { logger } from "../utils/logger";
 
 class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
   preview?: boolean | undefined;
@@ -46,8 +47,8 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
         </ha-card>
       `;
       this.content = this.querySelector(".area-card-content") as HTMLDivElement;
-      console.log("hass", hass);
-      console.log("area", area);
+      // logger.log("hass", hass);
+      // logger.log("area", area);
     }
 
     let humidityState = area.humidity_entity_id ? hass.states[area.humidity_entity_id] : undefined;
@@ -61,17 +62,17 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
       const states = Object.values(hass.states).filter(state => entityIds.has(state.entity_id));
       const measurementStates = states.filter(state => state.attributes.state_class === 'measurement');
 
-      // console.log("entities", entities);
-      // console.log("devices", devices);
-      // console.log("states", states);
-      // console.log("measurementStates", measurementStates);
+      // logger.log("entities", entities);
+      // logger.log("devices", devices);
+      // logger.log("states", states);
+      // logger.log("measurementStates", measurementStates);
 
       humidityState = humidityState || measurementStates.find(state => state.attributes.device_class === 'humidity');
       temperatureState = temperatureState || measurementStates.find(state => state.attributes.device_class === 'temperature');
     }
 
-    // console.log("humidityState", humidityState);
-    // console.log("temperatureState", temperatureState);
+    // logger.log("humidityState", humidityState);
+    // logger.log("temperatureState", temperatureState);
 
     const newSate = [
       temperatureState && `<ha-icon icon="mdi:thermometer"></ha-icon> ${temperatureState.state} ${temperatureState.attributes.unit_of_measurement ?? '°C'}`,
@@ -116,8 +117,8 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
       ...config
     };
 
-    console.log("config", config);
-    console.log("this.hass", this.hass);
+    logger.log("config", config);
+    logger.log("this.hass", this.hass);
   }
 
   // The height of your card. Home Assistant uses this to automatically
