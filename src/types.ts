@@ -12,4 +12,5 @@ declare global {
 
   const __DEV_URL__: string;
   const __HA_URL__: string;
+  const isDev: boolean;
 }
