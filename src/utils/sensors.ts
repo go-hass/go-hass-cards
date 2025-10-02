@@ -6,7 +6,12 @@ export function createSensorManager(this: GoCard, type: keyof GoCardSensors, sen
   const entityId = sensorStates.find(state => state.attributes.device_class === type)?.entity_id;
   return {
     id: entityId,
-    getState: () => entityId ? this._hass?.states[entityId] : undefined,
+    getState: () => {
+      const hassEntity = entityId ? this._hass?.states[entityId] : undefined;
+      if (hassEntity?.state !== 'unavailable' && hassEntity?.state !== 'unknown') {
+        return hassEntity;
+      }
+    },
   }
 }
 
