@@ -8,7 +8,7 @@ import type {
   HuiCard,
 } from "../types";
 import { logger } from "../utils/logger";
-import { createSensorState, type GoCard, type GoCardSensors } from "../utils/sensors";
+import { createSensorManager, findSensorStates, type GoCard, type GoCardSensors } from "../utils/sensors";
 
 class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard {
   preview?: boolean | undefined;
@@ -57,30 +57,23 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
     }
 
     if (!this.sensors) {
-      const devices = Object.values(hass.devices).filter(device => device.area_id === area.area_id);
-      const deviceIds = new Set(devices.map(device => device.id));
-      const entities = Object.values(hass.entities).filter(entity => entity.area_id === area.area_id || entity.device_id && deviceIds.has(entity.device_id));
-      const entityIds = new Set(entities.map(entity => entity.entity_id));
-      const states = Object.values(hass.states).filter(state => entityIds.has(state.entity_id));
-      const sensorStates = states.filter(state => state.entity_id.startsWith('sensor.'));
+      const sensorStates = findSensorStates(hass, area.area_id);
 
       this.sensors = {
-        humidity: createSensorState.call(this, sensorStates.find(state => state.attributes.device_class === 'humidity')?.entity_id),
-        temperature: createSensorState.call(this, sensorStates.find(state => state.attributes.device_class === 'temperature')?.entity_id),
+        humidity: createSensorManager.call(this, 'humidity', sensorStates),
+        temperature: createSensorManager.call(this, 'temperature', sensorStates),
+        power: createSensorManager.call(this, 'power', sensorStates),
       }
-
-      logger.log("entities", entities);
-      logger.log("devices", devices);
-      logger.log("states", states);
-      logger.log("sensorStates", sensorStates);
     }
 
     const humidityState = this.sensors.humidity.getState();
     const temperatureState = this.sensors.temperature.getState();
+    const powerState = this.sensors.power.getState();
 
     // logger.log("this.sensors", this.sensors);
     // logger.log("humidityState", humidityState);
     // logger.log("temperatureState", temperatureState);
+    // logger.log("powerState", powerState);
 
     // logger.log("humidityState", humidityState);
     // logger.log("temperatureState", temperatureState);
@@ -88,6 +81,7 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
     const newSate = [
       temperatureState && `<ha-icon icon="mdi:thermometer"></ha-icon> ${temperatureState.state} ${temperatureState.attributes.unit_of_measurement ?? '°C'}`,
       humidityState && `<ha-icon icon="mdi:water-percent"></ha-icon> ${humidityState.state}${humidityState.attributes.unit_of_measurement ?? '%'}`,
+      powerState && `<ha-icon icon="mdi:flash"></ha-icon> ${powerState.state}${powerState.attributes.unit_of_measurement ?? 'W'}`,
     ].filter(Boolean).join('');
 
     if (newSate !== this.prevState) {
