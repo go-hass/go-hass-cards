@@ -8,8 +8,9 @@ import type {
   HuiCard,
 } from "../types";
 import { logger } from "../utils/logger";
+import { createSensorState, type GoCard, type GoCardSensors } from "../utils/sensors";
 
-class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
+class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard {
   preview?: boolean | undefined;
   layout?: string | undefined;
   connectedWhileHidden?: boolean | undefined;
@@ -20,10 +21,14 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
   area: AreaRegistryEntry | undefined;
   config: AreaCardConfig | undefined;
   prevState: string = "";
+  _hass: HomeAssistant | undefined;
+  entities: HomeAssistant['entities'] | undefined;
+  sensors: GoCardSensors | undefined;
 
   // Whenever the state changes, a new `hass` object is set. Use this to
   // update your content.
   set hass(hass: HomeAssistant) {
+    this._hass = hass;
     const config = this.config;
     if (!config) {
       console.error("No config provided!");
@@ -47,14 +52,11 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
         </ha-card>
       `;
       this.content = this.querySelector(".area-card-content") as HTMLDivElement;
-      // logger.log("hass", hass);
-      // logger.log("area", area);
+      logger.log("hass", hass);
+      logger.log("area", area);
     }
 
-    let humidityState = area.humidity_entity_id ? hass.states[area.humidity_entity_id] : undefined;
-    let temperatureState = area.temperature_entity_id ? hass.states[area.temperature_entity_id] : undefined;
-
-    if (!humidityState || !temperatureState) {
+    if (!this.sensors) {
       const devices = Object.values(hass.devices).filter(device => device.area_id === area.area_id);
       const deviceIds = new Set(devices.map(device => device.id));
       const entities = Object.values(hass.entities).filter(entity => entity.area_id === area.area_id || entity.device_id && deviceIds.has(entity.device_id));
@@ -62,17 +64,23 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
       const states = Object.values(hass.states).filter(state => entityIds.has(state.entity_id));
       const sensorStates = states.filter(state => state.entity_id.startsWith('sensor.'));
 
+      this.sensors = {
+        humidity: createSensorState.call(this, sensorStates.find(state => state.attributes.device_class === 'humidity')?.entity_id),
+        temperature: createSensorState.call(this, sensorStates.find(state => state.attributes.device_class === 'temperature')?.entity_id),
+      }
+
       logger.log("entities", entities);
       logger.log("devices", devices);
       logger.log("states", states);
       logger.log("sensorStates", sensorStates);
-
-      humidityState = humidityState || sensorStates.find(state => state.attributes.device_class === 'humidity');
-      temperatureState = temperatureState || sensorStates.find(state => state.attributes.device_class === 'temperature');
-
-      logger.log("humidityState", humidityState);
-      logger.log("temperatureState", temperatureState);
     }
+
+    const humidityState = this.sensors.humidity.getState();
+    const temperatureState = this.sensors.temperature.getState();
+
+    // logger.log("this.sensors", this.sensors);
+    // logger.log("humidityState", humidityState);
+    // logger.log("temperatureState", temperatureState);
 
     // logger.log("humidityState", humidityState);
     // logger.log("temperatureState", temperatureState);
