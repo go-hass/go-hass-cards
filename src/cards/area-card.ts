@@ -60,15 +60,18 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard {
       const entities = Object.values(hass.entities).filter(entity => entity.area_id === area.area_id || entity.device_id && deviceIds.has(entity.device_id));
       const entityIds = new Set(entities.map(entity => entity.entity_id));
       const states = Object.values(hass.states).filter(state => entityIds.has(state.entity_id));
-      const measurementStates = states.filter(state => state.attributes.state_class === 'measurement');
+      const sensorStates = states.filter(state => state.entity_id.startsWith('sensor.'));
 
-      // logger.log("entities", entities);
-      // logger.log("devices", devices);
-      // logger.log("states", states);
-      // logger.log("measurementStates", measurementStates);
+      logger.log("entities", entities);
+      logger.log("devices", devices);
+      logger.log("states", states);
+      logger.log("sensorStates", sensorStates);
 
-      humidityState = humidityState || measurementStates.find(state => state.attributes.device_class === 'humidity');
-      temperatureState = temperatureState || measurementStates.find(state => state.attributes.device_class === 'temperature');
+      humidityState = humidityState || sensorStates.find(state => state.attributes.device_class === 'humidity');
+      temperatureState = temperatureState || sensorStates.find(state => state.attributes.device_class === 'temperature');
+
+      logger.log("humidityState", humidityState);
+      logger.log("temperatureState", temperatureState);
     }
 
     // logger.log("humidityState", humidityState);
