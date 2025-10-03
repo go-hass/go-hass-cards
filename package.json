@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^6.0.2",
+    "@total-typescript/ts-reset": "^0.6.1",
     "@types/node": "^24.6.0",
     "concurrently": "^9.2.1",
     "home-assistant-js-websocket": "^9.5.0",
