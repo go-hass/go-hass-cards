@@ -364,11 +364,17 @@ packages:
     os: [win32]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@total-typescript/ts-reset@0.6.1':
     resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
 
 =======
 >>>>>>> 997ad56 (Move generated home assistant types to the repo to prevent TS compilation errors in the original repo `.ts` files)
+=======
+  '@total-typescript/ts-reset@0.6.1':
+    resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
+
+>>>>>>> 84c3d32 (Added `@total-typescript/ts-reset` as a dev dependency and created a new reset.d.ts file for TypeScript integration.)
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
@@ -983,10 +989,15 @@ snapshots:
     optional: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@total-typescript/ts-reset@0.6.1': {}
 
 =======
 >>>>>>> 997ad56 (Move generated home assistant types to the repo to prevent TS compilation errors in the original repo `.ts` files)
+=======
+  '@total-typescript/ts-reset@0.6.1': {}
+
+>>>>>>> 84c3d32 (Added `@total-typescript/ts-reset` as a dev dependency and created a new reset.d.ts file for TypeScript integration.)
   '@types/estree@1.0.8': {}
 
   '@types/node@24.6.0':
