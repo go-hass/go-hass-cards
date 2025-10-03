@@ -2,14 +2,27 @@ import type { HassEntity } from "home-assistant-js-websocket";
 import type { HomeAssistant } from "../types";
 import { logger } from "./logger";
 
-export function createSensorManager(this: GoCard, type: keyof GoCardSensors, sensorStates: HassEntity[]) {
-  const entityId = sensorStates.find(state => state.attributes.device_class === type)?.entity_id;
+const defaultSensorUnits: Record<SensorType, string> = {
+  temperature: '°C',
+  humidity: '%',
+  power: 'W',
+}
+
+export function createSensorManager(this: GoCard, type: SensorType, sensorStates: HassEntity[], aggregation: 'sum' | 'average' = 'average') {
+  const entityIds = sensorStates.filter(state => state.attributes.device_class === type).map(state => state.entity_id);
+
   return {
-    id: entityId,
+    entityIds,
     getState: () => {
-      const hassEntity = entityId ? this._hass?.states[entityId] : undefined;
-      if (hassEntity?.state !== 'unavailable' && hassEntity?.state !== 'unknown') {
-        return hassEntity;
+      const hassEntities = entityIds.map(entityId => this._hass?.states[entityId]).filter(Boolean).filter(it => it.state !== 'unavailable' && it.state !== 'unknown');
+      if (hassEntities.length > 0) {
+        const totalValue = hassEntities.reduce((acc, hassEntity) => acc + Number(hassEntity.state), 0);
+        const value = aggregation === 'sum' ? totalValue : totalValue / hassEntities.length;
+
+        return {
+          unit: hassEntities.find(it => !!it.attributes.unit_of_measurement)?.attributes.unit_of_measurement ?? defaultSensorUnits[type],
+          value,
+        }
       }
     },
   }
@@ -36,6 +49,8 @@ export interface GoCardSensors {
   humidity: ReturnType<typeof createSensorManager>;
   power: ReturnType<typeof createSensorManager>;
 }
+
+type SensorType = keyof GoCardSensors;
 
 export interface GoCard {
   _hass: HomeAssistant | undefined;
