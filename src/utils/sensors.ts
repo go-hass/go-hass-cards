@@ -70,4 +70,6 @@ export type AreaCardConfig = LovelaceCardConfig & {
   area: string;
   aspect_ratio?: string;
   sensor_classes?: string[];
+  chips?: any[];
+  side_chips?: any[];
 }
