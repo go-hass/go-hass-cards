@@ -145,6 +145,7 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
     this.innerHTML = `
       <ha-card class="go-area-card">
         <div class="picture"></div>
+        ${isDev ? `<div class="dev-mode">DEV MODE</div>` : ''}
         <div class="content">
           <div class="inner">
             <div class="name">${area.name}</div>
@@ -224,6 +225,19 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
               > div[hidden] {
                 display: none;
               }
+            }
+
+            .dev-mode {
+              position: absolute;
+              top: 0;
+              right: 0;
+              background-color:rgb(180, 30, 30);
+              color: #fff;
+              padding: 2px 8px;
+              border-bottom-left-radius: 12px;
+              font-size: 12px;
+              font-weight: 700;
+              z-index: 1;
             }
           }
         </style>
