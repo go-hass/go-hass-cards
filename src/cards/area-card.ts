@@ -3,12 +3,11 @@ import type {
   AreaRegistryEntry,
   LovelaceCard,
   LovelaceConfigForm,
-  LovelaceCardConfig,
   HomeAssistant,
   HuiCard,
 } from "../types";
 import { logger } from "../utils/logger";
-import { createSensorManager, findSensorStates, type GoCard, type GoCardSensors } from "../utils/sensors";
+import { createSensorManager, findSensorStates, type AreaCardConfig, type GoCard, type GoCardSensors } from "../utils/sensors";
 
 class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard {
   preview?: boolean | undefined;
@@ -105,28 +104,30 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
           title: "Aspect Ratio",
           selector: { text: {} },
         },
-        // {
-        //   name: "chips",
-        // }
+        {
+          name: "sensor_classes",
+          selector: {
+            select: {
+              multiple: true,
+              mode: 'dropdown',
+              options: [
+                {
+                  value: 'temperature',
+                  label: 'Temperature',
+                },
+                {
+                  value: 'humidity',
+                  label: 'Humidity',
+                },
+                {
+                  value: 'power',
+                  label: 'Power',
+                },
+              ],
+            }
+          },
+        },
       ],
-      computeLabel: (schema) => {
-        if (schema.name === "icon") return "Special Icon";
-        return undefined;
-      },
-      computeHelper: (schema) => {
-        switch (schema.name) {
-          case "entity":
-            return "This text describes the function of the entity selector";
-          case "unit":
-            return "The unit of measurement for this card";
-        }
-        return undefined;
-      },
-      assertConfig: (config) => {
-        if (config.other_option) {
-          throw new Error("'other_option' is unexpected.");
-        }
-      },
     };
   }
 
@@ -310,9 +311,3 @@ window.customCards.push({
   documentationURL:
     "https://developers.home-assistant.io/docs/frontend/custom-ui/custom-card", // Adds a help link in the frontend card editor
 });
-
-
-type AreaCardConfig = LovelaceCardConfig & {
-  area: string;
-  aspect_ratio?: string;
-}
