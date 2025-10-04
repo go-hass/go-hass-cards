@@ -22,11 +22,13 @@ export function createSensorManager(this: GoCard, type: SensorType, sensorStates
       if (hassEntities.length > 0) {
         const totalValue = hassEntities.reduce((acc, hassEntity) => acc + Number(hassEntity.state), 0);
         const value = aggregation === 'sum' ? totalValue : totalValue / hassEntities.length;
+        let unit = hassEntities.find(it => !!it.attributes.unit_of_measurement)?.attributes.unit_of_measurement ?? defaultSensorUnits[type];
 
-        return {
-          unit: hassEntities.find(it => !!it.attributes.unit_of_measurement)?.attributes.unit_of_measurement ?? defaultSensorUnits[type],
-          value,
+        if (type === 'temperature' && unit === '°') {
+          unit = defaultSensorUnits[type];
         }
+
+        return { unit, value };
       }
     },
   }
