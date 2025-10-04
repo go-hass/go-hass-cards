@@ -18,16 +18,15 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
     throw new Error("Method not implemented.");
   }
   content: HTMLDivElement | null = null;
-  areaId: string | undefined;
   area: AreaRegistryEntry | undefined;
   config: AreaCardConfig | undefined;
   prevState: string = "";
   _hass: HomeAssistant | undefined;
   entities: HomeAssistant['entities'] | undefined;
   sensors: GoCardSensors | undefined;
+  components: ReturnType<typeof this.createComponents> | undefined;
 
-  // Whenever the state changes, a new `hass` object is set. Use this to
-  // update your content.
+  // Whenever the state changes, a new `hass` object is set. Use this to update your content.
   set hass(hass: HomeAssistant) {
     this._hass = hass;
     const config = this.config;
@@ -35,34 +34,26 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
       console.error("No config provided!");
       return;
     }
-    if (!this.area || config.area !== this.areaId) {
-      this.areaId = config.area;
+
+    if (!this.area) {
       this.area = Object.values(hass.areas).find(area => area.area_id === config.area);
       logger.log("area", this.area);
-    }
-    if (!this.area) {
-      console.error("Area not found!");
-      return;
+      
+      if (!this.area) {
+        console.error("Area not found!");
+        return;
+      }
     }
 
     // Initialize the content if it's not there yet.
-    if (!this.content) {
-      // TODO: Do not add bright top fade if no chips are present
-      this.innerHTML = `
-        <ha-card style="overflow: hidden; position: relative;">
-          <div style="width: 100%; background-image: url('${this.area.picture}'); background-size: cover; background-position: center; padding-top: ${(100 / this.getAspectRatio(config.aspect_ratio)).toFixed(2)}%;">
-          </div>
-          <div class="area-card-content" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(0,rgba(33,33,33,.9) 0%,rgba(33,33,33,0) 45%),linear-gradient(rgba(255,255,255,0.1) 0%,rgba(255,255,255,0) 45%); padding: 16px; box-sizing: border-box;"></div>
-        </ha-card>
-      `;
-      this.content = this.querySelector(".area-card-content") as HTMLDivElement;
+    if (!this.components) {
+      this.components = this.createComponents(config, this.area);
       logger.log("hass", hass);
       logger.log("area", this.area);
     }
 
     if (!this.sensors) {
       const sensorStates = findSensorStates(hass, this.area.area_id);
-
       this.sensors = {
         humidity: createSensorManager.call(this, 'humidity', sensorStates),
         temperature: createSensorManager.call(this, 'temperature', sensorStates),
@@ -70,49 +61,7 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
       }
     }
 
-    const humidityState = this.sensors.humidity.getState();
-    const temperatureState = this.sensors.temperature.getState();
-    const powerState = this.sensors.power.getState();
-
-    // logger.log("this.sensors", this.sensors);
-    // logger.log("humidityState", humidityState);
-    // logger.log("temperatureState", temperatureState);
-    // logger.log("powerState", powerState);
-
-    // logger.log("humidityState", humidityState);
-    // logger.log("temperatureState", temperatureState);
-
-    const newSate = [
-      temperatureState && `<ha-icon icon="mdi:thermometer"></ha-icon> ${temperatureState.value} ${temperatureState.unit}`,
-      humidityState && `<ha-icon icon="mdi:water-percent"></ha-icon> ${humidityState.value}${humidityState.unit}`,
-      powerState && `<ha-icon icon="mdi:flash"></ha-icon> ${powerState.value}${powerState.unit}`,
-    ].filter(Boolean).join('');
-
-    if (newSate !== this.prevState) {
-      this.prevState = newSate;
-      this.content.innerHTML = `
-        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px;">
-          <div style="color: #fff; font-size: var(--ha-font-size-2xl); line-height: 1;">
-            ${this.area.name}
-          </div>
-          <div style="display: flex; align-items: center; gap: 4px; color: #e3e3e3; opacity: 0.6; font-size: var(--ha-font-size-l); --mdc-icon-size: 24px; margin-left: -6px;">
-            ${newSate}
-          </div>
-        </div>
-      `;
-      
-      if (config.chips) {
-        const element = document.createElement("hui-card") as HuiCard;
-        element.style.margin = '0';
-        element.style.padding = '0';
-        element.hass = hass;
-        element.config = {
-          type: "custom:mushroom-chips-card",
-          chips: config.chips,
-        }
-        this.content.prepend(element);
-      }
-    }
+    this.updateSensors(this.sensors, this.components.sensors);
   }
 
   // The user supplied configuration. Throw an exception and Home Assistant
@@ -190,7 +139,162 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
 
     return width / height;
   }
+
+  private createComponents(config: AreaCardConfig, area: AreaRegistryEntry) {
+    this.innerHTML = `
+      <ha-card class="go-area-card">
+        <div class="picture"></div>
+        <div class="content">
+          <div class="inner">
+            <div class="name">${area.name}</div>
+            <div class="sensors">
+              <div class="temperature" hidden>
+                <ha-icon icon="mdi:thermometer"></ha-icon>
+                <span></span>
+              </div>
+              <div class="humidity" hidden>
+                <ha-icon icon="mdi:water-percent"></ha-icon>
+                <span></span>
+              </div>
+              <div class="power" hidden>
+                <ha-icon icon="mdi:flash"></ha-icon>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          .go-area-card {
+            overflow: hidden;
+            position: relative;
+
+            .picture {
+              width: 100%;
+              background-size: cover;
+              background-position: center;
+              background-image: url('${area.picture}');
+              padding-top: ${(100 / this.getAspectRatio(config.aspect_ratio)).toFixed(2)}%;
+            }
+
+            .content {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              /* TODO: Do not add bright top fade if no chips are present */
+              background: linear-gradient(0,rgba(33,33,33,.9) 0%,rgba(33,33,33,0) 45%),linear-gradient(rgba(255,255,255,0.1) 0%,rgba(255,255,255,0) 45%);
+              padding: 16px;
+              box-sizing: border-box;
+            }
+
+            .inner {
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+            }
+
+            .name {
+              color: #fff;
+              font-size: var(--ha-font-size-2xl);
+              line-height: 1;
+            }
+            
+            .sensors {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              color: #e3e3e3;
+              opacity: 0.6;
+              font-size: var(--ha-font-size-l);
+              --mdc-icon-size: 24px;
+              margin-left: -6px;
+
+              > div {
+                display: flex;
+                align-items: center;
+                gap: 2px;
+              }
+              
+              > div[hidden] {
+                display: none;
+              }
+            }
+          }
+        </style>
+      </ha-card>
+    `;
+
+    const components = {
+      style: document.createElement("style"),
+      picture: this.querySelector(".picture") as HTMLDivElement,
+      content: this.querySelector(".content") as HTMLDivElement,
+      innerContent: this.querySelector(".inner") as HTMLDivElement,
+      name: this.querySelector(".name") as HTMLDivElement,
+      sensors: {
+        temperature: this.querySelector(".temperature span") as HTMLDivElement & { parentElement: HTMLDivElement },
+        humidity: this.querySelector(".humidity span") as HTMLDivElement & { parentElement: HTMLDivElement },
+        power: this.querySelector(".power span") as HTMLDivElement & { parentElement: HTMLDivElement },
+      },
+    }
+
+    if (config.chips) {
+      const element = document.createElement("hui-card") as HuiCard;
+      element.style.margin = '0';
+      element.style.padding = '0';
+      element.hass = this._hass;
+      element.config = {
+        type: "custom:mushroom-chips-card",
+        chips: config.chips,
+      }
+      components.content.prepend(element);
+    }
+
+    return components;
+  }
+
+  private updateSensors(sensors: GoCardSensors, components: Components['sensors']) {
+    const humidityState = sensors.humidity.getState();
+    const temperatureState = sensors.temperature.getState();
+    const powerState = sensors.power.getState();
+
+    if (temperatureState) {
+      const temperature = `${temperatureState.value} ${temperatureState.unit}`;
+      if (temperature !== components.temperature.textContent) {
+        components.temperature.textContent = temperature;
+        components.temperature.parentElement.hidden = false;
+      }
+    } else {
+      components.temperature.parentElement.hidden = true;
+    }
+    
+    if (humidityState) {
+      const humidity = `${humidityState.value}${humidityState.unit}`;
+      if (humidity !== components.humidity.textContent) {
+        components.humidity.textContent = humidity;
+        components.humidity.parentElement.hidden = false;
+      }
+    } else {
+      components.humidity.parentElement.hidden = true;
+    }
+
+    if (powerState) {
+      const power = `${powerState.value}${powerState.unit}`;
+      if (power !== components.power.textContent) {
+        components.power.textContent = power;
+        components.power.parentElement.hidden = false;
+      }
+    } else {
+      components.power.parentElement.hidden = true;
+    }
+  }
 }
+
+type Components = ReturnType<HomeAssistantAreaCard['createComponents']>;
 
 const baseCardName = "go-area-card";
 const cardName = customElements.get(baseCardName) ? `${baseCardName}-dev` : baseCardName;
