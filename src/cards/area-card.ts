@@ -51,6 +51,13 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
       logger.log("area", this.area);
     }
 
+    if (config.chips) {
+      this.components.chips.main.hass = this._hass;
+    }
+    if (config.side_chips) {
+      this.components.chips.side.hass = this._hass;
+    }
+
     if (!this.sensors) {
       const sensorStates = findSensorStates(hass, this.area.area_id);
       this.sensors = {
@@ -148,19 +155,21 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
         ${isDev ? `<div class="dev-mode">DEV MODE</div>` : ''}
         <div class="content">
           <div class="inner">
-            <div class="name">${area.name}</div>
-            <div class="sensors">
-              <div class="temperature" hidden>
-                <ha-icon icon="mdi:thermometer"></ha-icon>
-                <span></span>
-              </div>
-              <div class="humidity" hidden>
-                <ha-icon icon="mdi:water-percent"></ha-icon>
-                <span></span>
-              </div>
-              <div class="power" hidden>
-                <ha-icon icon="mdi:flash"></ha-icon>
-                <span></span>
+            <div class="left">
+              <div class="name">${area.name}</div>
+              <div class="sensors">
+                <div class="temperature" hidden>
+                  <ha-icon icon="mdi:thermometer"></ha-icon>
+                  <span></span>
+                </div>
+                <div class="humidity" hidden>
+                  <ha-icon icon="mdi:water-percent"></ha-icon>
+                  <span></span>
+                </div>
+                <div class="power" hidden>
+                  <ha-icon icon="mdi:flash"></ha-icon>
+                  <span></span>
+                </div>
               </div>
             </div>
           </div>
@@ -196,8 +205,16 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
 
             .inner {
               display: flex;
-              flex-direction: column;
+              justify-content: space-between;
+              align-items: flex-end;
               gap: 8px;
+
+              .left {
+                display: flex;
+                flex-direction: column;
+                flex-shrink: 0;
+                gap: 8px;
+              }
             }
 
             .name {
@@ -255,18 +272,36 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
         humidity: this.querySelector(".humidity span") as HTMLDivElement & { parentElement: HTMLDivElement },
         power: this.querySelector(".power span") as HTMLDivElement & { parentElement: HTMLDivElement },
       },
+      chips: {
+        main: document.createElement("hui-card") as HuiCard,
+        side: document.createElement("hui-card") as HuiCard,
+      }
     }
 
     if (config.chips) {
-      const element = document.createElement("hui-card") as HuiCard;
-      element.style.margin = '0';
-      element.style.padding = '0';
-      element.hass = this._hass;
-      element.config = {
+      components.chips.main.style.margin = '0';
+      components.chips.main.style.padding = '0';
+      components.chips.main.config = {
         type: "custom:mushroom-chips-card",
         chips: config.chips,
       }
-      components.content.prepend(element);
+      components.content.prepend(components.chips.main);
+    }
+
+    if (config.side_chips) {
+      components.chips.side.style.margin = '0';
+      components.chips.side.style.padding = '0';
+      components.chips.side.config = {
+        type: "custom:mushroom-chips-card",
+        alignment: 'end',
+        chips: config.side_chips,
+        card_mod: {
+          // It uses right margin for the chips, regardless of the alignment,
+          // so it ends up looking bad when the chips flow into two lines
+          style: `mushroom-template-chip{margin: 0!important;}.chip-container {gap: var(--chip-spacing)}`
+        }
+      }
+      components.innerContent.append(components.chips.side);
     }
 
     return components;
