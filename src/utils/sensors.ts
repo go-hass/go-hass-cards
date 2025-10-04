@@ -1,5 +1,5 @@
 import type { HassEntity } from "home-assistant-js-websocket";
-import type { HomeAssistant } from "../types";
+import type { HomeAssistant, LovelaceCardConfig } from "../types";
 import { logger } from "./logger";
 
 const defaultSensorUnits: Record<SensorType, string> = {
@@ -9,6 +9,10 @@ const defaultSensorUnits: Record<SensorType, string> = {
 }
 
 export function createSensorManager(this: GoCard, type: SensorType, sensorStates: HassEntity[], aggregation: 'sum' | 'average' = 'average') {
+  if (!this.config?.sensor_classes?.includes(type)) {
+    return { entityIds: [], getState: () => undefined };
+  }
+
   const entityIds = sensorStates.filter(state => state.attributes.device_class === type).map(state => state.entity_id);
 
   return {
@@ -53,7 +57,15 @@ export interface GoCardSensors {
 type SensorType = keyof GoCardSensors;
 
 export interface GoCard {
+  config: AreaCardConfig | undefined;
   _hass: HomeAssistant | undefined;
   entities: HomeAssistant['entities'] | undefined;
   sensors: GoCardSensors | undefined;
+}
+
+
+export type AreaCardConfig = LovelaceCardConfig & {
+  area: string;
+  aspect_ratio?: string;
+  sensor_classes?: string[];
 }
