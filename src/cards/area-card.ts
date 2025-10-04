@@ -18,6 +18,7 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
     throw new Error("Method not implemented.");
   }
   content: HTMLDivElement | null = null;
+  areaId: string | undefined;
   area: AreaRegistryEntry | undefined;
   config: AreaCardConfig | undefined;
   prevState: string = "";
@@ -34,9 +35,12 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
       console.error("No config provided!");
       return;
     }
-    const area = Object.values(hass.areas).find(area => area.area_id === config.area);
-    this.area = area;
-    if (!area) {
+    if (!this.area || config.area !== this.areaId) {
+      this.areaId = config.area;
+      this.area = Object.values(hass.areas).find(area => area.area_id === config.area);
+      logger.log("area", this.area);
+    }
+    if (!this.area) {
       console.error("Area not found!");
       return;
     }
@@ -46,18 +50,18 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
       // TODO: Do not add bright top fade if no chips are present
       this.innerHTML = `
         <ha-card style="overflow: hidden; position: relative;">
-          <div style="width: 100%; background-image: url('${area.picture}'); background-size: cover; background-position: center; padding-top: ${(100 / this.getAspectRatio(config.aspect_ratio)).toFixed(2)}%;">
+          <div style="width: 100%; background-image: url('${this.area.picture}'); background-size: cover; background-position: center; padding-top: ${(100 / this.getAspectRatio(config.aspect_ratio)).toFixed(2)}%;">
           </div>
           <div class="area-card-content" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(0,rgba(33,33,33,.9) 0%,rgba(33,33,33,0) 45%),linear-gradient(rgba(255,255,255,0.1) 0%,rgba(255,255,255,0) 45%); padding: 16px; box-sizing: border-box;"></div>
         </ha-card>
       `;
       this.content = this.querySelector(".area-card-content") as HTMLDivElement;
       logger.log("hass", hass);
-      logger.log("area", area);
+      logger.log("area", this.area);
     }
 
     if (!this.sensors) {
-      const sensorStates = findSensorStates(hass, area.area_id);
+      const sensorStates = findSensorStates(hass, this.area.area_id);
 
       this.sensors = {
         humidity: createSensorManager.call(this, 'humidity', sensorStates),
@@ -89,7 +93,7 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
       this.content.innerHTML = `
         <div style="margin-top: auto; display: flex; flex-direction: column; gap: 8px;">
           <div style="color: #fff; font-size: var(--ha-font-size-2xl); line-height: 1;">
-            ${area.name}
+            ${this.area.name}
           </div>
           <div style="display: flex; align-items: center; gap: 4px; color: #e3e3e3; opacity: 0.6; font-size: var(--ha-font-size-l); --mdc-icon-size: 24px; margin-left: -6px;">
             ${newSate}
