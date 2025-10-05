@@ -1,37 +1,19 @@
-name: Release Go Hass Cards
+name: Build Go Hass Cards
 
 on:
   workflow_call:
 
 jobs:
   build:
-    name: Release Go Hass Cards
+    name: Build the project
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
       - name: Download Go Hass Cards Artifact
         uses: actions/download-artifact@v4
         with:
           name: Go Hass Cards
-          path: dist
-
-      - name: Check if a new release is needed
-        run: ./scripts/check-release.sh
-        id: check-release
-
-      - name: Push a new tag
-        if: ${{ steps.check-release.outputs.releaseExists == 'false' }}
-        run: |
-          git tag ${{ steps.check-release.outputs.releaseVersion }}
-          git push origin ${{ steps.check-release.outputs.releaseVersion }}
       
-      - name: Create a new release
-        if: ${{ steps.check-release.outputs.releaseExists == 'false' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token        
+      - name: List files
         run: |
-          gh release create ${{ steps.check-release.outputs.releaseVersion }} ./dist/* \
-            --prerelease=${{ steps.check-release.outputs.prerelease }} \
-            --latest=${{ steps.check-release.outputs.latest }} \
-            --generate-notes
+          ls -la
+          ls -la dist

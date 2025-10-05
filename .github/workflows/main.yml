@@ -7,6 +7,7 @@ on:
     paths:
       - 'src/**'
       - 'scripts/**'
+      - '.github/workflows/**'
       - 'pnpm-lock.yaml'
       - 'package.json'
       - 'tsconfig.json'
@@ -23,5 +24,10 @@ jobs:
     uses: ./.github/workflows/build.yml
     name: Build
     needs: lint
+  
+  release:
+    uses: ./.github/workflows/release.yml
+    name: Release
+    needs: build
 
   # TODO: Create a release
