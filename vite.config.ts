@@ -11,7 +11,6 @@ export default defineConfig({
     outDir: "./dist",
     emptyOutDir: true,
     rollupOptions: {
-      external: ["lit"],
       input: {
         'dev-loader': "./src/dev-loader.ts",
         'go-hass-cards': "./src/index.ts",
