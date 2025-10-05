@@ -1,0 +1,6 @@
+{
+  "name": "Go Hass Cards",
+  "filename": "go-hass-cards.js",
+  "homeassistant": "2025.1.0",
+  "render_readme": true
+}
