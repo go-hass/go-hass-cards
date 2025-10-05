@@ -20,8 +20,17 @@ jobs:
         run: ./scripts/check-release.sh
         id: check-release
 
-      - name: Create a new tag if needed
+      - name: Push a new tag
         if: ${{ steps.check-release.outputs.releaseExists == 'false' }}
         run: |
           git tag ${{ steps.check-release.outputs.releaseVersion }}
           git push origin ${{ steps.check-release.outputs.releaseVersion }}
+      
+      - name: Create a new release
+        if: ${{ steps.check-release.outputs.releaseExists == 'false' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token        
+        run: |
+          gh release create ${{ steps.check-release.outputs.releaseVersion }} ./dist/* \
+            --generate-notes \
+            --latest
