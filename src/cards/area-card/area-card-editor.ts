@@ -27,45 +27,102 @@ const sensorClassesSchema: SelectSelector = {
   }
 };
 
+const cards = [
+  { id: 'settings', label: 'Settings' },
+  { id: 'top-card', label: 'Top Card' },
+  { id: 'side-card', label: 'Side Card' },
+] as const;
+
 @customElement(editorCardName)
 export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @state() public config: AreaCardConfig | undefined;
+  @state() protected _selectedCard: typeof cards[number] = cards[0];
 
   protected render() {
-    const config = { ...getDefaultAreaCardConfig(this.hass), ...this.config }
-
     return html`
       <div class="go-area-card-editor">
-        <div>
-          <ha-area-picker
-            label="Area"
-            placeholder="E.g. Bedroom"
-            .hass=${this.hass}
-            .value=${config.area}
-            @value-changed=${this.updateArea}
-          />
+        <div class="toolbar">
+          <ha-tab-group @wa-tab-show=${this._handleSelectedCard}>
+            ${cards.map(
+              (card) =>
+                html`<ha-tab-group-tab
+                  slot="nav"
+                  .id=${card.id}
+                  .panel=${card.id}
+                  .active=${this._selectedCard === card}
+                >
+                  ${card.label}
+                </ha-tab-group-tab>`
+            )}
+          </ha-tab-group>
         </div>
-        <div>
-          <ha-textfield
-            label="Aspect Ratio"
-            placeholder="16:9"
-            .value=${config.aspect_ratio}
-            @input=${this.updateAspectRatio}
-          />
-        </div>
-        <div>
-          <ha-selector
-            label="Sensor Classes"
-            name="sensor_classes"
-            .hass=${this.hass}
-            .value=${config.sensor_classes}
-            .selector=${sensorClassesSchema}
-            @value-changed=${this.updateSensorClasses}
-          />
-        </div>
+        ${this.renderContent()}
       </div>
     `;
+  }
+  
+  protected renderContent() {
+    const config = { ...getDefaultAreaCardConfig(this.hass), ...this.config }
+
+    if (this._selectedCard.id === 'settings') {
+      return html`
+        <div class="content">
+          <div>
+            <ha-area-picker
+              label="Area"
+              placeholder="E.g. Bedroom"
+              .hass=${this.hass}
+              .value=${config.area}
+              @value-changed=${this.updateArea}
+            />
+          </div>
+          <div>
+            <ha-textfield
+              label="Aspect Ratio"
+              placeholder="16:9"
+              .value=${config.aspect_ratio}
+              @input=${this.updateAspectRatio}
+            />
+          </div>
+          <div>
+            <ha-selector
+              label="Sensor Classes"
+              name="sensor_classes"
+              .hass=${this.hass}
+              .value=${config.sensor_classes}
+              .selector=${sensorClassesSchema}
+              @value-changed=${this.updateSensorClasses}
+            />
+          </div>
+        </div>
+      `;
+    }
+
+    if (this._selectedCard.id === 'top-card') {
+      return html`
+        <div>
+          <h1>Top Card</h1>
+        </div>
+      `;
+    }
+
+    if (this._selectedCard.id === 'side-card') {
+      return html`
+        <div>
+          <h1>Side Card</h1>
+        </div>
+      `;
+    }
+  }
+
+  protected _handleSelectedCard(ev: CustomEvent) {
+    const card = cards.find(card => card.id === ev.detail.name)!;
+    if (!card) {
+      throw new Error(`Card ${ev.detail.name} not found`);
+    }
+
+    this._selectedCard = card;
   }
 
   private updateArea(ev: SimpleInputEvent) {
@@ -101,8 +158,14 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
         flex-direction: column;
         gap: 16px;
 
-        > div > * {
-          width: 100%;
+        .content {
+          display: flex;
+          flex-direction: column;
+          gap: inherit;
+
+          > div > * {
+            width: 100%;
+          }
         }
       }
     `;
