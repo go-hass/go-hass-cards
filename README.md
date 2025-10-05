@@ -7,8 +7,6 @@
 
 A collection of custom cards for Home Assistant built with TypeScript and Lit. These cards provide enhanced functionality and beautiful UI components for your Home Assistant dashboard.
 
-![Go Hass Cards Overview](docs/overview.png)
-
 ## 📋 Table of Contents
 
 - [Features](#-features)
@@ -31,7 +29,17 @@ A collection of custom cards for Home Assistant built with TypeScript and Lit. T
 
 ## 🃏 Available Cards
 
-- 🚪[Area card](docs/cards/area/README.md)
+### Area Card
+
+A comprehensive area card that displays area information along with sensor data like temperature, humidity, and power consumption.
+
+**Features:**
+- 📊 Real-time sensor data display
+- 🌡️ Temperature and humidity monitoring
+- ⚡ Power consumption tracking
+- 🎛️ Customizable layout with aspect ratio control
+- 🔧 Configurable sensor classes
+- 📱 Responsive design
 
 ## 🚀 Installation
 
@@ -45,8 +53,8 @@ A collection of custom cards for Home Assistant built with TypeScript and Lit. T
 
 ### Method 2: Manual Installation
 
-1. Download the latest `go-hass-cards.js` from the [releases page](../../releases)
-2. Place the file to your `www` folder in Home Assistant
+1. Download the latest release from the [releases page](../../releases)
+2. Extract the files to your `www` folder in Home Assistant
 3. Add the resource to your `configuration.yaml`:
 
 ```yaml
@@ -58,7 +66,7 @@ lovelace:
 
 4. Restart Home Assistant
 
-## 📖 Usage example
+## 📖 Usage
 
 ### Area Card
 
@@ -74,7 +82,38 @@ sensor_classes:
   - power
 ```
 
-#### For more configuration examples, see card documentation
+#### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `area` | string | **Required** | The area ID to display |
+| `aspect_ratio` | string | `16:9` | Card aspect ratio (e.g., `4:3`, `1:1`) |
+| `sensor_classes` | array | `['temperature', 'humidity', 'power']` | Sensor types to display |
+| `top_card` | object | - | Additional card to display at the top |
+| `side_card` | object | - | Additional card to display on the side |
+
+#### Example Configurations
+
+**Basic Area Card:**
+```yaml
+type: custom:go-area-card
+area: bedroom
+```
+
+**Custom Aspect Ratio:**
+```yaml
+type: custom:go-area-card
+area: kitchen
+aspect_ratio: 4:3
+```
+
+**Temperature Only:**
+```yaml
+type: custom:go-area-card
+area: living_room
+sensor_classes:
+  - temperature
+```
 
 ## 🛠️ Development
 
