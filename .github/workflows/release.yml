@@ -1,0 +1,19 @@
+name: Build Go Hass Cards
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build the project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Go Hass Cards Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Go Hass Cards
+      
+      - name: List files
+        run: |
+          ls -la
+          ls -la dist
