@@ -14,3 +14,11 @@ else
     echo "Release $release_version exists"
     echo "releaseExists=true" >> $GITHUB_OUTPUT
 fi
+
+if [[ $release_version == *-rc.* ]]; then
+    echo "prerelease=true" >> $GITHUB_OUTPUT
+    echo "latest=false" >> $GITHUB_OUTPUT
+else
+    echo "prerelease=false" >> $GITHUB_OUTPUT
+    echo "latest=true" >> $GITHUB_OUTPUT
+fi
