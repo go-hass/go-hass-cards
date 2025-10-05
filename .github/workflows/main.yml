@@ -24,7 +24,7 @@ jobs:
     uses: ./.github/workflows/build.yml
     name: Build
     needs: lint
-  
+
   release:
     uses: ./.github/workflows/release.yml
     name: Release
@@ -32,4 +32,7 @@ jobs:
     permissions:
       contents: write  # Needed to update git tags
 
-  # TODO: Create a release
+  validate:
+    uses: ./.github/workflows/validate.yml
+    name: Validate
+    needs: release
