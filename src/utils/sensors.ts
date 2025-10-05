@@ -1,5 +1,5 @@
 import type { HassEntity } from "home-assistant-js-websocket";
-import type { HomeAssistant, LovelaceCardConfig } from "../types";
+import type { AreaRegistryEntry, HomeAssistant, LovelaceCardConfig } from "../types";
 import { logger } from "./logger";
 
 const defaultSensorUnits: Record<SensorType, string> = {
@@ -58,11 +58,14 @@ export interface GoCardSensors {
 
 type SensorType = keyof GoCardSensors;
 
+export type GoCardSensorStates = Record<SensorType, string>;
+
 export interface GoCard {
-  config: AreaCardConfig | undefined;
   _hass: HomeAssistant | undefined;
-  entities: HomeAssistant['entities'] | undefined;
+  config: AreaCardConfig | undefined;
+  area: AreaRegistryEntry | undefined;
   sensors: GoCardSensors | undefined;
+  sensorStates: GoCardSensorStates;
 }
 
 
@@ -70,6 +73,6 @@ export type AreaCardConfig = LovelaceCardConfig & {
   area: string;
   aspect_ratio?: string;
   sensor_classes?: SensorType[];
-  chips?: any[];
-  side_chips?: any[];
+  top_card?: LovelaceCardConfig;
+  side_card?: LovelaceCardConfig;
 }
