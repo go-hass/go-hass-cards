@@ -1,14 +1,20 @@
 import { customElement, state } from 'lit/decorators.js'
 import { css, html, LitElement, nothing, type CSSResultGroup } from 'lit';
-import type { AreaRegistryEntry, LovelaceCard, LovelaceConfigForm, HomeAssistant } from "../types";
-import { createSensorManager, findSensorStates, type AreaCardConfig, type GoCard, type GoCardSensors, type GoCardSensorStates } from "../utils/sensors";
-import { logger } from "../utils/logger";
+import type { AreaRegistryEntry, LovelaceCard, HomeAssistant } from "../../types";
+import {
+  createSensorManager,
+  findSensorStates,
+  type GoCard,
+  type GoCardSensors,
+  type GoCardSensorStates,
+} from "../../utils/sensors";
+import { logger } from "../../utils/logger";
+import { editorCardName, areaCardName, getDefaultAreaCardConfig } from './utils';
+import type { AreaCardConfig } from './types';
+import './area-card-editor';
 
-const baseCardName = "go-area-card";
-const cardName = customElements.get(baseCardName) ? `${baseCardName}-dev` : baseCardName;
-
-@customElement(cardName)
-export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, GoCard {
+@customElement(areaCardName)
+export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, GoCard<AreaCardConfig> {
   _hass: HomeAssistant | undefined;
   sensors: GoCardSensors | undefined;
 
@@ -81,53 +87,11 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     }
   }
 
-  static getConfigForm(): LovelaceConfigForm {
-    return {
-      schema: [
-        { name: "area", required: true, selector: { area: {} } },
-        {
-          name: "aspect_ratio",
-          default: "16:9",
-          title: "Aspect Ratio",
-          selector: { text: {} },
-        },
-        {
-          name: "sensor_classes",
-          selector: {
-            select: {
-              multiple: true,
-              mode: 'dropdown',
-              options: [
-                {
-                  value: 'temperature',
-                  label: 'Temperature',
-                },
-                {
-                  value: 'humidity',
-                  label: 'Humidity',
-                },
-                {
-                  value: 'power',
-                  label: 'Power',
-                },
-              ],
-            }
-          },
-        },
-      ],
-    };
+  static async getConfigElement() {
+    return document.createElement(editorCardName);
   }
 
-  public static getStubConfig(hass: HomeAssistant): AreaCardConfig {
-    return {
-      type: `custom:${cardName}`,
-      area: Object.values(hass.areas)[0]?.area_id || "",
-      aspect_ratio: "16:9",
-      sensor_classes: ['temperature', 'humidity', 'power'],
-      chips: [],
-      side_chips: [],
-    };
-  }
+  public static getStubConfig = getDefaultAreaCardConfig;
 
   private getAspectRatio(aspectRatio = '') {
     let [width, height] = aspectRatio.split(/[:/]/).map(Number);
@@ -284,10 +248,9 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
   }
 }
 
-
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: cardName,
+  type: areaCardName,
   name: "Go Area Card",
   preview: true, // Optional - defaults to false
   description: "A custom card for displaying an area!", // Optional

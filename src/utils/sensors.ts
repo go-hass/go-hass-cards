@@ -8,7 +8,7 @@ const defaultSensorUnits: Record<SensorType, string> = {
   power: 'W',
 }
 
-export function createSensorManager(this: GoCard, type: SensorType, sensorStates: HassEntity[], aggregation: 'sum' | 'average' = 'average') {
+export function createSensorManager(this: GoCard<any>, type: SensorType, sensorStates: HassEntity[], aggregation: 'sum' | 'average' = 'average') {
   if (!this.config?.sensor_classes?.includes(type)) {
     return { entityIds: [], getState: () => undefined };
   }
@@ -56,23 +56,14 @@ export interface GoCardSensors {
   power: ReturnType<typeof createSensorManager>;
 }
 
-type SensorType = keyof GoCardSensors;
+export type SensorType = keyof GoCardSensors;
 
 export type GoCardSensorStates = Record<SensorType, string>;
 
-export interface GoCard {
+export interface GoCard<ConfigType extends LovelaceCardConfig> {
   _hass: HomeAssistant | undefined;
-  config: AreaCardConfig | undefined;
+  config: ConfigType | undefined;
   area: AreaRegistryEntry | undefined;
   sensors: GoCardSensors | undefined;
   sensorStates: GoCardSensorStates;
-}
-
-
-export type AreaCardConfig = LovelaceCardConfig & {
-  area: string;
-  aspect_ratio?: string;
-  sensor_classes?: SensorType[];
-  top_card?: LovelaceCardConfig;
-  side_card?: LovelaceCardConfig;
 }
