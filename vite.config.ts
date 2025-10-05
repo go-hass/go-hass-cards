@@ -11,7 +11,10 @@ export default defineConfig({
     outDir: "./dist",
     emptyOutDir: true,
     rollupOptions: {
-      input,
+      input: {
+        'dev-loader': "./src/dev-loader.ts",
+        'go-hass-cards': "./src/index.ts",
+      },
       output: {
         entryFileNames: (chunkInfo) => {
           return chunkInfo.name === 'dev-loader' ? 'dev-loader.js' : 'go-hass-cards.js';
