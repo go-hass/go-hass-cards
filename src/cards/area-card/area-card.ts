@@ -12,6 +12,7 @@ import { logger } from "../../utils/logger";
 import { editorCardName, areaCardName, getDefaultAreaCardConfig } from './utils';
 import type { AreaCardConfig } from './types';
 import './area-card-editor';
+import type { HuiStackCard } from '../../hass-types/panels/lovelace/cards/hui-stack-card';
 
 @customElement(areaCardName)
 export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, GoCard<AreaCardConfig> {
@@ -45,13 +46,15 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
 
   // The user supplied configuration. Throw an exception and Home Assistant
   // will render an error card.
-  setConfig(config: AreaCardConfig) {
+  setConfig({ top_cards, side_cards, ...config }: AreaCardConfig) {
     if (!config.area) {
       throw new Error("You need to specify an area");
     }
     this.config = {
-      aspect_ratio: '2/1',
-      ...config
+      aspect_ratio: '16:9',
+      top_cards: top_cards ? { ...top_cards, title: undefined } : undefined,
+      side_cards: side_cards ? { ...side_cards, title: undefined } : undefined,
+      ...config,
     };
 
     logger.log("config", config);
@@ -112,13 +115,13 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
         <div class="picture"></div>
         ${isDev ? html`<div class="dev-mode">DEV MODE</div>` : ''}
         <div class="content">
-          ${this.renderTopCard()}
+          ${this.renderTopCards()}
           <div class="inner">
             <div class="left">
               <div class="name">${area.name}</div>
               ${this.renderSensors()}
             </div>
-            ${this.renderSideCard()}
+            ${this.renderSideCards()}
           </div>
         </div>
       </ha-card>
@@ -139,14 +142,26 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     `;
   }
 
-  protected renderTopCard() {
-    if (!this.config?.top_card?.type) return nothing;
-    return html`<hui-card style="margin: 0; padding: 0;" .config=${this.config.top_card} .hass=${this._hass} />`;
+  protected renderTopCards() {
+    if (!this.config?.top_cards?.cards.length) return nothing;
+    return html`<hui-vertical-stack-card class="top-cards" .hass=${this._hass} />`;
   }
 
-  protected renderSideCard() {
-    if (!this.config?.side_card?.type) return nothing;
-    return html`<hui-card style="margin: 0; padding: 0;" .config=${this.config.side_card} .hass=${this._hass} />`;
+  protected renderSideCards() {
+    if (!this.config?.side_cards?.cards.length) return nothing;
+    return html`<hui-vertical-stack-card class="side-cards" .hass=${this._hass} />`;
+  }
+
+  protected firstUpdated() {
+    if (this.config?.top_cards) {
+      const topCardsElement = this.shadowRoot?.querySelector('.top-cards') as HuiStackCard;
+      topCardsElement?.setConfig(this.config.top_cards);
+    }
+
+    if (this.config?.side_cards) {
+      const sideCardsElement = this.shadowRoot?.querySelector('.side-cards') as HuiStackCard;
+      sideCardsElement?.setConfig(this.config.side_cards);
+    }
   }
 
   private renderDynamicStyles(area: AreaRegistryEntry, config: AreaCardConfig) {
@@ -201,6 +216,10 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
             flex-direction: column;
             flex-shrink: 0;
             gap: 8px;
+          }
+
+          .side-cards {
+            flex: 1;
           }
         }
 

@@ -13,7 +13,7 @@ export function getDefaultAreaCardConfig(hass: HomeAssistant): AreaCardConfig {
     area: Object.values(hass.areas)[0]?.area_id || "",
     aspect_ratio: "16:9",
     sensor_classes: ['temperature', 'humidity', 'power'],
-    chips: [],
-    side_chips: [],
+    top_cards: { type: 'vertical-stack', cards: [] },
+    side_cards: { type: 'vertical-stack', cards: [] },
   };
 }
