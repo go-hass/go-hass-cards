@@ -1,0 +1,27 @@
+name: Build and Release Go Hass Cards
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
+      - 'tsconfig.json'
+      - 'vite.config.ts'
+      - 'hacs.json'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+    name: Lint
+
+  build:
+    uses: ./.github/workflows/build.yml
+    name: Build
+    needs: lint
+
+  # TODO: Create a release
