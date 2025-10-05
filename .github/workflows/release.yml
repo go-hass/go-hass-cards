@@ -1,11 +1,11 @@
-name: Build Go Hass Cards
+name: Release Go Hass Cards
 
 on:
   workflow_call:
 
 jobs:
   build:
-    name: Build the project
+    name: Release Go Hass Cards
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
