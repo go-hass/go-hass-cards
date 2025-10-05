@@ -124,7 +124,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     return html`
       <hui-stack-card-editor
         @config-changed=${this._selectedCard.id === 'top-cards' ? this.updateTopCard : this.updateSideCard}
-        ._config=${this._selectedCard.id === 'top-cards' ? config.top_cards : config.side_cards}
+        ._config=${{ cards: this._selectedCard.id === 'top-cards' ? config.top_cards : config.side_cards }}
         .hass=${this.hass}
         .lovelace=${this.lovelace}
         .firstUpdated=${this.cardEditorUpdated}
@@ -151,12 +151,12 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
 
   private updateTopCard(ev: HASSDomEvent<ConfigChangedEvent<StackCardConfig>>) {
     ev.stopPropagation();
-    this.configChanged({ top_cards: ev.detail.config });
+    this.configChanged({ top_cards: ev.detail.config.cards });
   }
 
   private updateSideCard(ev: HASSDomEvent<ConfigChangedEvent<StackCardConfig>>) {
     ev.stopPropagation();
-    this.configChanged({ side_cards: ev.detail.config });
+    this.configChanged({ side_cards: ev.detail.config.cards });
   }
 
   private updateArea(ev: SimpleInputEvent) {
