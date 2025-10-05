@@ -7,7 +7,6 @@ on:
     paths:
       - 'src/**'
       - 'scripts/**'
-      - '.github/workflows/**'
       - 'pnpm-lock.yaml'
       - 'package.json'
       - 'tsconfig.json'
@@ -25,14 +24,4 @@ jobs:
     name: Build
     needs: lint
 
-  release:
-    uses: ./.github/workflows/release.yml
-    name: Release
-    needs: build
-    permissions:
-      contents: write  # Needed to update git tags
-
-  validate:
-    uses: ./.github/workflows/validate.yml
-    name: Validate
-    needs: release
+  # TODO: Create a release

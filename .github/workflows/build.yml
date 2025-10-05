@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: Build Go Hass Cards
+    name: Build the project
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,9 +26,3 @@ jobs:
 
       - name: Build the project
         run: pnpm build
-
-      - name: Upload Go Hass Cards as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Go Hass Cards
-          path: dist
