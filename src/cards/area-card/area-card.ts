@@ -116,7 +116,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
         ${isDev ? html`<div class="dev-mode">DEV MODE</div>` : ''}
         <div class="content">
           ${this.renderTopCards()}
-          <div class="inner">
+          <div class="bottom">
             <div class="left">
               <div class="name">${area.name}</div>
               ${this.renderSensors()}
@@ -202,9 +202,14 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           background: linear-gradient(0,rgba(33,33,33,.9) 0%,rgba(33,33,33,0) 45%),linear-gradient(rgba(255,255,255,0.1) 0%,rgba(255,255,255,0) 45%);
           padding: 16px;
           box-sizing: border-box;
+          gap: 8px;
         }
 
-        .inner {
+        .top-cards {
+          overflow: auto;
+        }
+
+        .bottom {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
