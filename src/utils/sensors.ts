@@ -69,7 +69,7 @@ export interface GoCard {
 export type AreaCardConfig = LovelaceCardConfig & {
   area: string;
   aspect_ratio?: string;
-  sensor_classes?: string[];
+  sensor_classes?: SensorType[];
   chips?: any[];
   side_chips?: any[];
 }

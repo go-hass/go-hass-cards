@@ -9,6 +9,8 @@ import type {
 import { logger } from "../utils/logger";
 import { createSensorManager, findSensorStates, type AreaCardConfig, type GoCard, type GoCardSensors } from "../utils/sensors";
 
+const baseCardName = "go-area-card";
+const cardName = customElements.get(baseCardName) ? `${baseCardName}-dev` : baseCardName;
 class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard {
   preview?: boolean | undefined;
   layout?: string | undefined;
@@ -107,7 +109,7 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
         { name: "area", required: true, selector: { area: {} } },
         {
           name: "aspect_ratio",
-          default: "2/1",
+          default: "16:9",
           title: "Aspect Ratio",
           selector: { text: {} },
         },
@@ -135,6 +137,17 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
           },
         },
       ],
+    };
+  }
+
+  public static getStubConfig(hass: HomeAssistant): AreaCardConfig {
+    return {
+      type: `custom:${cardName}`,
+      area: Object.values(hass.areas)[0]?.area_id || "",
+      aspect_ratio: "16:9",
+      sensor_classes: ['temperature', 'humidity', 'power'],
+      chips: [],
+      side_chips: [],
     };
   }
 
@@ -346,16 +359,13 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
 
 type Components = ReturnType<HomeAssistantAreaCard['createComponents']>;
 
-const baseCardName = "go-area-card";
-const cardName = customElements.get(baseCardName) ? `${baseCardName}-dev` : baseCardName;
-
 customElements.define(cardName, HomeAssistantAreaCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: cardName,
   name: "Go Area Card",
-  preview: false, // Optional - defaults to false
+  preview: true, // Optional - defaults to false
   description: "A custom card for displaying an area!", // Optional
   documentationURL:
     "https://developers.home-assistant.io/docs/frontend/custom-ui/custom-card", // Adds a help link in the frontend card editor
