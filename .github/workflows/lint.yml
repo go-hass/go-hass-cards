@@ -1,0 +1,29 @@
+name: Lint Project
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  lint:
+    name: Lint the project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/.local/share/pnpm/store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Prepare pnpm
+        run: |
+          corepack enable
+          corepack prepare --activate
+
+      - name: Install node modules
+        run: pnpm install
+
+      - name: Lint the project
+        run: pnpm lint
