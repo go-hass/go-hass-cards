@@ -8,12 +8,20 @@ jobs:
     name: Build the project
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Download Go Hass Cards Artifact
         uses: actions/download-artifact@v4
         with:
           name: Go Hass Cards
-      
-      - name: List files
+          path: dist
+
+      - name: Check if a new release is needed
+        run: ./scripts/check-release.sh
+        id: check-release
+
+      - name: Create a new tag if needed
+        if: ${{ steps.check-release.outputs.releaseExists == 'false' }}
         run: |
-          ls -la
-          ls -la dist
+          git tag ${{ steps.check-release.outputs.releaseVersion }}
+          git push origin ${{ steps.check-release.outputs.releaseVersion }}
