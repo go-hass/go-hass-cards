@@ -5,6 +5,6 @@ export type AreaCardConfig = LovelaceCardConfig & {
   area: string;
   aspect_ratio?: string;
   sensor_classes?: SensorType[];
-  top_cards: LovelaceCardConfig[];
-  side_cards: LovelaceCardConfig[];
+  top_card?: LovelaceCardConfig;
+  side_card?: LovelaceCardConfig;
 }
