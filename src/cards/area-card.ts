@@ -32,18 +32,12 @@ class HomeAssistantAreaCard extends HTMLElement implements LovelaceCard, GoCard 
     this._hass = hass;
     const config = this.config;
     if (!config) {
-      console.error("No config provided!");
-      return;
+      throw new Error("No config provided!");
     }
 
+    this.area = hass.areas[config.area];
     if (!this.area) {
-      this.area = Object.values(hass.areas).find(area => area.area_id === config.area);
-      logger.log("area", this.area);
-      
-      if (!this.area) {
-        console.error("Area not found!");
-        return;
-      }
+      throw new Error("Area not found!");
     }
 
     // Initialize the content if it's not there yet.
