@@ -53,8 +53,8 @@ A comprehensive area card that displays area information along with sensor data 
 
 ### Method 2: Manual Installation
 
-1. Download the latest release from the [releases page](../../releases)
-2. Extract the files to your `www` folder in Home Assistant
+1. Download the latest `go-hass-cards.js` from the [releases page](../../releases)
+2. Place the file to your `www` folder in Home Assistant
 3. Add the resource to your `configuration.yaml`:
 
 ```yaml
