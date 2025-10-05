@@ -32,5 +32,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token        
         run: |
           gh release create ${{ steps.check-release.outputs.releaseVersion }} ./dist/* \
-            --generate-notes \
-            --latest
+            --prerelease=${{ steps.check-release.outputs.prerelease }} \
+            --latest=${{ steps.check-release.outputs.latest }} \
+            --generate-notes
