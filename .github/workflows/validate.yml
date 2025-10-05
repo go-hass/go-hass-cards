@@ -2,6 +2,8 @@ name: HACS validation
 
 on:
   workflow_call:
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   validate:
@@ -10,17 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download Go Hass Cards Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: Go Hass Cards
-          path: dist
-
-      - name: List files
-        run: |
-          ls -la
-          ls -la dist
 
       - name: HACS validation
         uses: hacs/action@main

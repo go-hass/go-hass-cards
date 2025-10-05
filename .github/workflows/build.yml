@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: Build the project
+    name: Build Go Hass Cards
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

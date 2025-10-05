@@ -2,8 +2,8 @@
 
 git fetch --tags
 
-release_version=$(jq -r '.version' < package.json)
-release_exists=$(git tag --list $release_version)
+release_version="v$(jq -r '.version' < package.json)"
+release_exists="$(git tag --list $release_version)"
 
 echo "releaseVersion=$release_version" >> $GITHUB_OUTPUT
 
