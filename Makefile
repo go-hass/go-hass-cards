@@ -9,3 +9,6 @@ dev: ## Run Home Assistant Area Card development server
 
 build: ## Build Home Assistant Area Card application
 	pnpm build
+
+ssh-deploy: build ## Deploy Home Assistant Area Card over SSH
+	./scripts/ssh-deploy.sh
