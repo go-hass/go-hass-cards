@@ -69,7 +69,7 @@ var navigate = async (path, options, timestamp = Date.now()) => {
     });
   }
   const replace = options?.replace || false;
-  if ("") {} else if (replace) {
+  if (false) {} else if (replace) {
     history.replaceState(history.state?.root ? { root: true } : options?.data ?? null, "", path);
   } else {
     history.pushState(options?.data ?? null, "", path);

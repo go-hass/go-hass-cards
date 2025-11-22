@@ -20,7 +20,7 @@ async function build(_event?: fs.WatchEventType, filename?: string | null) {
     minify: true,
     define: {
       __DEV_URL__: process.env.DEV_URL ? JSON.stringify(process.env.DEV_URL) : '',
-      isDev: isDev ? 'true' : '',
+      isDev: isDev ? 'true' : 'false',
     },
   });
 

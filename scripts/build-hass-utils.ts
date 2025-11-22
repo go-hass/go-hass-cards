@@ -17,7 +17,7 @@ const result = await Bun.build({
   splitting: true,
   minify: false,
   define: {
-    __DEMO__: '',
+    __DEMO__: 'false',
   },
 });
 
