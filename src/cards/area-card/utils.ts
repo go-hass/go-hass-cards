@@ -12,6 +12,7 @@ export function getDefaultAreaCardConfig(hass: HomeAssistant): AreaCardConfig {
     type: `custom:${areaCardName}`,
     area: Object.values(hass.areas)[0]?.area_id || '',
     aspect_ratio: '16:9',
+    navigation_path: undefined,
     sensor_classes: ['temperature', 'humidity', 'power'],
     top_cards: [],
     side_cards: [],

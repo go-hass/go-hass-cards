@@ -12,6 +12,7 @@ import {
   type GoCardSensorStates,
 } from '@/utils/sensors';
 import { logger } from '@/utils/logger';
+import { navigate } from '@hass/common/navigate';
 import { editorCardName, areaCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
 import type { AreaCardConfig } from './types';
 import './area-card-editor';
@@ -111,7 +112,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     if (!area || !config) return nothing;
 
     return html`
-      <ha-card class="go-area-card">
+      <ha-card class="go-area-card${this.config?.navigation_path ? ' clickable' : ''}" @click=${this.navigate}>
         <div class="picture"></div>
         ${isDev ? html`<div class="dev-mode">🛠️ DEV MODE</div>` : ''}
         <div class="content">
@@ -164,12 +165,21 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     }
   }
 
+  private navigate() {
+    if (this.config?.navigation_path) {
+      navigate(this.config.navigation_path);
+    }
+  }
+
   private renderDynamicStyles(area: AreaRegistryEntry, config: AreaCardConfig) {
     return html`
       <style>
         .go-area-card {
           --area-picture: url('${area.picture}');
           --area-aspect-ratio-padding: ${(100 / this.getAspectRatio(config.aspect_ratio)).toFixed(2)}%;
+        }
+        .go-area-card.clickable {
+          cursor: pointer;
         }
       </style>
     `;

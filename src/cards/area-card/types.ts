@@ -4,6 +4,7 @@ import type { SensorType } from '@/utils/sensors';
 export type AreaCardConfig = LovelaceCardConfig & {
   area: string;
   aspect_ratio?: string;
+  navigation_path?: string;
   sensor_classes?: SensorType[];
   top_cards?: LovelaceCardConfig[];
   side_cards?: LovelaceCardConfig[];
