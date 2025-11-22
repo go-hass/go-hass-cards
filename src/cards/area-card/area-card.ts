@@ -111,7 +111,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     return html`
       <ha-card class="go-area-card">
         <div class="picture"></div>
-        ${isDev ? html`<div class="dev-mode">DEV MODE</div>` : ''}
+        ${isDev ? html`<div class="dev-mode">🛠️ DEV MODE</div>` : ''}
         <div class="content">
           ${this.renderTopCards()}
           <div class="bottom">

@@ -8,10 +8,10 @@ on:
       - 'src/**'
       - 'scripts/**'
       - '.github/workflows/**'
-      - 'pnpm-lock.yaml'
+      - 'bun.lock'
       - 'package.json'
       - 'tsconfig.json'
-      - 'vite.config.ts'
+      - 'build.ts'
       - 'hacs.json'
   workflow_dispatch:
 
