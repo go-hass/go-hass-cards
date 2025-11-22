@@ -64,7 +64,7 @@ lovelace:
 
 Everything can be configured inside Home Assistant (no YAML needed:
 
-1. Open a dashboard and click **Edit (icon) → Add card**.
+1. Open a dashboard and click **⋮ → Edit Dashboard → Add card**.
 2. Select **Go Area Card**.
 3. Choose the area, adjust the aspect ratio, toggle sensor chips, and add multiple top/side stacks.
 
