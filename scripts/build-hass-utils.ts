@@ -28,11 +28,18 @@ if (!result.success) {
 
 const end = performance.now();
 
-const outputTable = result.outputs.map((output) => ({
-  File: output.path.replace(/^.+\/src\/hass\//, ''),
-  Type: output.kind,
-  Size: formatFileSize(output.size),
-}));
+const outputTable = await Promise.all(
+  result.outputs.map(async (output) => {
+    const file = Bun.file(output.path);
+    const content = await file.text();
+    await file.write(['/*\n * Auto-generated file. Do not edit directly.\n */', '', content].join('\n'));
+    return {
+      File: output.path.replace(/^.+\/src\/hass\//, ''),
+      Type: output.kind,
+      Size: formatFileSize(output.size),
+    };
+  }),
+);
 
 console.table(outputTable);
 const buildTime = (end - start).toFixed(2);

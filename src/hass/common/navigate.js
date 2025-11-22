@@ -1,3 +1,7 @@
+/*
+ * Auto-generated file. Do not edit directly.
+ */
+
 // frontend/src/data/main_window.ts
 var MAIN_WINDOW_NAME = "ha-main-window";
 
