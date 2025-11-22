@@ -5,13 +5,13 @@ help:
 
 # DEVELOPMENT SETUP
 dev: ## Run Home Assistant Area Card development server
-	pnpm dev
+	bun run dev
 
 build: ## Build Home Assistant Area Card application
-	pnpm build
+	bun run build
 
 ssh-deploy: build ## Deploy Home Assistant Area Card over SSH
-	pnpm ssh-deploy
+	bun run ssh-deploy
 
 types: ## Generate types from https://github.com/home-assistant/frontend.git
 	./scripts/generate-types.sh

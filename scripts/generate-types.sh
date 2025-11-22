@@ -18,7 +18,7 @@ git pull
 git fetch --tags
 git checkout 20250926.0
 
-yarn
+bun yarn
 
 rm -rf ../src/hass-types
 
