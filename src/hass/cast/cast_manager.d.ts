@@ -11,10 +11,10 @@ export declare class CastManager {
     addEventListener(event: CastEvent, listener: CastEventListener): () => void;
     get castConnectedToOurHass(): boolean;
     sendMessage(msg: ReceiverMessage): void;
-    get castState(): cast.framework.CastState;
-    get castContext(): cast.framework.CastContext;
-    get castSession(): cast.framework.CastSession;
-    requestSession(): Promise<chrome.cast.ErrorCode>;
+    get castState(): any;
+    get castContext(): any;
+    get castSession(): any;
+    requestSession(): any;
     private _fireEvent;
     private _receiveMessage;
     private _sessionStateChanged;
