@@ -180,7 +180,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     const event = new CustomEvent('config-changed', {
       bubbles: true,
       composed: true,
-      detail: { config: { ...this.config, ...config } },
+      detail: { config: resolveConfigWithDeprecations({ ...this.config!, ...config }) },
     });
     this.dispatchEvent(event);
   }

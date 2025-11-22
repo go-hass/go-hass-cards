@@ -18,10 +18,10 @@ export function getDefaultAreaCardConfig(hass: HomeAssistant): AreaCardConfig {
   };
 }
 
-export function resolveConfigWithDeprecations(config: AreaCardConfig): AreaCardConfig {
+export function resolveConfigWithDeprecations({ top_card, side_card, ...config }: AreaCardConfig): AreaCardConfig {
   return {
     ...config,
-    top_cards: [...(config.top_cards ?? []), ...(config.top_card ? [config.top_card] : [])],
-    side_cards: [...(config.side_cards ?? []), ...(config.side_card ? [config.side_card] : [])],
+    top_cards: [...(config.top_cards ?? []), ...(!config.top_cards?.length && top_card ? [top_card] : [])],
+    side_cards: [...(config.side_cards ?? []), ...(!config.side_cards?.length && side_card ? [side_card] : [])],
   };
 }
