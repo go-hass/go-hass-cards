@@ -9,7 +9,7 @@ import {
   type GoCardSensorStates,
 } from '../../utils/sensors';
 import { logger } from '../../utils/logger';
-import { editorCardName, areaCardName, getDefaultAreaCardConfig } from './utils';
+import { editorCardName, areaCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
 import type { AreaCardConfig } from './types';
 import './area-card-editor';
 import type { HuiStackCard } from '../../hass-types/panels/lovelace/cards/hui-stack-card';
@@ -52,7 +52,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     }
     this.config = {
       aspect_ratio: '16:9',
-      ...config,
+      ...resolveConfigWithDeprecations(config),
     };
 
     logger.log('config', config);

@@ -7,7 +7,7 @@ import type { ConfigChangedEvent } from '../../hass-types/panels/lovelace/editor
 import type { StackCardConfig } from '../../hass-types/panels/lovelace/cards/types';
 import type { SelectSelector } from '../../hass-types/data/selector';
 import type { SensorType } from '../../utils/sensors';
-import { editorCardName, getDefaultAreaCardConfig } from './utils';
+import { editorCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
 import type { AreaCardConfig } from './types';
 
 const sensorClassesSchema: SelectSelector = {
@@ -172,7 +172,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
   }
 
   setConfig(config: AreaCardConfig) {
-    this.config = config;
+    this.config = resolveConfigWithDeprecations(config);
   }
 
   configChanged(config: Partial<AreaCardConfig>) {
