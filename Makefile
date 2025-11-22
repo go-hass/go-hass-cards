@@ -16,5 +16,5 @@ lint: ## Lint Home Assistant Area Card application
 ssh-deploy: build ## Deploy Home Assistant Area Card over SSH
 	bun run ssh-deploy
 
-types: ## Generate types from https://github.com/home-assistant/frontend.git
-	./scripts/generate-types.sh
+hass: ## Generate types from https://github.com/home-assistant/frontend.git
+	./scripts/generate-hass.sh

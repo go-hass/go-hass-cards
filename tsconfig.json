@@ -21,7 +21,11 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "paths": {
+      "@hass/*": ["./src/hass/*"],
+      "@/*": ["./src/*"]
+    },
   },
   "include": ["src", "scripts", "build.ts", "eslint.config.ts"],
 }

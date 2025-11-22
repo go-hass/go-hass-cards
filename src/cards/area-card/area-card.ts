@@ -1,18 +1,17 @@
 import { customElement, state } from 'lit/decorators.js';
 import { css, html, LitElement, nothing, type CSSResultGroup } from 'lit';
-import type { AreaRegistryEntry, LovelaceCard, HomeAssistant } from '../../types';
+import type { AreaRegistryEntry, LovelaceCard, HomeAssistant, HuiStackCard } from '@/types';
 import {
   createSensorManager,
   findSensorStates,
   type GoCard,
   type GoCardSensors,
   type GoCardSensorStates,
-} from '../../utils/sensors';
-import { logger } from '../../utils/logger';
+} from '@/utils/sensors';
+import { logger } from '@/utils/logger';
 import { editorCardName, areaCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
 import type { AreaCardConfig } from './types';
 import './area-card-editor';
-import type { HuiStackCard } from '../../hass-types/panels/lovelace/cards/hui-stack-card';
 
 @customElement(areaCardName)
 export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, GoCard<AreaCardConfig> {

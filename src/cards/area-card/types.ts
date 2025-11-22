@@ -1,5 +1,5 @@
-import type { LovelaceCardConfig } from '../../types';
-import type { SensorType } from '../../utils/sensors';
+import type { LovelaceCardConfig } from '@/types';
+import type { SensorType } from '@/utils/sensors';
 
 export type AreaCardConfig = LovelaceCardConfig & {
   area: string;

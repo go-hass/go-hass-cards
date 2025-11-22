@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint';
 import globals from 'globals';
 
 export default defineConfig(
-  { ignores: ['**/dist', 'src/hass-types', 'frontend'] },
+  { ignores: ['**/dist', 'src/hass', 'frontend'] },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   eslintPluginPrettierRecommended,

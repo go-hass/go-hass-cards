@@ -1,12 +1,15 @@
 import { customElement, property, state } from 'lit/decorators.js';
 import { css, html, LitElement, type CSSResultGroup } from 'lit';
-import type { HomeAssistant, LovelaceCardEditor } from '../../types';
-import type { LovelaceConfig } from '../../hass-types/data/lovelace/config/types';
-import type { HASSDomEvent } from '../../hass-types/common/dom/fire_event';
-import type { ConfigChangedEvent } from '../../hass-types/panels/lovelace/editor/hui-element-editor';
-import type { StackCardConfig } from '../../hass-types/panels/lovelace/cards/types';
-import type { SelectSelector } from '../../hass-types/data/selector';
-import type { SensorType } from '../../utils/sensors';
+import type {
+  HomeAssistant,
+  LovelaceCardEditor,
+  LovelaceConfig,
+  HASSDomEvent,
+  ConfigChangedEvent,
+  StackCardConfig,
+  SelectSelector,
+} from '@/types';
+import type { SensorType } from '@/utils/sensors';
 import { editorCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
 import type { AreaCardConfig } from './types';
 

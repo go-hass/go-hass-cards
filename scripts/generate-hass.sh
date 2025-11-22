@@ -20,12 +20,12 @@ git checkout 20251105.1
 
 bun yarn
 
-rm -rf ../src/hass-types
+rm -rf ../src/hass/types
 
-./node_modules/.bin/tsc src/**/* --declaration --emitDeclarationOnly --declarationDir ../src/hass-types
+./node_modules/.bin/tsc src/**/* --declaration --emitDeclarationOnly --declarationDir ../src/hass/types
 
 # # This also generate types from a single file in frontend/hassio/src/hassio-my-redirect.ts, so we need to move the files around
-mv ../src/hass-types/src/* ../src/hass-types/
-rm -rf ../src/hass-types/hassio ../src/hass-types/src
+mv ../src/hass/types/src/* ../src/hass/types/
+rm -rf ../src/hass/types/hassio ../src/hass/types/src
 
 echo "Done"
