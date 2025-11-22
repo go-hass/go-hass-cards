@@ -36,9 +36,9 @@ async function build(_event?: fs.WatchEventType, filename?: string | null) {
     splitting: true,
     minify: true,
     define: {
-      '__DEV_URL__': process.env.DEV_URL ? JSON.stringify(process.env.DEV_URL) : '',
-      'isDev': isDev ? 'true' : '',
-    }
+      __DEV_URL__: process.env.DEV_URL ? JSON.stringify(process.env.DEV_URL) : '',
+      isDev: isDev ? 'true' : '',
+    },
   });
 
   if (!result.success) {
@@ -49,8 +49,7 @@ async function build(_event?: fs.WatchEventType, filename?: string | null) {
   const end = performance.now();
 
   const outputTable = result.outputs
-    .map(output => ({ File: output.path.split('/').pop(), Type: output.kind, Size: formatFileSize(output.size) }),
-    )
+    .map((output) => ({ File: output.path.split('/').pop(), Type: output.kind, Size: formatFileSize(output.size) }))
     .filter(Boolean);
 
   console.table(outputTable);
@@ -60,7 +59,7 @@ async function build(_event?: fs.WatchEventType, filename?: string | null) {
 }
 
 if (isDev) {
-  console.log('🛠️  Development mode enabled. Watching for file changes...\n');    
+  console.log('🛠️  Development mode enabled. Watching for file changes...\n');
   watch('./src', { recursive: true }, build);
   await build();
 } else {

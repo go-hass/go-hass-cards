@@ -1,14 +1,14 @@
-import { customElement, state } from 'lit/decorators.js'
+import { customElement, state } from 'lit/decorators.js';
 import { css, html, LitElement, nothing, type CSSResultGroup } from 'lit';
-import type { AreaRegistryEntry, LovelaceCard, HomeAssistant } from "../../types";
+import type { AreaRegistryEntry, LovelaceCard, HomeAssistant } from '../../types';
 import {
   createSensorManager,
   findSensorStates,
   type GoCard,
   type GoCardSensors,
   type GoCardSensorStates,
-} from "../../utils/sensors";
-import { logger } from "../../utils/logger";
+} from '../../utils/sensors';
+import { logger } from '../../utils/logger';
 import { editorCardName, areaCardName, getDefaultAreaCardConfig } from './utils';
 import type { AreaCardConfig } from './types';
 import './area-card-editor';
@@ -22,14 +22,14 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
   @state() public area: AreaRegistryEntry | undefined;
   @state() public config: AreaCardConfig | undefined;
   @state() public sensorStates: GoCardSensorStates = { temperature: '', humidity: '', power: '' };
-  
+
   // Whenever the state changes, a new `hass` object is set. Use this to update your content.
   set hass(hass: HomeAssistant) {
     this._hass = hass;
 
     this.area = hass.areas[this.config?.area || ''];
     if (!this.area) {
-      throw new Error("Area not found!");
+      throw new Error('Area not found!');
     }
 
     if (!this.sensors) {
@@ -38,7 +38,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
         humidity: createSensorManager.call(this, 'humidity', sensorStates),
         temperature: createSensorManager.call(this, 'temperature', sensorStates),
         power: createSensorManager.call(this, 'power', sensorStates, 'sum'),
-      }
+      };
     }
 
     this.updateSensors();
@@ -48,14 +48,14 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
   // will render an error card.
   setConfig(config: AreaCardConfig) {
     if (!config.area) {
-      throw new Error("You need to specify an area");
+      throw new Error('You need to specify an area');
     }
     this.config = {
       aspect_ratio: '16:9',
       ...config,
     };
 
-    logger.log("config", config);
+    logger.log('config', config);
   }
 
   // The height of your card. Home Assistant uses this to automatically
@@ -85,7 +85,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
       temperature: temperatureState ? `${temperatureState.value} ${temperatureState.unit}` : '',
       humidity: humidityState ? `${humidityState.value}${humidityState.unit}` : '',
       power: powerState ? `${powerState.value}${powerState.unit}` : '',
-    }
+    };
   }
 
   static async getConfigElement() {
@@ -126,7 +126,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
       ${this.renderDynamicStyles(area, config)}
     `;
   }
-  
+
   protected renderSensors() {
     const { temperature, humidity, power } = this.sensorStates;
     if (!temperature && !humidity && !power) return nothing;
@@ -197,7 +197,9 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           flex-direction: column;
           justify-content: space-between;
           /* TODO: Do not add bright top fade if no chips are present */
-          background: linear-gradient(0,rgba(33,33,33,.9) 0%,rgba(33,33,33,0) 45%),linear-gradient(rgba(255,255,255,0.1) 0%,rgba(255,255,255,0) 45%);
+          background:
+            linear-gradient(0, rgba(33, 33, 33, 0.9) 0%, rgba(33, 33, 33, 0) 45%),
+            linear-gradient(rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 45%);
           padding: 16px;
           box-sizing: border-box;
           gap: 8px;
@@ -231,7 +233,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           font-size: var(--ha-font-size-2xl);
           line-height: 1;
         }
-        
+
         .sensors {
           display: flex;
           align-items: center;
@@ -247,7 +249,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
             align-items: center;
             gap: 2px;
           }
-          
+
           > div[hidden] {
             display: none;
           }
@@ -257,7 +259,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           position: absolute;
           top: 0;
           right: 0;
-          background-color:rgb(180, 30, 30);
+          background-color: rgb(180, 30, 30);
           color: #fff;
           padding: 2px 8px;
           border-bottom-left-radius: 12px;
@@ -273,9 +275,8 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: areaCardName,
-  name: "Go Area Card",
+  name: 'Go Area Card',
   preview: true, // Optional - defaults to false
-  description: "A custom card for displaying an area!", // Optional
-  documentationURL:
-    "https://developers.home-assistant.io/docs/frontend/custom-ui/custom-card", // Adds a help link in the frontend card editor
+  description: 'A custom card for displaying an area!', // Optional
+  documentationURL: 'https://developers.home-assistant.io/docs/frontend/custom-ui/custom-card', // Adds a help link in the frontend card editor
 });

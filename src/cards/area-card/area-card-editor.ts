@@ -1,10 +1,10 @@
-import { customElement, property, state } from 'lit/decorators.js'
+import { customElement, property, state } from 'lit/decorators.js';
 import { css, html, LitElement, type CSSResultGroup } from 'lit';
-import type { HomeAssistant, LovelaceCardEditor } from "../../types";
+import type { HomeAssistant, LovelaceCardEditor } from '../../types';
 import type { LovelaceConfig } from '../../hass-types/data/lovelace/config/types';
 import type { HASSDomEvent } from '../../hass-types/common/dom/fire_event';
 import type { ConfigChangedEvent } from '../../hass-types/panels/lovelace/editor/hui-element-editor';
-import type { StackCardConfig } from "../../hass-types/panels/lovelace/cards/types";
+import type { StackCardConfig } from '../../hass-types/panels/lovelace/cards/types';
 import type { SelectSelector } from '../../hass-types/data/selector';
 import type { SensorType } from '../../utils/sensors';
 import { editorCardName, getDefaultAreaCardConfig } from './utils';
@@ -28,7 +28,7 @@ const sensorClassesSchema: SelectSelector = {
         label: 'Power',
       },
     ],
-  }
+  },
 };
 
 const cards = [
@@ -55,7 +55,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
   @property({ attribute: false }) public lovelace?: LovelaceConfig;
 
   @state() public config: AreaCardConfig | undefined;
-  @state() protected _selectedCard: typeof cards[number] = cards[0];
+  @state() protected _selectedCard: (typeof cards)[number] = cards[0];
 
   protected render() {
     return html`
@@ -74,7 +74,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
                     <ha-icon icon="${card.icon}"></ha-icon>
                     ${card.label}
                   </div>
-                </ha-tab-group-tab>`
+                </ha-tab-group-tab>`,
             )}
           </ha-tab-group>
         </div>
@@ -83,9 +83,8 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     `;
   }
 
-
   protected renderContent() {
-    const config = { ...getDefaultAreaCardConfig(this.hass), ...this.config }
+    const config = { ...getDefaultAreaCardConfig(this.hass), ...this.config };
 
     if (this._selectedCard.id === 'settings') {
       return html`
@@ -141,7 +140,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
   }
 
   protected _handleSelectedCard(ev: CustomEvent) {
-    const card = cards.find(card => card.id === ev.detail.name)!;
+    const card = cards.find((card) => card.id === ev.detail.name)!;
     if (!card) {
       throw new Error(`Card ${ev.detail.name} not found`);
     }
@@ -177,7 +176,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
   }
 
   configChanged(config: Partial<AreaCardConfig>) {
-    const event = new CustomEvent("config-changed", {
+    const event = new CustomEvent('config-changed', {
       bubbles: true,
       composed: true,
       detail: { config: { ...this.config, ...config } },
