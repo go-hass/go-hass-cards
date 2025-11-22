@@ -1,6 +1,9 @@
 import { customElement, state } from 'lit/decorators.js';
 import { css, html, LitElement, nothing, type CSSResultGroup } from 'lit';
-import type { AreaRegistryEntry, LovelaceCard, HomeAssistant, HuiStackCard } from '@/types';
+import type { AreaRegistryEntry } from '@hass/data/area_registry';
+import type { HuiStackCard } from '@hass/panels/lovelace/cards/hui-stack-card';
+import type { LovelaceCard } from '@hass/panels/lovelace/types';
+import type { HomeAssistant } from '@hass/types';
 import {
   createSensorManager,
   findSensorStates,

@@ -1,4 +1,4 @@
-import type { HomeAssistant } from '@/types';
+import type { HomeAssistant } from '@hass/types';
 import type { AreaCardConfig } from './types';
 
 const baseCardName = 'go-area-card';

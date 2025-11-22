@@ -1,16 +1,19 @@
 import { formatFileSize } from '@/utils/file-size';
-
-const distDir = './src/hass/utils';
+import path from 'path';
 
 console.log('\n🚀 Starting HASS utils build process...\n');
 
-const getUtilFile = (filename: string) => `./frontend/src/${filename}`;
+function getUtil(filename: string): Bun.BuildConfig {
+  return {
+    entrypoints: [`./frontend/src/${filename}`],
+    outdir: `./src/hass/${path.dirname(filename)}`,
+  };
+}
 
 const start = performance.now();
 const result = await Bun.build({
+  ...getUtil('common/navigate.ts'),
   plugins: [],
-  entrypoints: [getUtilFile('common/navigate.ts')],
-  outdir: distDir,
   splitting: true,
   minify: false,
 });
@@ -22,9 +25,11 @@ if (!result.success) {
 
 const end = performance.now();
 
-const outputTable = result.outputs
-  .map((output) => ({ File: output.path.split('/').pop(), Type: output.kind, Size: formatFileSize(output.size) }))
-  .filter(Boolean);
+const outputTable = result.outputs.map((output) => ({
+  File: output.path.replace(/^.+\/src\/hass\//, ''),
+  Type: output.kind,
+  Size: formatFileSize(output.size),
+}));
 
 console.table(outputTable);
 const buildTime = (end - start).toFixed(2);

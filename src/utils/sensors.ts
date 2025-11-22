@@ -1,5 +1,7 @@
 import type { HassEntity } from 'home-assistant-js-websocket';
-import type { AreaRegistryEntry, HomeAssistant, LovelaceCardConfig } from '../types';
+import type { LovelaceCardConfig } from '@hass/data/lovelace/config/card';
+import type { AreaRegistryEntry } from '@hass/data/area_registry';
+import type { HomeAssistant } from '@hass/types';
 import { logger } from './logger';
 
 const defaultSensorUnits: Record<SensorType, string> = {

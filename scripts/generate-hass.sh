@@ -22,17 +22,16 @@ bun yarn
 
 popd
 
-# Build HASS types
-rm -rf ./src/hass/types
+# # Build HASS types
+# rm -rf ./src/hass
 
-./node_modules/.bin/tsc frontend/src/**/* --declaration --emitDeclarationOnly --declarationDir ./src/hass/types
+# ./node_modules/.bin/tsc frontend/src/**/* --declaration --emitDeclarationOnly --declarationDir ./src/hass
 
-# This also generate types from a single file in frontend/hassio/src/hassio-my-redirect.ts, so we need to move the files around
-mv ./src/hass/types/src/* ./src/hass/types/
-rm -rf ./src/hass/types/hassio ./src/hass/types/src
+# # This also generate types from a single file in frontend/hassio/src/hassio-my-redirect.ts, so we need to move the files around
+# mv ./src/hass/src/* ./src/hass/
+# rm -rf ./src/hass/hassio ./src/hass/src
 
 # Build HASS utils
-rm -rf ./src/hass/utils
 bun ./scripts/build-hass-utils.ts
 
 echo "Done"

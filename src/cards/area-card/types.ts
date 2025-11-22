@@ -1,4 +1,4 @@
-import type { LovelaceCardConfig } from '@/types';
+import type { LovelaceCardConfig } from '@hass/data/lovelace/config/card';
 import type { SensorType } from '@/utils/sensors';
 
 export type AreaCardConfig = LovelaceCardConfig & {
