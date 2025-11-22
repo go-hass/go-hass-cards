@@ -4,4 +4,9 @@ export const logger = {
       console.log(...messages);
     }
   },
+  error: (...messages: unknown[]) => {
+    if (isDev) {
+      console.error(...messages);
+    }
+  },
 };

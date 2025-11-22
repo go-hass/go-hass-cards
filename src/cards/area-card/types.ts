@@ -1,9 +1,10 @@
-import type { LovelaceCardConfig } from '@/types';
+import type { LovelaceCardConfig } from '@hass/data/lovelace/config/card';
 import type { SensorType } from '@/utils/sensors';
 
 export type AreaCardConfig = LovelaceCardConfig & {
   area: string;
   aspect_ratio?: string;
+  navigation_path?: string;
   sensor_classes?: SensorType[];
   top_cards?: LovelaceCardConfig[];
   side_cards?: LovelaceCardConfig[];

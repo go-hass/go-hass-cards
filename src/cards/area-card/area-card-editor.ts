@@ -1,14 +1,12 @@
 import { customElement, property, state } from 'lit/decorators.js';
 import { css, html, LitElement, type CSSResultGroup } from 'lit';
-import type {
-  HomeAssistant,
-  LovelaceCardEditor,
-  LovelaceConfig,
-  HASSDomEvent,
-  ConfigChangedEvent,
-  StackCardConfig,
-  SelectSelector,
-} from '@/types';
+import type { HASSDomEvent } from '@hass/common/dom/fire_event';
+import type { LovelaceConfig } from '@hass/data/lovelace/config/types';
+import type { SelectSelector } from '@hass/data/selector';
+import type { StackCardConfig } from '@hass/panels/lovelace/cards/types';
+import type { ConfigChangedEvent } from '@hass/panels/lovelace/editor/hui-element-editor';
+import type { LovelaceCardEditor } from '@hass/panels/lovelace/types';
+import type { HomeAssistant } from '@hass/types';
 import type { SensorType } from '@/utils/sensors';
 import { editorCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
 import type { AreaCardConfig } from './types';
@@ -90,6 +88,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     const config = { ...getDefaultAreaCardConfig(this.hass), ...this.config };
 
     if (this._selectedCard.id === 'settings') {
+      const area = this.hass.areas[this.config?.area || ''];
       return html`
         <div class="settings">
           <div>
@@ -107,6 +106,14 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
               placeholder="16:9"
               .value=${config.aspect_ratio}
               @input=${this.updateAspectRatio}
+            />
+          </div>
+          <div>
+            <ha-textfield
+              label="Navigation Path"
+              placeholder="${area?.name?.toLowerCase().replace(/\s/g, '-') || ''}"
+              .value=${config.navigation_path || ''}
+              @input=${this.updateNavigationPath}
             />
           </div>
           <div>
@@ -170,6 +177,11 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     this.configChanged({ aspect_ratio: target.value });
   }
 
+  private updateNavigationPath(ev: InputEvent) {
+    const target = ev.target as HTMLInputElement;
+    this.configChanged({ navigation_path: target.value || undefined });
+  }
+
   private updateSensorClasses(ev: SimpleInputEvent<SensorType[]>) {
     this.configChanged({ sensor_classes: ev.detail.value });
   }
@@ -182,7 +194,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     const event = new CustomEvent('config-changed', {
       bubbles: true,
       composed: true,
-      detail: { config: { ...this.config, ...config } },
+      detail: { config: resolveConfigWithDeprecations({ ...this.config!, ...config }) },
     });
     this.dispatchEvent(event);
   }
