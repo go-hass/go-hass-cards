@@ -5,7 +5,7 @@
     "useDefineForClassFields": false,
     "module": "ESNext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["node", "@total-typescript/ts-reset"],
+    "types": ["node", "@total-typescript/ts-reset", "@types/bun"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "build.ts"],
 }

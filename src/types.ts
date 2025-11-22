@@ -9,6 +9,5 @@ declare global {
   interface Window extends CustomCardsWindow {}
 
   const __DEV_URL__: string;
-  const __HA_URL__: string;
   const isDev: string;
 }

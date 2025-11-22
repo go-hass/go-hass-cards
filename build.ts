@@ -1,6 +1,5 @@
 import fs, { watch } from 'fs';
 
-
 const buildsDir = './builds';
 const distDir = './dist';
 
@@ -37,8 +36,7 @@ async function build(_event?: fs.WatchEventType, filename?: string | null) {
     splitting: true,
     minify: true,
     define: {
-      '__DEV_URL__': JSON.stringify(process.env.DEV_URL),
-      '__HA_URL__': JSON.stringify(process.env.HA_URL),
+      '__DEV_URL__': process.env.DEV_URL ? JSON.stringify(process.env.DEV_URL) : '',
       'isDev': isDev ? 'true' : '',
     }
   });
