@@ -10,6 +10,9 @@ dev: ## Run Home Assistant Area Card development server
 build: ## Build Home Assistant Area Card application
 	bun run build
 
+lint: ## Lint Home Assistant Area Card application
+	bun run lint
+
 ssh-deploy: build ## Deploy Home Assistant Area Card over SSH
 	bun run ssh-deploy
 
