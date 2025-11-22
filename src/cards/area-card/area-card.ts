@@ -169,10 +169,14 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     event.stopPropagation();
   }
 
-  private navigate(event: PointerEvent | TouchEvent) {
+  private async navigate(event: PointerEvent | TouchEvent) {
     if (this.config?.navigation_path) {
       event.stopPropagation();
-      navigate(this.config.navigation_path);
+      try {
+        await navigate(this.config.navigation_path);
+      } catch (err) {
+        logger.error('Navigation error:', err);
+      }
     }
   }
 
