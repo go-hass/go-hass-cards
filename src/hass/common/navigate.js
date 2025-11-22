@@ -65,13 +65,7 @@ var navigate = async (path, options, timestamp = Date.now()) => {
     });
   }
   const replace = options?.replace || false;
-  if (__DEMO__) {
-    if (replace) {
-      history.replaceState(history.state?.root ? { root: true } : options?.data ?? null, "", `${mainWindow.location.pathname}#${path}`);
-    } else {
-      mainWindow.location.hash = path;
-    }
-  } else if (replace) {
+  if ("") {} else if (replace) {
     history.replaceState(history.state?.root ? { root: true } : options?.data ?? null, "", path);
   } else {
     history.pushState(options?.data ?? null, "", path);

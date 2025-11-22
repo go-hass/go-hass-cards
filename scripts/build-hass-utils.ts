@@ -16,6 +16,9 @@ const result = await Bun.build({
   plugins: [],
   splitting: true,
   minify: false,
+  define: {
+    __DEMO__: '',
+  },
 });
 
 if (!result.success) {
