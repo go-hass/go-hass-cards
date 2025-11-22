@@ -22,7 +22,9 @@ export function getDefaultAreaCardConfig(hass: HomeAssistant): AreaCardConfig {
 export function resolveConfigWithDeprecations({ top_card, side_card, ...config }: AreaCardConfig): AreaCardConfig {
   return {
     ...config,
-    top_cards: [...(config.top_cards ?? []), ...(!config.top_cards?.length && top_card ? [top_card] : [])],
-    side_cards: [...(config.side_cards ?? []), ...(!config.side_cards?.length && side_card ? [side_card] : [])],
+    // This function is used in the Editor so as soon as the user makes any config change we'll reset the configuration
+    // to use `top_cards` & `side_cards`, so users won't have both deprecated and new options set at the same time.
+    top_cards: config.top_cards?.length ? config.top_cards : top_card ? [top_card] : [],
+    side_cards: config.side_cards?.length ? config.side_cards : side_card ? [side_card] : [],
   };
 }
