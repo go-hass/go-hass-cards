@@ -60,8 +60,8 @@ async function build(_event?: fs.WatchEventType, filename?: string | null) {
 
 if (isDev) {
   console.log('🛠️  Development mode enabled. Watching for file changes...\n');
-  watch('./src', { recursive: true }, build);
-  await build();
+  watch('./src', { recursive: true }, (...args) => build(...args).catch(console.error));
+  await build().catch(console.error);
 } else {
   await build();
 }
