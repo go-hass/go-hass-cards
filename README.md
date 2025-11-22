@@ -62,7 +62,7 @@ lovelace:
 
 ### Area Card
 
-Everything can be configured inside Home Assistant (no YAML needed:
+Everything can be configured inside Home Assistant (no YAML needed):
 
 1. Open a dashboard and click **⋮ → Edit Dashboard → Add card**.
 2. Select **Go Area Card**.
@@ -83,11 +83,15 @@ sensor_classes:
 top_cards:
   - type: history-graph
     entities:
-      - sensor.living_room_temperature
+      - entity: sensor.bathroom_humidity
+    hours_to_show: 12
+    logarithmic_scale: false
 side_cards:
-  - type: entities
-    entities:
-      - switch.living_room_
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: scene.living_room_night
+        content_info: name
 ```
 
 Find more editor tips and advanced examples in the [Card Docs](#-available-cards).
