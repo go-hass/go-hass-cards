@@ -213,7 +213,6 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           height: 100%;
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
           justify-content: space-between;
           /* TODO: Do not add bright top fade if no chips are present */
           background:
@@ -228,8 +227,17 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           cursor: pointer;
         }
 
-        .top-cards {
+        .top-cards,
+        .side-cards {
           overflow: auto;
+          /* Some cards add unnecessary margins around itself for spacing between elements, so we need to hide scrollbars */
+          -ms-overflow-style: none; /* Internet Explorer 10+ */
+          scrollbar-width: none; /* Firefox, Safari 18.2+, Chromium 121+ */
+        }
+
+        .top-cards::-webkit-scrollbar,
+        .side-cards::-webkit-scrollbar {
+          display: none; /* Older Safari and Chromium */
         }
 
         .bottom {

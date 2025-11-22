@@ -28,6 +28,7 @@ A collection of custom cards for Home Assistant built with TypeScript and Lit. T
 - 🏗️ **Modular Architecture**: Easy to extend and customize
 - 📱 **Mobile Friendly**: Responsive design for all devices
 - 🔌 **Easy Integration**: Simple installation via HACS or manual setup
+- 🧩 **Native UI Editor**: Configure every card directly from the Home Assistant UI
 
 ## 🃏 Available Cards
 
@@ -38,10 +39,9 @@ A collection of custom cards for Home Assistant built with TypeScript and Lit. T
 ### Method 1: HACS (Recommended)
 
 1. Open HACS in your Home Assistant
-2. Go to **Frontend** → **Explore & Download Repositories**
-3. Search for `go-hass-cards`
-4. Click **Download this repository with HACS**
-5. Restart Home Assistant
+3. Search for `Go Hass Cards` and click on it
+4. In the page that opens click **Download**
+5. Confirm and once it download click **Reload** in the popup
 
 ### Method 2: Manual Installation
 
@@ -62,7 +62,15 @@ lovelace:
 
 ### Area Card
 
-Add the area card to your Lovelace dashboard:
+Everything can be configured inside Home Assistant (no YAML needed):
+
+1. Open a dashboard and click **⋮ → Edit Dashboard → Add card**.
+2. Select **Go Area Card**.
+3. Choose the area, adjust the aspect ratio, toggle sensor chips, and add multiple top/side stacks.
+
+![Area card UI configuration](docs/cards/area/area-card-config-initial.png)
+
+Prefer the raw editor? Use YAML to fine-tune or copy/paste between dashboards:
 
 ```yaml
 type: custom:go-area-card
@@ -72,35 +80,46 @@ sensor_classes:
   - temperature
   - humidity
   - power
+top_cards:
+  - type: history-graph
+    entities:
+      - entity: sensor.bathroom_humidity
+    hours_to_show: 12
+    logarithmic_scale: false
+side_cards:
+  - type: custom:mushroom-chips-card
+    chips:
+      - type: entity
+        entity: scene.living_room_night
+        content_info: name
 ```
 
-#### For more configuration examples, see card documentation
+Find more editor tips and advanced examples in the [Card Docs](#-available-cards).
 
 ## 🛠️ Development
 
 ### Prerequisites
 
-- Node.js 18+ 
-- pnpm (recommended) or npm
+- [Node.js 24+](https://nodejs.org/en/download)
+- [bun](https://bun.com/docs/installation)
 - Home Assistant instance for testing
 
 ### Setup
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/go-hass-cards.git
+git clone https://github.com/go-hass/go-hass-cards.git
 cd go-hass-cards
 ```
 
 2. Install dependencies:
 ```bash
-pnpm install
+bun install
 ```
 
 3. Create a `.env` file:
-```env
-DEV_URL=http://localhost:8080
-HA_URL=http://your-home-assistant-url:8123
+```bash
+cp .env.example .env
 ```
 
 ### Development Commands
@@ -109,25 +128,27 @@ HA_URL=http://your-home-assistant-url:8123
 # Start development server
 make dev
 # or
-pnpm dev
+bun run dev
 
 # Build for production
 make build
 # or
-pnpm build
+bun run build
 
 # Deploy to Home Assistant via SSH
 make ssh-deploy
 # or
-pnpm ssh-deploy
+bun run ssh-deploy
 
-# Generate types from Home Assistant frontend
-make types
+# Generate utils & types from https://github.com/home-assistant/frontend.git
+make hass
+# or
+bun run hass
 ```
 
 ### Development Workflow
 
-1. Start the development server: `pnpm dev`
+1. Start the development server: `make dev`
 2. The server will watch for changes and rebuild automatically
 3. Access your Home Assistant and add the development resource:
    ```yaml
@@ -136,19 +157,21 @@ make types
        - url: http://localhost:8080/dev-loader.js
          type: module
    ```
-4. Refresh your browser to see changes
+4. Add a card for testing - use `custom:go-area-card-dev` as the card type
+5. Refresh your browser to see changes
 
 ### Project Structure
 
 ```
 src/
-├── cards/                 # Individual card implementations
+├── cards/                # Individual card implementations
 │   ├── area-card/        # Area card components
 │   └── index.ts          # Card exports
-├── hass-types/           # Home Assistant type definitions
+├── hass/                 # Generated Home Assistant type definitions & utilities
 ├── utils/                # Shared utilities
 ├── dev-loader.ts         # Development loader
-└── index.ts              # Main entry point
+├── go-hass-cards.ts      # Main entry point
+└── types.ts              # global type definitions
 ```
 
 ## 🤝 Contributing
