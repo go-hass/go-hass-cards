@@ -67,6 +67,7 @@ export interface DataEntryFlowStepAbort {
     reason: string;
     description_placeholders?: Record<string, string>;
     translation_domain?: string;
+    next_flow?: [FlowType, string];
 }
 export interface DataEntryFlowStepProgress {
     type: "progress";

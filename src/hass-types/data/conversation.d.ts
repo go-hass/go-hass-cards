@@ -46,7 +46,7 @@ export interface Agent {
     name: string;
     supported_languages: "*" | string[];
 }
-export interface AssitDebugResult {
+export interface AssistDebugResult {
     intent: {
         name: string;
     };
@@ -57,7 +57,7 @@ export interface AssitDebugResult {
     }>;
 }
 export interface AssistDebugResponse {
-    results: (AssitDebugResult | null)[];
+    results: (AssistDebugResult | null)[];
 }
 export declare const processConversationInput: (hass: HomeAssistant, text: string, conversation_id: string | null, language: string) => Promise<ConversationResult>;
 export declare const listAgents: (hass: HomeAssistant, language?: string, country?: string) => Promise<{

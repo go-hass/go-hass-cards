@@ -22,7 +22,6 @@ export declare class HuiButtonCard extends LitElement implements LovelaceCard {
     _locale: FrontendLocaleData;
     _hassConfig: HassConfig;
     _entity?: EntityRegistryDisplayEntry;
-    private _getStateColor;
     getCardSize(): number;
     getGridOptions(): LovelaceGridOptions;
     setConfig(config: ButtonCardConfig): void;

@@ -6,7 +6,7 @@ export interface MockHomeAssistant extends HomeAssistant {
     mockEntities: any;
     updateHass(obj: Partial<MockHomeAssistant>): any;
     updateStates(newStates: HassEntities): any;
-    addEntities(entites: Entity | Entity[], replace?: boolean): any;
+    addEntities(entities: Entity | Entity[], replace?: boolean): any;
     updateTranslations(fragment: null | string, language?: string): any;
     addTranslations(translations: Record<string, string>, language?: string): any;
     mockWS<T extends (...args: any[]) => any = any>(type: string, callback: (msg: any, hass: MockHomeAssistant, onChange?: (response: any) => void) => Awaited<ReturnType<T>>): any;

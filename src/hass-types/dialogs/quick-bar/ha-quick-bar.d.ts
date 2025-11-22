@@ -1,8 +1,8 @@
 import type { TemplateResult } from "lit";
 import { LitElement, nothing } from "lit";
+import "../../components/ha-button";
 import "../../components/ha-icon-button";
 import "../../components/ha-label";
-import "../../components/ha-button";
 import "../../components/ha-list";
 import "../../components/ha-md-list-item";
 import "../../components/ha-spinner";

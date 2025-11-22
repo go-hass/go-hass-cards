@@ -1,4 +1,4 @@
-import { LitElement, nothing } from "lit";
+import { LitElement, nothing, type PropertyValues } from "lit";
 import "../../../components/ha-resizable-bottom-sheet";
 import { type SidebarConfig } from "../../../data/automation";
 import type { HomeAssistant } from "../../../types";
@@ -14,11 +14,14 @@ export default class HaAutomationSidebar extends LitElement {
     isWide: boolean;
     disabled: boolean;
     narrow: boolean;
-    sidebarKey?: string;
+    sidebarKey?: number;
     private _yamlMode;
     private _resizing;
     private _bottomSheetElement?;
+    private _handleElement?;
     private _resizeStartX;
+    private _tinykeysUnsub?;
+    protected updated(changedProperties: PropertyValues): void;
     disconnectedCallback(): void;
     private _renderContent;
     protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
@@ -32,6 +35,11 @@ export default class HaAutomationSidebar extends LitElement {
     private _updateSize;
     private _endResizing;
     private _unregisterResizeHandlers;
+    private _startKeyboardResizing;
+    private _stopKeyboardResizing;
+    private _increaseSize;
+    private _decreaseSize;
+    private _keyboardResize;
     static styles: import("lit").CSSResult;
 }
 declare global {

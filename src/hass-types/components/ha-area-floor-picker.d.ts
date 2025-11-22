@@ -1,6 +1,7 @@
 import type { HassEntity } from "home-assistant-js-websocket";
 import type { TemplateResult } from "lit";
 import { LitElement } from "lit";
+import { type AreaFloorValue } from "../data/area_floor";
 import type { HomeAssistant } from "../types";
 import type { HaDevicePickerDeviceFilterFunc } from "./device/ha-device-picker";
 import "./ha-combo-box-item";
@@ -9,10 +10,6 @@ import "./ha-generic-picker";
 import "./ha-icon-button";
 import "./ha-svg-icon";
 import "./ha-tree-indicator";
-interface AreaFloorValue {
-    id: string;
-    type: "floor" | "area";
-}
 export declare class HaAreaFloorPicker extends LitElement {
     hass: HomeAssistant;
     label?: string;
@@ -57,8 +54,8 @@ export declare class HaAreaFloorPicker extends LitElement {
     private _picker?;
     open(): Promise<void>;
     private _valueRenderer;
-    private _getAreasAndFloors;
     private _rowRenderer;
+    private _getAreasAndFloorsMemoized;
     private _getItems;
     private _formatValue;
     private _parseValue;
@@ -71,4 +68,3 @@ declare global {
         "ha-area-floor-picker": HaAreaFloorPicker;
     }
 }
-export {};

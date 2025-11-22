@@ -1,8 +1,8 @@
 import { LitElement, nothing } from "lit";
 import type { HomeAssistant } from "../../../types";
 import "../components/hui-image";
-import type { ImageElementConfig, LovelaceElement } from "./types";
 import type { LovelacePictureElementEditor } from "../types";
+import type { ImageElementConfig, LovelaceElement } from "./types";
 export declare class HuiImageElement extends LitElement implements LovelaceElement {
     static getConfigElement(): Promise<LovelacePictureElementEditor>;
     hass?: HomeAssistant;

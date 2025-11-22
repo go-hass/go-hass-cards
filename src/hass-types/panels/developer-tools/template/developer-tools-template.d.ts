@@ -1,10 +1,10 @@
 import type { CSSResultGroup } from "lit";
 import { LitElement } from "lit";
 import "../../../components/ha-alert";
-import "../../../components/ha-spinner";
 import "../../../components/ha-button";
-import "../../../components/ha-code-editor";
 import "../../../components/ha-card";
+import "../../../components/ha-code-editor";
+import "../../../components/ha-spinner";
 import type { HomeAssistant } from "../../../types";
 declare class HaPanelDevTemplate extends LitElement {
     hass: HomeAssistant;

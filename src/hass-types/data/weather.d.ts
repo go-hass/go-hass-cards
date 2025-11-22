@@ -9,7 +9,7 @@ export declare const enum WeatherEntityFeature {
 }
 export type ModernForecastType = "hourly" | "daily" | "twice_daily";
 export type ForecastType = ModernForecastType | "legacy";
-interface ForecastAttribute {
+export interface ForecastAttribute {
     temperature: number;
     datetime: string;
     templow?: number;

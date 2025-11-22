@@ -2,10 +2,10 @@ import type { Schema } from "js-yaml";
 import type { CSSResultGroup, PropertyValues } from "lit";
 import { LitElement, nothing } from "lit";
 import type { HomeAssistant } from "../types";
+import "./ha-alert";
+import "./ha-button";
 import "./ha-code-editor";
 import type { HaCodeEditor } from "./ha-code-editor";
-import "./ha-button";
-import "./ha-alert";
 export declare class HaYamlEditor extends LitElement {
     hass: HomeAssistant;
     value?: any;

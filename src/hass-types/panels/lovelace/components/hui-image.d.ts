@@ -21,6 +21,9 @@ export declare class HuiImage extends LitElement {
     private _loadState?;
     private _cameraImageSrc?;
     private _loadedImageSrc?;
+    private _resolvedImageSrc?;
+    private _resolvedDarkModeImageSrc?;
+    private _resolvedStateImages;
     private _lastImageHeight?;
     private _intersectionObserver?;
     private _cameraUpdater?;

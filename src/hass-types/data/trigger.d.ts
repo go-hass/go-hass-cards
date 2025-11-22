@@ -1,4 +1,4 @@
-import type { AutomationElementGroup, Trigger, TriggerList } from "./automation";
+import type { AutomationElementGroupCollection, Trigger, TriggerList } from "./automation";
 export declare const TRIGGER_ICONS: {
     calendar: string;
     device: string;
@@ -19,5 +19,5 @@ export declare const TRIGGER_ICONS: {
     zone: string;
     list: string;
 };
-export declare const TRIGGER_GROUPS: AutomationElementGroup;
+export declare const TRIGGER_COLLECTIONS: AutomationElementGroupCollection[];
 export declare const isTriggerList: (trigger: Trigger) => trigger is TriggerList;

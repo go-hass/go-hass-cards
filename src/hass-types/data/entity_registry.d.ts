@@ -1,5 +1,7 @@
-import type { Connection } from "home-assistant-js-websocket";
+import type { Connection, HassEntity } from "home-assistant-js-websocket";
+import type { PickerComboBoxItem } from "../components/ha-picker-combo-box";
 import type { HomeAssistant } from "../types";
+import type { HaEntityPickerEntityFilterFunc } from "./entity";
 import type { LightColor } from "./light";
 import type { RegistryEntry } from "./registry";
 type EntityCategory = "config" | "diagnostic";
@@ -140,4 +142,9 @@ export declare const entityRegistryByEntityId: import("memoize-one").MemoizedFn<
 export declare const entityRegistryById: import("memoize-one").MemoizedFn<(entries: EntityRegistryEntry[]) => Record<string, EntityRegistryEntry>>;
 export declare const getEntityPlatformLookup: (entities: EntityRegistryEntry[]) => Record<string, string>;
 export declare const getAutomaticEntityIds: (hass: HomeAssistant, entity_ids: string[]) => Promise<Record<string, string>>;
+export interface EntityComboBoxItem extends PickerComboBoxItem {
+    domain_name?: string;
+    stateObj?: HassEntity;
+}
+export declare const getEntities: (hass: HomeAssistant, includeDomains?: string[], excludeDomains?: string[], entityFilter?: HaEntityPickerEntityFilterFunc, includeDeviceClasses?: string[], includeUnitOfMeasurement?: string[], includeEntities?: string[], excludeEntities?: string[], value?: string) => EntityComboBoxItem[];
 export {};

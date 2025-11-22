@@ -27,6 +27,7 @@ declare class ZHAConfigDashboard extends LitElement {
     private _offlineDevices;
     private _error?;
     private _generatingBackup;
+    private _configSaveButton?;
     protected firstUpdated(changedProperties: PropertyValues): void;
     protected render(): TemplateResult;
     private _fetchConfiguration;

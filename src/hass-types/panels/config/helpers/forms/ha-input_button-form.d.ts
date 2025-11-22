@@ -7,6 +7,7 @@ import type { HomeAssistant } from "../../../../types";
 declare class HaInputButtonForm extends LitElement {
     hass: HomeAssistant;
     new: boolean;
+    disabled: boolean;
     private _name;
     private _icon;
     private _item?;

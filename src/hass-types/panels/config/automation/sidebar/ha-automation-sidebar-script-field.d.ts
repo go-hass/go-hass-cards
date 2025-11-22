@@ -11,7 +11,7 @@ export default class HaAutomationSidebarScriptField extends LitElement {
     disabled: boolean;
     yamlMode: boolean;
     narrow: boolean;
-    sidebarKey?: string;
+    sidebarKey?: number;
     private _warnings?;
     editor?: HaAutomationConditionEditor;
     protected willUpdate(changedProperties: any): void;

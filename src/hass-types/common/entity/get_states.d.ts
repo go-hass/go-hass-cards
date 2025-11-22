@@ -2,6 +2,7 @@ import type { HassEntity } from "home-assistant-js-websocket";
 import type { HomeAssistant } from "../../types";
 export declare const FIXED_DOMAIN_STATES: {
     readonly alarm_control_panel: readonly ["armed_away", "armed_custom_bypass", "armed_home", "armed_night", "armed_vacation", "arming", "disarmed", "disarming", "pending", "triggered"];
+    readonly alert: readonly ["on", "off", "idle"];
     readonly assist_satellite: readonly ["idle", "listening", "responding", "processing"];
     readonly automation: readonly ["on", "off"];
     readonly binary_sensor: readonly ["on", "off"];

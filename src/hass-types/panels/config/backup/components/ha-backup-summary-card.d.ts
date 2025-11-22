@@ -1,8 +1,8 @@
 import { LitElement } from "lit";
 import "../../../../components/ha-button";
 import "../../../../components/ha-card";
-import "../../../../components/ha-spinner";
 import "../../../../components/ha-icon";
+import "../../../../components/ha-spinner";
 type SummaryStatus = "success" | "error" | "info" | "warning" | "loading";
 declare class HaBackupSummaryCard extends LitElement {
     heading: string;

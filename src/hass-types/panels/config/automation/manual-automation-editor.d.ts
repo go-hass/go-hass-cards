@@ -23,7 +23,7 @@ export declare class HaManualAutomationEditor extends LitElement {
     dirty: boolean;
     private _pastedConfig?;
     private _sidebarConfig?;
-    private _sidebarKey?;
+    private _sidebarKey;
     private _sidebarWidthPx;
     private _sidebarElement?;
     private _collapsableElements?;
@@ -65,6 +65,5 @@ declare global {
         "open-sidebar": SidebarConfig;
         "request-close-sidebar": undefined;
         "close-sidebar": undefined;
-        "undo-paste": undefined;
     }
 }

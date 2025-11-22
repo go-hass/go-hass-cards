@@ -7,6 +7,7 @@ import type { HomeAssistant } from "../../../../types";
 declare class HaScheduleForm extends LitElement {
     hass: HomeAssistant;
     new: boolean;
+    disabled: boolean;
     private _name;
     private _icon;
     private _monday;

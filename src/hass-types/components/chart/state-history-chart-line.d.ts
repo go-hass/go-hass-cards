@@ -30,6 +30,7 @@ export declare class StateHistoryChartLine extends LitElement {
     private _visualMap?;
     private _chartTime;
     private _previousYAxisLabelValue;
+    private _yAxisMaximumFractionDigits;
     protected render(): import("lit-html").TemplateResult<1>;
     private _renderTooltip;
     private _datasetHidden;

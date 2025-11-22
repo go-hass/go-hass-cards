@@ -1,8 +1,8 @@
 import type { CSSResultGroup, PropertyValues, TemplateResult } from "lit";
 import { LitElement } from "lit";
+import "../../../components/ha-button";
 import "../../../components/ha-button-menu";
 import "../../../components/ha-card";
-import "../../../components/ha-button";
 import "../../../components/ha-icon-button";
 import "../../../components/ha-list-item";
 import type { LovelaceCardConfig } from "../../../data/lovelace/config/card";

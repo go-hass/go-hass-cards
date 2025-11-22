@@ -7,7 +7,7 @@ import "../../../../layouts/hass-loading-screen";
 import "../../../../layouts/hass-subpage";
 import "../../../../layouts/hass-tabs-subpage-data-table";
 import type { HomeAssistant, Route } from "../../../../types";
-export declare class HaConfigLovelaceRescources extends LitElement {
+export declare class HaConfigLovelaceResources extends LitElement {
     hass: HomeAssistant;
     isWide: boolean;
     narrow: boolean;
@@ -32,6 +32,6 @@ export declare class HaConfigLovelaceRescources extends LitElement {
 }
 declare global {
     interface HTMLElementTagNameMap {
-        "ha-config-lovelace-resources": HaConfigLovelaceRescources;
+        "ha-config-lovelace-resources": HaConfigLovelaceResources;
     }
 }

@@ -3,14 +3,14 @@ import { LitElement, nothing } from "lit";
 import "../../../components/chips/ha-chip-set";
 import "../../../components/chips/ha-input-chip";
 import "../../../components/ha-alert";
-import "../../../components/ha-button";
 import "../../../components/ha-aliases-editor";
+import "../../../components/ha-area-picker";
+import "../../../components/ha-button";
 import "../../../components/ha-icon-picker";
 import "../../../components/ha-picture-upload";
 import "../../../components/ha-settings-row";
 import "../../../components/ha-svg-icon";
 import "../../../components/ha-textfield";
-import "../../../components/ha-area-picker";
 import type { HomeAssistant } from "../../../types";
 import type { FloorRegistryDetailDialogParams } from "./show-dialog-floor-registry-detail";
 declare class DialogFloorDetail extends LitElement {

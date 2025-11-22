@@ -1,11 +1,11 @@
 import type { HassEntity, HassServiceTarget } from "home-assistant-js-websocket";
-import type { CropOptions } from "../dialogs/image-cropper-dialog/show-image-cropper-dialog";
 import type { UiAction } from "../panels/lovelace/components/hui-action-editor";
 import type { HomeAssistant } from "../types";
 import { type DeviceRegistryEntry } from "./device_registry";
 import type { EntityRegistryDisplayEntry, EntityRegistryEntry } from "./entity_registry";
 import type { EntitySources } from "./entity_sources";
-export type Selector = ActionSelector | AddonSelector | AreaSelector | AreasDisplaySelector | AttributeSelector | BooleanSelector | ButtonToggleSelector | ColorRGBSelector | ColorTempSelector | ConditionSelector | ConversationAgentSelector | ConfigEntrySelector | ConstantSelector | CountrySelector | DateSelector | DateTimeSelector | DeviceSelector | FloorSelector | LegacyDeviceSelector | DurationSelector | EntitySelector | LegacyEntitySelector | FileSelector | IconSelector | LabelSelector | ImageSelector | BackgroundSelector | LanguageSelector | LocationSelector | MediaSelector | NavigationSelector | NumberSelector | ObjectSelector | AssistPipelineSelector | QRCodeSelector | SelectSelector | SelectorSelector | StateSelector | StatisticSelector | StringSelector | STTSelector | TargetSelector | TemplateSelector | ThemeSelector | TimeSelector | TriggerSelector | TTSSelector | TTSVoiceSelector | UiActionSelector | UiColorSelector | UiStateContentSelector | BackupLocationSelector;
+import type { EntityNameItem } from "../common/entity/compute_entity_name_display";
+export type Selector = ActionSelector | AddonSelector | AreaSelector | AreasDisplaySelector | AttributeSelector | BooleanSelector | ButtonToggleSelector | ColorRGBSelector | ColorTempSelector | ConditionSelector | ConversationAgentSelector | ConfigEntrySelector | ConstantSelector | CountrySelector | DateSelector | DateTimeSelector | DeviceSelector | FloorSelector | LegacyDeviceSelector | DurationSelector | EntitySelector | EntityNameSelector | LegacyEntitySelector | FileSelector | IconSelector | LabelSelector | LanguageSelector | LocationSelector | MediaSelector | NavigationSelector | NumberSelector | ObjectSelector | AssistPipelineSelector | QRCodeSelector | SelectSelector | SelectorSelector | StateSelector | StatisticSelector | StringSelector | STTSelector | TargetSelector | TemplateSelector | ThemeSelector | TimeSelector | TriggerSelector | TTSSelector | TTSVoiceSelector | UiActionSelector | UiColorSelector | UiStateContentSelector | BackupLocationSelector;
 export interface ActionSelector {
     action: {
         optionsInSidebar?: boolean;
@@ -179,18 +179,6 @@ export interface IconSelector {
         fallbackPath?: string;
     } | null;
 }
-export interface ImageSelector {
-    image: {
-        original?: boolean;
-        crop?: CropOptions;
-    } | null;
-}
-export interface BackgroundSelector {
-    background: {
-        original?: boolean;
-        crop?: CropOptions;
-    } | null;
-}
 export interface LabelSelector {
     label: {
         multiple?: boolean;
@@ -218,6 +206,10 @@ export interface LocationSelectorValue {
 export interface MediaSelector {
     media: {
         accept?: string[];
+        image_upload?: boolean;
+        clearable?: boolean;
+        hide_content_type?: boolean;
+        content_id_helper?: string;
     } | null;
 }
 export interface MediaSelectorValue {
@@ -253,6 +245,7 @@ export interface NumberSelector {
 interface ObjectSelectorField {
     selector: Selector;
     label?: string;
+    description?: string;
     required?: boolean;
 }
 export interface ObjectSelector {
@@ -384,6 +377,12 @@ export interface UiStateContentSelector {
     ui_state_content: {
         entity_id?: string;
         allow_name?: boolean;
+    } | null;
+}
+export interface EntityNameSelector {
+    entity_name: {
+        entity_id?: string;
+        default_name?: EntityNameItem | EntityNameItem[] | string;
     } | null;
 }
 export declare const expandLabelTarget: (hass: HomeAssistant, labelId: string, areas: HomeAssistant["areas"], devices: HomeAssistant["devices"], entities: HomeAssistant["entities"], targetSelector: TargetSelector, entitySources?: EntitySources) => {

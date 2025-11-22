@@ -1,11 +1,12 @@
-import type { PropertyValues } from "lit";
-import { LitElement, nothing } from "lit";
+import "@material/mwc-menu/mwc-menu-surface";
+import { LitElement } from "lit";
 import type { HomeAssistant } from "../../types";
+import "../chips/ha-assist-chip";
+import "../chips/ha-chip-set";
+import "../chips/ha-input-chip";
 import "../ha-combo-box";
 import "../ha-sortable";
-import "../chips/ha-input-chip";
-import "../chips/ha-chip-set";
-declare class HaEntityStatePicker extends LitElement {
+export declare class HaStateContentPicker extends LitElement {
     hass: HomeAssistant;
     entityId?: string;
     autofocus: boolean;
@@ -15,14 +16,20 @@ declare class HaEntityStatePicker extends LitElement {
     label?: string;
     value?: string[] | string;
     helper?: string;
-    private _opened;
+    private _container?;
     private _comboBox;
-    protected shouldUpdate(changedProps: PropertyValues): boolean;
-    private options;
-    private _filter;
-    protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
+    private _opened;
+    private _editIndex?;
+    private _options;
+    protected render(): import("lit-html").TemplateResult<1>;
+    private _onClosed;
+    private _onOpened;
+    private _addItem;
+    private _editItem;
     private get _value();
+    private _toValue;
     private _openedChanged;
+    private _filterSelectedOptions;
     private _filterChanged;
     private _moveItem;
     private _removeItem;
@@ -32,7 +39,6 @@ declare class HaEntityStatePicker extends LitElement {
 }
 declare global {
     interface HTMLElementTagNameMap {
-        "ha-entity-state-content-picker": HaEntityStatePicker;
+        "ha-entity-state-content-picker": HaStateContentPicker;
     }
 }
-export {};

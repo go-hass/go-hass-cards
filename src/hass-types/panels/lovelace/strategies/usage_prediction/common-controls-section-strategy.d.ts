@@ -7,6 +7,7 @@ export interface CommonControlSectionStrategyConfig {
     icon?: string;
     limit?: number;
     exclude_entities?: string[];
+    include_entities?: string[];
     hide_empty?: boolean;
 }
 export declare class CommonControlsSectionStrategy extends ReactiveElement {

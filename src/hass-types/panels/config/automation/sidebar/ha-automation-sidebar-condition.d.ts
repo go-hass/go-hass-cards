@@ -11,7 +11,7 @@ export default class HaAutomationSidebarCondition extends LitElement {
     disabled: boolean;
     yamlMode: boolean;
     narrow: boolean;
-    sidebarKey?: string;
+    sidebarKey?: number;
     private _warnings?;
     private _testing;
     private _testingResult?;

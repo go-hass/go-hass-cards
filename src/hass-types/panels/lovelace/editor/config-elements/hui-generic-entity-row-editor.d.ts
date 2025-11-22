@@ -5,6 +5,7 @@ import type { EntitiesCardEntityConfig } from "../../cards/types";
 import type { LovelaceRowEditor } from "../../types";
 export declare class HuiGenericEntityRowEditor extends LitElement implements LovelaceRowEditor {
     hass?: HomeAssistant;
+    schema?: any;
     private _config?;
     setConfig(config: EntitiesCardEntityConfig): void;
     private _schema;

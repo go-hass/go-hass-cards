@@ -14,8 +14,8 @@ import "../ha-list-item";
 import "../ha-spinner";
 import "../ha-svg-icon";
 import "../ha-tooltip";
-import "./ha-browse-media-tts";
 import "./ha-browse-media-manual";
+import "./ha-browse-media-tts";
 declare global {
     interface HASSDomEvents {
         "media-picked": MediaPickedEvent;
@@ -27,8 +27,8 @@ declare global {
     }
 }
 export interface MediaPlayerItemId {
-    media_content_id: string | undefined;
-    media_content_type: string | undefined;
+    media_content_id?: string | undefined;
+    media_content_type?: string | undefined;
 }
 export declare class HaMediaPlayerBrowse extends LitElement {
     hass: HomeAssistant;
@@ -40,6 +40,8 @@ export declare class HaMediaPlayerBrowse extends LitElement {
     accept?: string[];
     defaultId?: string;
     defaultType?: string;
+    hideContentType: boolean;
+    contentIdHelper?: string;
     narrow: boolean;
     scrolled: boolean;
     private _error?;

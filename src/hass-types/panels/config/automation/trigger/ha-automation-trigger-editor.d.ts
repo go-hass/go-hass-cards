@@ -13,6 +13,7 @@ export default class HaAutomationTriggerEditor extends LitElement {
     yamlMode: boolean;
     uiSupported: boolean;
     inSidebar: boolean;
+    showId: boolean;
     yamlEditor?: HaYamlEditor;
     protected render(): import("lit-html").TemplateResult<1>;
     private _idChanged;

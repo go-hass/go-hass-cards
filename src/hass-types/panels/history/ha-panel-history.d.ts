@@ -1,13 +1,13 @@
 import type { PropertyValues } from "lit";
 import { LitElement } from "lit";
 import "../../components/chart/state-history-charts";
-import "../../components/ha-spinner";
+import "../../components/ha-button-menu";
 import "../../components/ha-date-range-picker";
 import "../../components/ha-icon-button";
-import "../../components/ha-button-menu";
-import "../../components/ha-list-item";
 import "../../components/ha-icon-button-arrow-prev";
+import "../../components/ha-list-item";
 import "../../components/ha-menu-button";
+import "../../components/ha-spinner";
 import "../../components/ha-target-picker";
 import "../../components/ha-top-app-bar-fixed";
 import type { HomeAssistant } from "../../types";

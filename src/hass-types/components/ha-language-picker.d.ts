@@ -2,12 +2,11 @@ import type { PropertyValues } from "lit";
 import { LitElement } from "lit";
 import type { FrontendLocaleData } from "../data/translation";
 import type { HomeAssistant } from "../types";
-import "./ha-list-item";
-import "./ha-select";
-export declare const getLanguageOptions: (languages: string[], nativeName: boolean, noSort: boolean, locale?: FrontendLocaleData) => {
-    label: string;
-    value: string;
-}[];
+import "./ha-button";
+import "./ha-generic-picker";
+import type { HaGenericPicker } from "./ha-generic-picker";
+import type { PickerComboBoxItem } from "./ha-picker-combo-box";
+export declare const getLanguageOptions: (languages: string[], nativeName: boolean, noSort: boolean, locale?: FrontendLocaleData) => PickerComboBoxItem[];
 export declare class HaLanguagePicker extends LitElement {
     value?: string;
     label?: string;
@@ -16,15 +15,19 @@ export declare class HaLanguagePicker extends LitElement {
     disabled: boolean;
     required: boolean;
     nativeName: boolean;
+    buttonStyle: boolean;
     noSort: boolean;
     inlineArrow: boolean;
     _defaultLanguages: string[];
-    private _select;
+    genericPicker: HaGenericPicker;
     protected firstUpdated(changedProps: PropertyValues): void;
-    protected updated(changedProperties: PropertyValues): void;
     private _getLanguagesOptions;
     private _computeDefaultLanguageOptions;
+    private _getItems;
+    private _getLanguageName;
+    private _valueRenderer;
     protected render(): import("lit-html").TemplateResult<1>;
+    private _openPicker;
     static styles: import("lit").CSSResult;
     private _changed;
 }

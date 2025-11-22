@@ -31,6 +31,7 @@ declare class HaConfigEntryRow extends LitElement {
     private _removeApplicationCredential;
     private _handleReload;
     private _handleReconfigure;
+    private _handleCopy;
     private _handleRename;
     private _signUrl;
     private _handleDisable;

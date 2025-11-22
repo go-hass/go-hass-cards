@@ -11,6 +11,7 @@ export declare class HaEntitySelector extends LitElement {
     value?: any;
     label?: string;
     helper?: string;
+    placeholder?: any;
     disabled: boolean;
     required: boolean;
     private _createDomains;

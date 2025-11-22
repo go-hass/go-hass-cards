@@ -3,10 +3,10 @@ import type { ECElementEvent } from "echarts/types/dist/shared";
 import type { PropertyValues } from "lit";
 import { LitElement } from "lit";
 import type { Themes } from "../../data/ws-themes";
-import type { ECOption } from "../../resources/echarts";
+import type { ECOption } from "../../resources/echarts/echarts";
 import type { HomeAssistant } from "../../types";
-import "../ha-icon-button";
 import "../chips/ha-assist-chip";
+import "../ha-icon-button";
 export declare const MIN_TIME_BETWEEN_UPDATES: number;
 export type CustomLegendOption = ECOption["legend"] & {
     type: "custom";
@@ -35,6 +35,8 @@ export declare class HaChartBase extends LitElement {
     private _modifierPressed;
     private _isTouchDevice;
     private _lastTapTime?;
+    private _shouldResizeChart;
+    private _resizeAnimationDuration?;
     private _resizeController;
     private _loading;
     private _reducedMotion;
@@ -62,6 +64,8 @@ export declare class HaChartBase extends LitElement {
     private _handleDataZoomEvent;
     private _legendClick;
     private _toggleExpandedLegend;
+    private _handleChartRenderFinished;
+    private _compareCustomLegendOptions;
     static styles: import("lit").CSSResult;
 }
 declare global {

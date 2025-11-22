@@ -20,19 +20,10 @@ declare global {
 export declare class HuiHeadingBadgesEditor extends LitElement {
     hass: HomeAssistant;
     badges?: LovelaceHeadingBadgeConfig[];
-    private _addContainer?;
-    private _entityPicker?;
-    private _addMode;
-    private _opened;
     private _badgesKeys;
     private _getKey;
     private _computeBadgeLabel;
     protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
-    private _renderPicker;
-    private _onClosed;
-    private _onOpened;
-    private _openedChanged;
-    private _addEntity;
     private _entityPicked;
     private _badgeMoved;
     private _removeEntity;

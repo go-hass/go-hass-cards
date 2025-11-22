@@ -9,5 +9,7 @@ export interface MediaPlayerBrowseDialogParams {
     accept?: string[];
     defaultId?: string;
     defaultType?: string;
+    hideContentType?: boolean;
+    contentIdHelper?: string;
 }
 export declare const showMediaBrowserDialog: (element: HTMLElement, dialogParams: MediaPlayerBrowseDialogParams) => void;

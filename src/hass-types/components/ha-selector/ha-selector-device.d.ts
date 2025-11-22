@@ -12,6 +12,7 @@ export declare class HaDeviceSelector extends LitElement {
     value?: any;
     label?: string;
     helper?: string;
+    placeholder?: string;
     disabled: boolean;
     required: boolean;
     private _deviceIntegrationLookup;

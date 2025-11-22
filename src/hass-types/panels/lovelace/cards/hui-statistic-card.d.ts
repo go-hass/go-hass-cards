@@ -10,7 +10,7 @@ export declare const PERIOD_ENERGY = "energy_date_selection";
 export declare class HuiStatisticCard extends LitElement implements LovelaceCard {
     static getConfigElement(): Promise<LovelaceCardEditor>;
     static getStubConfig(hass: HomeAssistant, entities: string[], entitiesFill: string[]): {
-        entity: any;
+        entity: string;
         period: {
             calendar: {
                 period: string;

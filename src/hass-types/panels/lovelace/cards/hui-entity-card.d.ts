@@ -8,7 +8,7 @@ import type { LovelaceCard, LovelaceGridOptions } from "../types";
 import type { EntityCardConfig } from "./types";
 export declare class HuiEntityCard extends LitElement implements LovelaceCard {
     static getStubConfig(hass: HomeAssistant, entities: string[], entitiesFill: string[]): {
-        entity: any;
+        entity: string;
     };
     static getConfigForm(): Promise<import("../types").LovelaceConfigForm>;
     hass?: HomeAssistant;

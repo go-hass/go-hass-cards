@@ -24,6 +24,7 @@ declare class MoreInfoWeather extends LitElement {
     protected shouldUpdate(changedProps: PropertyValues): boolean;
     protected willUpdate(changedProps: PropertyValues): void;
     private _supportedForecasts;
+    private _groupForecastByDay;
     protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
     private _handleForecastTypeChanged;
     static get styles(): CSSResultGroup;

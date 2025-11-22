@@ -13,6 +13,8 @@ export declare class HaStateTrigger extends LitElement implements TriggerElement
     shouldUpdate(changedProperties: PropertyValues): boolean;
     protected render(): import("lit-html").TemplateResult<1>;
     private _valueChanged;
+    private _applyAnyStateExclusive;
+    private _normalizeStates;
     private _computeLabelCallback;
 }
 declare global {

@@ -1,11 +1,11 @@
 import { LitElement, nothing } from "lit";
 import "../../../../components/ha-alert";
 import "../../../../components/ha-button";
-import "../../../../components/ha-spinner";
 import "../../../../components/ha-dialog-header";
 import "../../../../components/ha-markdown-element";
 import "../../../../components/ha-md-dialog";
 import "../../../../components/ha-select";
+import "../../../../components/ha-spinner";
 import "../../../../components/ha-textarea";
 import type { HomeAssistant } from "../../../../types";
 export declare class DialogSupportPackage extends LitElement {

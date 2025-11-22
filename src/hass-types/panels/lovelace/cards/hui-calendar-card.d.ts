@@ -4,14 +4,15 @@ import "../../../components/ha-card";
 import type { HomeAssistant } from "../../../types";
 import "../../calendar/ha-full-calendar";
 import "../components/hui-warning";
-import type { LovelaceCard, LovelaceCardEditor } from "../types";
+import type { LovelaceCard, LovelaceCardEditor, LovelaceGridOptions } from "../types";
 import type { CalendarCardConfig } from "./types";
 export declare class HuiCalendarCard extends LitElement implements LovelaceCard {
     static getConfigElement(): Promise<LovelaceCardEditor>;
     static getStubConfig(hass: HomeAssistant, entities: string[], entitiesFill: string[]): {
-        entities: any[];
+        entities: string[];
     };
     hass?: HomeAssistant;
+    layout?: string;
     private _events;
     private _config?;
     private _calendars;
@@ -23,6 +24,7 @@ export declare class HuiCalendarCard extends LitElement implements LovelaceCard 
     private _resizeObserver?;
     setConfig(config: CalendarCardConfig): void;
     getCardSize(): number;
+    getGridOptions(): LovelaceGridOptions;
     connectedCallback(): void;
     disconnectedCallback(): void;
     protected render(): import("lit-html").TemplateResult<1> | typeof nothing;

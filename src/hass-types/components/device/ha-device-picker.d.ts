@@ -45,10 +45,10 @@ export declare class HaDevicePicker extends LitElement {
     hideClearIcon: boolean;
     private _picker?;
     private _configEntryLookup;
+    private _getDevicesMemoized;
     protected firstUpdated(_changedProperties: PropertyValues): void;
     private _loadConfigEntries;
     private _getItems;
-    private _getDevices;
     private _valueRenderer;
     private _rowRenderer;
     protected render(): import("lit-html").TemplateResult<1>;

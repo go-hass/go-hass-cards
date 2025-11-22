@@ -1,6 +1,6 @@
 import { LitElement } from "lit";
-import "./ha-radio";
 import type { HomeAssistant } from "../types";
+import "./ha-radio";
 interface SelectBoxOptionImage {
     src: string;
     src_dark?: string;

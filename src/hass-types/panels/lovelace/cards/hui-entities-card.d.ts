@@ -16,6 +16,8 @@ declare class HuiEntitiesCard extends LitElement implements LovelaceCard {
     private _showHeaderToggle?;
     private _headerElement?;
     private _footerElement?;
+    connectedCallback(): void;
+    disconnectedCallback(): void;
     set hass(hass: HomeAssistant);
     getCardSize(): Promise<number>;
     setConfig(config: EntitiesCardConfig): void;
@@ -23,6 +25,7 @@ declare class HuiEntitiesCard extends LitElement implements LovelaceCard {
     protected render(): TemplateResult<1> | typeof nothing;
     static styles: import("lit").CSSResult;
     private _renderEntity;
+    private _updateRowVisibility;
 }
 declare global {
     interface HTMLElementTagNameMap {

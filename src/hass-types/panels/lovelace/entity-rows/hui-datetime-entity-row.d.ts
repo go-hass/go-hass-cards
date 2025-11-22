@@ -1,10 +1,10 @@
 import type { PropertyValues, TemplateResult } from "lit";
 import { LitElement, nothing } from "lit";
 import "../../../components/ha-date-input";
+import "../../../components/ha-time-input";
 import type { HomeAssistant } from "../../../types";
 import "../components/hui-generic-entity-row";
 import type { EntityConfig, LovelaceRow } from "./types";
-import "../../../components/ha-time-input";
 declare class HuiInputDatetimeEntityRow extends LitElement implements LovelaceRow {
     hass?: HomeAssistant;
     private _config?;

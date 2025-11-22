@@ -1,3 +1,4 @@
+import type { HassEntity } from "home-assistant-js-websocket";
 export declare const UNAVAILABLE = "unavailable";
 export declare const UNKNOWN = "unknown";
 export declare const ON = "on";
@@ -6,3 +7,4 @@ export declare const UNAVAILABLE_STATES: readonly ["unavailable", "unknown"];
 export declare const OFF_STATES: readonly ["unavailable", "unknown", "off"];
 export declare const isUnavailableState: (searchElement: unknown, fromIndex?: number) => searchElement is "unknown" | "unavailable";
 export declare const isOffState: (searchElement: unknown, fromIndex?: number) => searchElement is "off" | "unknown" | "unavailable";
+export type HaEntityPickerEntityFilterFunc = (entityId: HassEntity) => boolean;

@@ -17,7 +17,7 @@ export declare class HaManualScriptEditor extends LitElement {
     dirty: boolean;
     private _pastedConfig?;
     private _sidebarConfig?;
-    private _sidebarKey?;
+    private _sidebarKey;
     private _sidebarWidthPx;
     private _scriptFields?;
     private _sidebarElement?;

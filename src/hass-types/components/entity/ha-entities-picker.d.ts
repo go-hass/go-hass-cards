@@ -1,8 +1,8 @@
 import { LitElement, nothing } from "lit";
+import type { HaEntityPickerEntityFilterFunc } from "../../data/entity";
 import type { HomeAssistant } from "../../types";
 import "../ha-sortable";
 import "./ha-entity-picker";
-import type { HaEntityPickerEntityFilterFunc } from "./ha-entity-picker";
 declare class HaEntitiesPicker extends LitElement {
     hass?: HomeAssistant;
     value?: string[];

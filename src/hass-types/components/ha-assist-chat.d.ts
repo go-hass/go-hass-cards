@@ -1,7 +1,7 @@
 import type { PropertyValues, TemplateResult } from "lit";
 import { LitElement } from "lit";
-import type { HomeAssistant } from "../types";
 import { type AssistPipeline } from "../data/assist_pipeline";
+import type { HomeAssistant } from "../types";
 import "./ha-alert";
 import "./ha-textfield";
 export declare class HaAssistChat extends LitElement {

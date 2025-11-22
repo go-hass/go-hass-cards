@@ -11,7 +11,8 @@ export default class HaAutomationSidebarTrigger extends LitElement {
     disabled: boolean;
     yamlMode: boolean;
     narrow: boolean;
-    sidebarKey?: string;
+    sidebarKey?: number;
+    private _requestShowId;
     private _warnings?;
     editor?: HaAutomationTriggerEditor;
     protected willUpdate(changedProperties: any): void;
@@ -20,6 +21,7 @@ export default class HaAutomationSidebarTrigger extends LitElement {
     private _valueChangedSidebar;
     private _yamlChangedSidebar;
     private _toggleYamlMode;
+    private _showTriggerId;
     static styles: import("lit").CSSResult[];
 }
 declare global {

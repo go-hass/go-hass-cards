@@ -5,8 +5,8 @@ import "../../components/ha-date-range-picker";
 import "../../components/ha-icon-button";
 import "../../components/ha-icon-button-arrow-prev";
 import "../../components/ha-menu-button";
-import "../../components/ha-top-app-bar-fixed";
 import "../../components/ha-target-picker";
+import "../../components/ha-top-app-bar-fixed";
 import type { HomeAssistant } from "../../types";
 import "./ha-logbook";
 export declare class HaPanelLogbook extends LitElement {

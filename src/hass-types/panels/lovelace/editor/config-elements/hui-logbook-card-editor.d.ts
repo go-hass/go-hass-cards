@@ -1,8 +1,8 @@
-import { LitElement, nothing } from "lit";
 import type { HassServiceTarget } from "home-assistant-js-websocket";
+import { LitElement, nothing } from "lit";
 import "../../../../components/entity/ha-entities-picker";
-import "../../../../components/ha-target-picker";
 import "../../../../components/ha-form/ha-form";
+import "../../../../components/ha-target-picker";
 import type { HomeAssistant } from "../../../../types";
 import type { LogbookCardConfig } from "../../cards/types";
 import type { LovelaceCardEditor } from "../../types";
@@ -19,6 +19,7 @@ export declare class HuiLogbookCardEditor extends LitElement implements Lovelace
     private _entitiesChanged;
     private _valueChanged;
     private _computeLabelCallback;
+    static styles: import("lit").CSSResult;
 }
 declare global {
     interface HTMLElementTagNameMap {

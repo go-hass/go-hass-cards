@@ -22,6 +22,7 @@ export declare class HaCodeEditor extends ReactiveElement {
     error: boolean;
     disableFullscreen: boolean;
     hasToolbar: boolean;
+    placeholder?: string;
     private _value;
     private _isFullscreen;
     private _canUndo;

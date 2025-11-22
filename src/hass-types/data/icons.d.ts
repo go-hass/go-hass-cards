@@ -53,6 +53,7 @@ export declare const FALLBACK_DOMAIN_ICONS: {
     text: string;
     time: string;
     timer: string;
+    template: string;
     todo: string;
     tts: string;
     vacuum: string;

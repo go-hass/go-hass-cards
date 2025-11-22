@@ -1,6 +1,5 @@
 import { LitElement, nothing } from "lit";
-import "../../../../components/entity/ha-entity-picker";
-import "../../../../components/ha-theme-picker";
+import "../../../../components/ha-form/ha-form";
 import type { HomeAssistant } from "../../../../types";
 import type { MediaControlCardConfig } from "../../cards/types";
 import type { LovelaceCardEditor } from "../../types";
@@ -8,10 +7,10 @@ export declare class HuiMediaControlCardEditor extends LitElement implements Lov
     hass?: HomeAssistant;
     private _config?;
     setConfig(config: MediaControlCardConfig): void;
-    get _entity(): string;
-    get _theme(): string;
     protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
     private _valueChanged;
+    private _computeLabelCallback;
+    static styles: import("lit").CSSResult;
 }
 declare global {
     interface HTMLElementTagNameMap {

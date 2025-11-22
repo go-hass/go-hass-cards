@@ -16,7 +16,7 @@ cd frontend
 git checkout dev
 git pull
 git fetch --tags
-git checkout 20250926.0
+git checkout 20251105.1
 
 bun yarn
 

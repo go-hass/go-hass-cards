@@ -13,6 +13,8 @@ export declare class HaPictureUpload extends LitElement {
     currentImageAltText?: string;
     crop: boolean;
     selectMedia: boolean;
+    fullMedia: boolean;
+    contentIdHelper?: string;
     cropOptions?: CropOptions;
     original: boolean;
     size: number;

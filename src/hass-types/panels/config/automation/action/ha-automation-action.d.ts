@@ -25,7 +25,6 @@ export default class HaAutomationAction extends LitElement {
     expandAll(): void;
     collapseAll(): void;
     private _addActionDialog;
-    private _addActionBuildingBlockDialog;
     private _addAction;
     private _getKey;
     private _moveUp;

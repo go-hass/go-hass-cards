@@ -74,7 +74,9 @@ export interface StatisticsValidationResultUnitsChanged {
     data: {
         statistic_id: string;
         state_unit: string;
+        state_unit_class: string | null;
         metadata_unit: string;
+        metadata_unit_class: string | null;
         supported_unit: string;
     };
 }
@@ -116,7 +118,7 @@ export declare const fetchStatistic: (hass: HomeAssistant, statistic_id: string,
     };
 }, units?: StatisticsUnitConfiguration) => Promise<Statistic>;
 export declare const validateStatistics: (hass: HomeAssistant) => Promise<StatisticsValidationResults>;
-export declare const updateStatisticsMetadata: (hass: HomeAssistant, statistic_id: string, unit_of_measurement: string | null) => Promise<undefined>;
+export declare const updateStatisticsMetadata: (hass: HomeAssistant, statistic_id: string, unit_of_measurement: string | null, unit_class: string | null) => Promise<undefined>;
 export declare const clearStatistics: (hass: HomeAssistant, statistic_ids: string[]) => Promise<undefined>;
 export declare const calculateStatisticSumGrowth: (values?: StatisticValue[]) => number | null;
 export declare const calculateStatisticsSumGrowth: (data: Statistics, stats: string[]) => number | null;

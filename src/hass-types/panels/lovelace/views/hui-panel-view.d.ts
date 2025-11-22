@@ -1,11 +1,11 @@
 import type { PropertyValues, TemplateResult } from "lit";
 import { LitElement } from "lit";
+import "../../../components/ha-alert";
 import type { LovelaceViewElement } from "../../../data/lovelace";
 import type { LovelaceViewConfig } from "../../../data/lovelace/config/view";
 import type { HomeAssistant } from "../../../types";
 import type { HuiCard } from "../cards/hui-card";
 import type { Lovelace } from "../types";
-import "../../../components/ha-alert";
 export declare class PanelView extends LitElement implements LovelaceViewElement {
     hass: HomeAssistant;
     lovelace?: Lovelace;

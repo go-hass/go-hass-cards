@@ -26,7 +26,6 @@ export default class HaAutomationCondition extends LitElement {
     collapseAll(): void;
     protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
     private _addConditionDialog;
-    private _addConditionBuildingBlockDialog;
     private _addCondition;
     private _getKey;
     private _moveUp;

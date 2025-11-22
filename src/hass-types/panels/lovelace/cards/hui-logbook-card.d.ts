@@ -5,14 +5,14 @@ import "../../../components/ha-card";
 import type { HomeAssistant } from "../../../types";
 import "../../logbook/ha-logbook";
 import "../components/hui-warning";
-import type { LovelaceCard, LovelaceCardEditor } from "../types";
+import type { LovelaceCard, LovelaceCardEditor, LovelaceGridOptions } from "../types";
 import type { LogbookCardConfig } from "./types";
 export declare const DEFAULT_HOURS_TO_SHOW = 24;
 export declare class HuiLogbookCard extends LitElement implements LovelaceCard {
     static getConfigElement(): Promise<LovelaceCardEditor>;
     static getStubConfig(hass: HomeAssistant, entities: string[], entitiesFill: string[]): {
         target: {
-            entity_id: any[];
+            entity_id: string[];
         };
     };
     hass: HomeAssistant;
@@ -21,6 +21,7 @@ export declare class HuiLogbookCard extends LitElement implements LovelaceCard {
     private _time?;
     private _targetPickerValue;
     getCardSize(): number;
+    getGridOptions(): LovelaceGridOptions;
     validateTarget(config: LogbookCardConfig): HassServiceTarget | undefined;
     setConfig(config: LogbookCardConfig): void;
     private _getEntityIds;

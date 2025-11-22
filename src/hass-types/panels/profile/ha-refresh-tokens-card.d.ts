@@ -1,7 +1,8 @@
 import type { CSSResultGroup, TemplateResult } from "lit";
 import { LitElement } from "lit";
 import "../../components/ha-button";
-import "../../components/ha-button-menu";
+import "../../components/ha-md-button-menu";
+import "../../components/ha-md-menu-item";
 import "../../components/ha-card";
 import "../../components/ha-icon-button";
 import "../../components/ha-label";
@@ -15,7 +16,6 @@ declare class HaRefreshTokens extends LitElement {
     private _refreshTokens;
     private _formatTokenName;
     protected render(): TemplateResult;
-    private _handleAction;
     private _toggleTokenExpiration;
     private _deleteToken;
     private _deleteAllTokens;

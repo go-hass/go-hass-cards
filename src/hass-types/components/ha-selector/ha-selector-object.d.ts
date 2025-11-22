@@ -19,6 +19,7 @@ export declare class HaObjectSelector extends LitElement {
     private _yamlEditor?;
     private _valueChangedFromChild;
     private _computeLabel;
+    private _computeHelper;
     private _renderItem;
     protected render(): import("lit-html").TemplateResult<1>;
     private _schema;

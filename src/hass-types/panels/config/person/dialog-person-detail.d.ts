@@ -6,9 +6,9 @@ import "../../../components/ha-icon-button";
 import "../../../components/ha-picture-upload";
 import "../../../components/ha-settings-row";
 import "../../../components/ha-textfield";
+import type { HassDialog } from "../../../dialogs/make-dialog-manager";
 import type { HomeAssistant } from "../../../types";
 import type { PersonDetailDialogParams } from "./show-dialog-person-detail";
-import type { HassDialog } from "../../../dialogs/make-dialog-manager";
 declare class DialogPersonDetail extends LitElement implements HassDialog {
     hass: HomeAssistant;
     private _name;

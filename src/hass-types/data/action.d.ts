@@ -1,4 +1,5 @@
-import type { AutomationElementGroup } from "./automation";
+import type { AutomationElementGroupCollection } from "./automation";
+import type { Action } from "./script";
 export declare const ACTION_ICONS: {
     readonly condition: string;
     readonly delay: string;
@@ -22,7 +23,24 @@ export declare const ACTION_ICONS: {
     readonly set_conversation_response: string;
 };
 export declare const YAML_ONLY_ACTION_TYPES: Set<"repeat" | "stop" | "event" | "sequence" | "service" | "device_id" | "parallel" | "delay" | "wait_template" | "wait_for_trigger" | "choose" | "if" | "variables" | "set_conversation_response" | "condition" | "play_media" | "repeat_count" | "repeat_while" | "repeat_until" | "repeat_for_each">;
-export declare const ACTION_GROUPS: AutomationElementGroup;
+export declare const ACTION_COLLECTIONS: AutomationElementGroupCollection[];
+export declare const ACTION_BUILDING_BLOCKS_GROUP: {
+    condition: {};
+    delay: {};
+    wait_template: {};
+    wait_for_trigger: {};
+    repeat_count: {};
+    repeat_while: {};
+    repeat_until: {};
+    repeat_for_each: {};
+    choose: {};
+    if: {};
+    stop: {};
+    sequence: {};
+    parallel: {};
+    variables: {};
+};
+export declare const VIRTUAL_ACTIONS: Partial<Record<keyof typeof ACTION_BUILDING_BLOCKS_GROUP, Action>>;
 export declare const SERVICE_PREFIX = "__SERVICE__";
 export declare const isService: (key: string | undefined) => boolean | undefined;
 export declare const getService: (key: string) => string;

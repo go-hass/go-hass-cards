@@ -1,3 +1,4 @@
+import type { MediaSelectorValue } from "../../selector";
 import type { LovelaceBadgeConfig } from "./badge";
 import type { LovelaceCardConfig } from "./card";
 import type { LovelaceSectionRawConfig } from "./section";
@@ -6,7 +7,7 @@ export interface ShowViewConfig {
     user?: string;
 }
 export interface LovelaceViewBackgroundConfig {
-    image?: string;
+    image?: string | MediaSelectorValue;
     opacity?: number;
     size?: "auto" | "cover" | "contain";
     alignment?: "top left" | "top center" | "top right" | "center left" | "center" | "center right" | "bottom left" | "bottom center" | "bottom right";

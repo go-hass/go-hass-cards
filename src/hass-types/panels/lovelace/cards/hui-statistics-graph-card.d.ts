@@ -14,6 +14,7 @@ export declare class HuiStatisticsGraphCard extends LitElement implements Lovela
     private _metadata?;
     private _unit?;
     private _entities;
+    private _entityIds;
     private _names;
     private _interval?;
     private _statTypes?;
@@ -27,6 +28,7 @@ export declare class HuiStatisticsGraphCard extends LitElement implements Lovela
     getCardSize(): number;
     getGridOptions(): LovelaceGridOptions;
     setConfig(config: StatisticsGraphCardConfig): void;
+    private _computeNames;
     protected shouldUpdate(changedProps: PropertyValues): boolean;
     willUpdate(changedProps: PropertyValues): void;
     private _setFetchStatisticsTimer;

@@ -1,8 +1,8 @@
+import type { PropertyValues } from "lit";
 import { LitElement, nothing } from "lit";
 import "../../../components/ha-icon-button";
 import "../../../components/ha-list-item";
 import "../../../components/ha-select";
-import "../../../components/ha-slider";
 import "../../../components/ha-button";
 import "../../../components/ha-svg-icon";
 import type { MediaPlayerEntity } from "../../../data/media-player";
@@ -14,6 +14,8 @@ import "../../../components/ha-marquee-text";
 declare class MoreInfoMediaPlayer extends LitElement {
     hass: HomeAssistant;
     stateObj?: MediaPlayerEntity;
+    private _positionSlider?;
+    protected firstUpdated(_changedProperties: PropertyValues): void;
     private _formatDuration;
     protected _renderVolumeControl(): import("lit-html").TemplateResult<1> | typeof nothing;
     protected _renderSourceControl(): import("lit-html").TemplateResult<1> | typeof nothing;

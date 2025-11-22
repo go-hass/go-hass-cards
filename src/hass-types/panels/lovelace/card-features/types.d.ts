@@ -37,6 +37,10 @@ export interface MediaPlayerPlaybackCardFeatureConfig {
 export interface MediaPlayerVolumeSliderCardFeatureConfig {
     type: "media-player-volume-slider";
 }
+export interface MediaPlayerVolumeButtonsCardFeatureConfig {
+    type: "media-player-volume-buttons";
+    step?: number;
+}
 export interface FanDirectionCardFeatureConfig {
     type: "fan-direction";
 }
@@ -155,7 +159,7 @@ export interface BarGaugeCardFeatureConfig {
     type: "bar-gauge";
 }
 export type LovelaceCardFeaturePosition = "bottom" | "inline";
-export type LovelaceCardFeatureConfig = AlarmModesCardFeatureConfig | ButtonCardFeatureConfig | ClimateFanModesCardFeatureConfig | ClimateSwingModesCardFeatureConfig | ClimateSwingHorizontalModesCardFeatureConfig | ClimateHvacModesCardFeatureConfig | ClimatePresetModesCardFeatureConfig | CounterActionsCardFeatureConfig | CoverOpenCloseCardFeatureConfig | CoverPositionCardFeatureConfig | CoverTiltPositionCardFeatureConfig | CoverTiltCardFeatureConfig | DateSetCardFeatureConfig | FanDirectionCardFeatureConfig | FanOscillateCardFeatureConfig | FanPresetModesCardFeatureConfig | FanSpeedCardFeatureConfig | TrendGraphCardFeatureConfig | HumidifierToggleCardFeatureConfig | HumidifierModesCardFeatureConfig | LawnMowerCommandsCardFeatureConfig | LightBrightnessCardFeatureConfig | LightColorTempCardFeatureConfig | LockCommandsCardFeatureConfig | LockOpenDoorCardFeatureConfig | MediaPlayerPlaybackCardFeatureConfig | MediaPlayerVolumeSliderCardFeatureConfig | NumericInputCardFeatureConfig | SelectOptionsCardFeatureConfig | TrendGraphCardFeatureConfig | TargetHumidityCardFeatureConfig | TargetTemperatureCardFeatureConfig | ToggleCardFeatureConfig | UpdateActionsCardFeatureConfig | VacuumCommandsCardFeatureConfig | ValveOpenCloseCardFeatureConfig | ValvePositionCardFeatureConfig | WaterHeaterOperationModesCardFeatureConfig | AreaControlsCardFeatureConfig | BarGaugeCardFeatureConfig;
+export type LovelaceCardFeatureConfig = AlarmModesCardFeatureConfig | ButtonCardFeatureConfig | ClimateFanModesCardFeatureConfig | ClimateSwingModesCardFeatureConfig | ClimateSwingHorizontalModesCardFeatureConfig | ClimateHvacModesCardFeatureConfig | ClimatePresetModesCardFeatureConfig | CounterActionsCardFeatureConfig | CoverOpenCloseCardFeatureConfig | CoverPositionCardFeatureConfig | CoverTiltPositionCardFeatureConfig | CoverTiltCardFeatureConfig | DateSetCardFeatureConfig | FanDirectionCardFeatureConfig | FanOscillateCardFeatureConfig | FanPresetModesCardFeatureConfig | FanSpeedCardFeatureConfig | TrendGraphCardFeatureConfig | HumidifierToggleCardFeatureConfig | HumidifierModesCardFeatureConfig | LawnMowerCommandsCardFeatureConfig | LightBrightnessCardFeatureConfig | LightColorTempCardFeatureConfig | LockCommandsCardFeatureConfig | LockOpenDoorCardFeatureConfig | MediaPlayerPlaybackCardFeatureConfig | MediaPlayerVolumeButtonsCardFeatureConfig | MediaPlayerVolumeSliderCardFeatureConfig | NumericInputCardFeatureConfig | SelectOptionsCardFeatureConfig | TrendGraphCardFeatureConfig | TargetHumidityCardFeatureConfig | TargetTemperatureCardFeatureConfig | ToggleCardFeatureConfig | UpdateActionsCardFeatureConfig | VacuumCommandsCardFeatureConfig | ValveOpenCloseCardFeatureConfig | ValvePositionCardFeatureConfig | WaterHeaterOperationModesCardFeatureConfig | AreaControlsCardFeatureConfig | BarGaugeCardFeatureConfig;
 export interface LovelaceCardFeatureContext {
     entity_id?: string;
     area_id?: string;

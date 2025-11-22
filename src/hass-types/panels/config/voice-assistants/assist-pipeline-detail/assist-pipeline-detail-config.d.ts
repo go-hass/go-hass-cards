@@ -1,7 +1,7 @@
 import { LitElement } from "lit";
+import "../../../../components/ha-form/ha-form";
 import type { AssistPipeline } from "../../../../data/assist_pipeline";
 import type { HomeAssistant } from "../../../../types";
-import "../../../../components/ha-form/ha-form";
 export declare class AssistPipelineDetailConfig extends LitElement {
     hass: HomeAssistant;
     data?: Partial<AssistPipeline>;

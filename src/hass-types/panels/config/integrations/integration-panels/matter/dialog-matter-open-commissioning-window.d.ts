@@ -1,8 +1,8 @@
 import type { CSSResultGroup } from "lit";
 import { LitElement, nothing } from "lit";
-import "../../../../../components/ha-spinner";
 import "../../../../../components/ha-button";
 import "../../../../../components/ha-qr-code";
+import "../../../../../components/ha-spinner";
 import type { HomeAssistant } from "../../../../../types";
 import type { MatterOpenCommissioningWindowDialogParams } from "./show-dialog-matter-open-commissioning-window";
 declare class DialogMatterOpenCommissioningWindow extends LitElement {

@@ -1,10 +1,10 @@
 import type { CSSResultGroup, PropertyValues } from "lit";
 import { LitElement } from "lit";
+import "../../components/ha-button";
 import "../../components/ha-button-toggle-group";
 import "../../components/ha-fab";
 import "../../components/ha-icon-button-next";
 import "../../components/ha-icon-button-prev";
-import "../../components/ha-button";
 import type { Calendar as CalendarData, CalendarEvent } from "../../data/calendar";
 import type { CalendarViewChanged, FullCalendarView, HomeAssistant } from "../../types";
 import "../lovelace/components/hui-warning";

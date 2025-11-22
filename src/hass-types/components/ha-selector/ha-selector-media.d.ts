@@ -4,6 +4,7 @@ import type { MediaSelector, MediaSelectorValue } from "../../data/selector";
 import type { HomeAssistant } from "../../types";
 import "../ha-alert";
 import "../ha-form/ha-form";
+import "../ha-picture-upload";
 export declare class HaMediaSelector extends LitElement {
     hass: HomeAssistant;
     selector: MediaSelector;
@@ -26,6 +27,8 @@ export declare class HaMediaSelector extends LitElement {
     private _pickMedia;
     private _getActiveEntityId;
     private _handleKeyDown;
+    private _pictureUploadMediaPicked;
+    private _clearValue;
     static styles: import("lit").CSSResult;
 }
 declare global {

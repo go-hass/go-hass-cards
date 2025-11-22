@@ -18,8 +18,8 @@ export declare const baseActionStruct: import("superstruct").Struct<{
 export declare const targetStruct: import("superstruct").Struct<{
     entity_id: string | string[];
     area_id: string | string[];
-    device_id: string | string[];
     floor_id: string | string[];
+    device_id: string | string[];
     label_id: string | string[];
 }, {
     entity_id: import("superstruct").Struct<string | string[], null>;

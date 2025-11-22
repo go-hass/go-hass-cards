@@ -4,12 +4,14 @@ import type { LovelaceCard, LovelaceCardEditor } from "../types";
 import "./hui-card";
 import type { HuiCard } from "./hui-card";
 import type { StackCardConfig } from "./types";
+import type { HuiErrorCard } from "./hui-error-card";
 export declare abstract class HuiStackCard<T extends StackCardConfig = StackCardConfig> extends LitElement implements LovelaceCard {
     static getConfigElement(): Promise<LovelaceCardEditor>;
     static getStubConfig(): Record<string, unknown>;
     hass?: HomeAssistant;
     preview: boolean;
     protected _cards?: HuiCard[];
+    protected _errorCard?: HuiErrorCard;
     protected _config?: T;
     layout?: string;
     getCardSize(): number | Promise<number>;

@@ -5,5 +5,5 @@ interface AreaContext {
     area: AreaRegistryEntry | null;
     floor: FloorRegistryEntry | null;
 }
-export declare const getAreaContext: (area: AreaRegistryEntry, hass: HomeAssistant) => AreaContext;
+export declare const getAreaContext: (area: AreaRegistryEntry, hassFloors: HomeAssistant["floors"]) => AreaContext;
 export {};

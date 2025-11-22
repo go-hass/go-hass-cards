@@ -1,5 +1,5 @@
 import type { TemplateResult } from "lit";
-import { LitElement } from "lit";
+import { LitElement, nothing } from "lit";
 import type { HomeAssistant } from "../types";
 import "./ha-md-button-menu";
 import "./ha-icon-button";
@@ -22,7 +22,7 @@ export declare class HaIconOverflowMenu extends LitElement {
     hass: HomeAssistant;
     items: IconOverflowMenuItem[];
     narrow: boolean;
-    protected render(): TemplateResult;
+    protected render(): TemplateResult | typeof nothing;
     protected _handleIconOverflowMenuOpened(e: any): void;
     static get styles(): import("lit").CSSResult[];
 }

@@ -1,11 +1,10 @@
-import type { HassEntity } from "home-assistant-js-websocket";
 import { LitElement, type PropertyValues } from "lit";
+import type { HaEntityPickerEntityFilterFunc } from "../../data/entity";
 import type { HomeAssistant } from "../../types";
 import "../ha-combo-box-item";
 import "../ha-generic-picker";
 import "../ha-svg-icon";
 import "./state-badge";
-export type HaEntityPickerEntityFilterFunc = (entity: HassEntity) => boolean;
 export declare class HaEntityPicker extends LitElement {
     hass: HomeAssistant;
     autofocus: boolean;
@@ -57,6 +56,7 @@ export declare class HaEntityPicker extends LitElement {
     excludeEntities?: string[];
     entityFilter?: HaEntityPickerEntityFilterFunc;
     hideClearIcon: boolean;
+    addButton: boolean;
     private _picker?;
     protected firstUpdated(changedProperties: PropertyValues): void;
     private _valueRenderer;
@@ -64,8 +64,8 @@ export declare class HaEntityPicker extends LitElement {
     private _rowRenderer;
     private _getAdditionalItems;
     private _getCreateItems;
+    private _getEntitiesMemoized;
     private _getItems;
-    private _getEntities;
     protected render(): import("lit-html").TemplateResult<1>;
     private _searchFn;
     open(): Promise<void>;

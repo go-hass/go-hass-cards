@@ -1,9 +1,7 @@
-import type { HassEntity } from "home-assistant-js-websocket";
 import type { PropertyValues } from "lit";
 import { LitElement, nothing } from "lit";
 import type { HomeAssistant } from "../../types";
 import "../ha-combo-box";
-export type HaEntityPickerEntityFilterFunc = (entityId: HassEntity) => boolean;
 declare class HaEntityStatePicker extends LitElement {
     hass: HomeAssistant;
     entityId?: string | string[];

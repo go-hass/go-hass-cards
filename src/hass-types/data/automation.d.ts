@@ -1,4 +1,5 @@
 import type { HassEntityAttributeBase, HassEntityBase } from "home-assistant-js-websocket";
+import type { LocalizeKeys } from "../common/translations/localize";
 import type { Context, HomeAssistant } from "../types";
 import type { BlueprintInput } from "./blueprint";
 import type { DeviceCondition, DeviceTrigger } from "./device_automation";
@@ -219,6 +220,10 @@ export interface ShorthandOrCondition extends ShorthandBaseCondition {
 }
 export interface ShorthandNotCondition extends ShorthandBaseCondition {
     not: Condition[];
+}
+export interface AutomationElementGroupCollection {
+    titleKey?: LocalizeKeys;
+    groups: AutomationElementGroup;
 }
 export type AutomationElementGroup = Record<string, {
     icon?: string;

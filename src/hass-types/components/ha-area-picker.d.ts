@@ -42,6 +42,7 @@ export declare class HaAreaPicker extends LitElement {
     entityFilter?: (entity: HassEntity) => boolean;
     disabled: boolean;
     required: boolean;
+    addButtonLabel?: string;
     private _picker?;
     open(): Promise<void>;
     private _computeValueRenderer;

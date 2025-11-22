@@ -16,6 +16,7 @@ export declare class HuiPictureElementsCardEditor extends LitElement implements 
     setConfig(config: PictureElementsCardConfig): void;
     private _schema;
     protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
+    private _processData;
     private _formChanged;
     private _elementsChanged;
     private _handleSubElementChanged;

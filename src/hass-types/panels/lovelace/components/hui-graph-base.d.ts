@@ -1,7 +1,8 @@
 import type { PropertyValues, TemplateResult } from "lit";
 import { LitElement } from "lit";
 export declare class HuiGraphBase extends LitElement {
-    coordinates?: any;
+    coordinates?: number[][];
+    yAxisOrigin?: number;
     private _path?;
     protected render(): TemplateResult;
     willUpdate(changedProps: PropertyValues): void;

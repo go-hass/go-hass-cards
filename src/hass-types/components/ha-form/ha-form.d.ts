@@ -20,6 +20,7 @@ export declare class HaForm extends LitElement implements HaFormElement {
     protected getFormProperties(): Record<string, any>;
     focus(): Promise<void>;
     protected willUpdate(changedProps: PropertyValues): void;
+    static shadowRootOptions: ShadowRootInit;
     protected render(): TemplateResult;
     protected fieldElementName(type: string): string;
     private _generateContext;

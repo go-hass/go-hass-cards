@@ -10,6 +10,8 @@ export interface ManualMediaPickedEvent {
 declare class BrowseMediaManual extends LitElement {
     hass: HomeAssistant;
     item: MediaPlayerItemId;
+    hideContentType: boolean;
+    contentIdHelper?: string;
     private _schema;
     protected render(): import("lit-html").TemplateResult<1>;
     private _valueChanged;

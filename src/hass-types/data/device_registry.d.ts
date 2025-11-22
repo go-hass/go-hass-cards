@@ -1,5 +1,8 @@
+import type { HaDevicePickerDeviceFilterFunc } from "../components/device/ha-device-picker";
+import type { PickerComboBoxItem } from "../components/ha-picker-combo-box";
 import type { HomeAssistant } from "../types";
 import type { ConfigEntry } from "./config_entries";
+import type { HaEntityPickerEntityFilterFunc } from "./entity";
 import type { EntityRegistryDisplayEntry, EntityRegistryEntry } from "./entity_registry";
 import type { EntitySources } from "./entity_sources";
 import type { RegistryEntry } from "./registry";
@@ -42,3 +45,8 @@ export declare const sortDeviceRegistryByName: (entries: DeviceRegistryEntry[], 
 export declare const getDeviceEntityLookup: (entities: EntityRegistryEntry[]) => DeviceEntityLookup;
 export declare const getDeviceEntityDisplayLookup: (entities: EntityRegistryDisplayEntry[]) => DeviceEntityDisplayLookup;
 export declare const getDeviceIntegrationLookup: (entitySources: EntitySources, entities: EntityRegistryDisplayEntry[] | EntityRegistryEntry[], devices?: DeviceRegistryEntry[], configEntries?: ConfigEntry[]) => Record<string, Set<string>>;
+export interface DevicePickerItem extends PickerComboBoxItem {
+    domain?: string;
+    domain_name?: string;
+}
+export declare const getDevices: (hass: HomeAssistant, configEntryLookup: Record<string, ConfigEntry>, includeDomains?: string[], excludeDomains?: string[], includeDeviceClasses?: string[], deviceFilter?: HaDevicePickerDeviceFilterFunc, entityFilter?: HaEntityPickerEntityFilterFunc, excludeDevices?: string[], value?: string) => DevicePickerItem[];

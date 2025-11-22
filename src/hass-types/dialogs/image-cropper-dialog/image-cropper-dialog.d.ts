@@ -1,7 +1,7 @@
 import type { CSSResultGroup, PropertyValues, TemplateResult } from "lit";
 import { LitElement } from "lit";
-import "../../components/ha-dialog";
 import "../../components/ha-button";
+import "../../components/ha-dialog";
 import type { HomeAssistant } from "../../types";
 import type { HaImageCropperDialogParams } from "./show-image-cropper-dialog";
 export declare class HaImagecropperDialog extends LitElement {

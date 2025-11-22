@@ -15,6 +15,7 @@ export declare class HuiTodoListEditor extends LitElement implements LovelaceCar
     private _valueChanged;
     private _todoListSupportsFeature;
     private _computeLabelCallback;
+    private _computeHelperCallback;
     static get styles(): CSSResultGroup;
 }
 declare global {

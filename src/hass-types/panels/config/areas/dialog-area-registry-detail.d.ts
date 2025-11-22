@@ -1,14 +1,14 @@
 import type { CSSResultGroup } from "lit";
 import { LitElement, nothing } from "lit";
+import "../../../components/entity/ha-entity-picker";
 import "../../../components/ha-alert";
 import "../../../components/ha-aliases-editor";
+import "../../../components/ha-floor-picker";
+import "../../../components/ha-icon-picker";
+import "../../../components/ha-labels-picker";
 import "../../../components/ha-picture-upload";
 import "../../../components/ha-settings-row";
-import "../../../components/ha-icon-picker";
-import "../../../components/ha-floor-picker";
-import "../../../components/entity/ha-entity-picker";
 import "../../../components/ha-textfield";
-import "../../../components/ha-labels-picker";
 import type { HomeAssistant } from "../../../types";
 import type { AreaRegistryDetailDialogParams } from "./show-dialog-area-registry-detail";
 declare class DialogAreaDetail extends LitElement {

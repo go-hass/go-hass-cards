@@ -14,7 +14,7 @@ export declare class HaStateControlToggle extends LitElement {
     private _turnOff;
     private _callService;
     protected render(): TemplateResult;
-    static styles: import("lit").CSSResult;
+    static styles: import("lit").CSSResult[];
 }
 declare global {
     interface HTMLElementTagNameMap {

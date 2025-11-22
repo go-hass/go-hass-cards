@@ -8,6 +8,7 @@ export declare class HaTemplateSelector extends LitElement {
     value?: string;
     label?: string;
     helper?: string;
+    placeholder?: any;
     disabled: boolean;
     required: boolean;
     private warn;

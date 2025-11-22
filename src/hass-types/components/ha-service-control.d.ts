@@ -6,9 +6,9 @@ import "./ha-checkbox";
 import "./ha-icon-button";
 import "./ha-selector/ha-selector";
 import "./ha-service-picker";
+import "./ha-service-section-icon";
 import "./ha-settings-row";
 import "./ha-yaml-editor";
-import "./ha-service-section-icon";
 export declare class HaServiceControl extends LitElement {
     hass: HomeAssistant;
     value?: {

@@ -18,6 +18,7 @@ export declare class HuiHistoryGraphCard extends LitElement implements LovelaceC
     private _error?;
     private _names;
     private _entityIds;
+    private _entities;
     private _hoursToShow;
     private _interval?;
     private _subscribed?;
@@ -25,6 +26,8 @@ export declare class HuiHistoryGraphCard extends LitElement implements LovelaceC
     getCardSize(): number;
     getGridOptions(): LovelaceGridOptions;
     setConfig(config: HistoryGraphCardConfig): void;
+    private _computeNames;
+    willUpdate(changedProps: PropertyValues): void;
     connectedCallback(): void;
     disconnectedCallback(): void;
     private _subscribeHistory;

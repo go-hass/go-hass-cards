@@ -9,6 +9,7 @@ export declare class HuiImageElementEditor extends LitElement implements Lovelac
     setConfig(config: ImageElementConfig): void;
     private _schema;
     protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
+    private _processData;
     private _valueChanged;
     private _computeLabelCallback;
 }

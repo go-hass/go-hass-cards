@@ -1,9 +1,7 @@
 import type { CSSResultGroup } from "lit";
-import { LitElement, nothing } from "lit";
+import { LitElement } from "lit";
 import "../../components/ha-alert";
-import "../../components/ha-dialog-header";
-import "../../components/ha-icon-button";
-import "../../components/ha-md-dialog";
+import "../../components/ha-wa-dialog";
 import "../../components/ha-spinner";
 import type { HomeAssistant } from "../../types";
 import type { RestartWaitDialogParams } from "./show-dialog-restart";
@@ -15,12 +13,11 @@ declare class DialogRestartWait extends LitElement {
     private _error?;
     private _backupState?;
     private _backupEventsSubscription?;
-    private _dialog?;
     showDialog(params: RestartWaitDialogParams): Promise<void>;
-    private _dialogClosed;
     closeDialog(): void;
+    private _dialogClosed;
     private _getWaitMessage;
-    protected render(): import("lit-html").TemplateResult<1> | typeof nothing;
+    protected render(): import("lit-html").TemplateResult<1>;
     private _loadBackupState;
     static get styles(): CSSResultGroup;
 }

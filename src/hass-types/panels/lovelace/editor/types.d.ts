@@ -33,9 +33,9 @@ export interface ConfigError {
     type: string;
     message: string;
 }
-export interface EntitiesEditorEvent extends CustomEvent {
+export interface EntitiesEditorEvent<T extends EntityConfig = EntityConfig> extends CustomEvent {
     detail: {
-        entities?: EntityConfig[];
+        entities?: T[];
         item?: any;
     };
     target: EventTarget | null;

@@ -22,7 +22,9 @@ export declare class HaButtonToggleGroup extends LitElement {
     active?: string;
     size: "small" | "medium";
     nowrap: boolean;
+    fullWidth: boolean;
     variant: "brand" | "neutral" | "success" | "warning" | "danger";
+    activeVariant?: "brand" | "neutral" | "success" | "warning" | "danger";
     protected render(): TemplateResult;
     private _handleClick;
     static styles: import("lit").CSSResult;

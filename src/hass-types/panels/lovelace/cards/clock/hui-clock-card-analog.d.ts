@@ -1,7 +1,7 @@
-import { LitElement, nothing } from "lit";
 import type { PropertyValues } from "lit";
-import type { ClockCardConfig } from "../types";
+import { LitElement, nothing } from "lit";
 import type { HomeAssistant } from "../../../../types";
+import type { ClockCardConfig } from "../types";
 export declare class HuiClockCardAnalog extends LitElement {
     hass?: HomeAssistant;
     config?: ClockCardConfig;

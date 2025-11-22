@@ -85,7 +85,7 @@ export declare const getEnergyPreferences: (hass: HomeAssistant) => Promise<Ener
 export declare const saveEnergyPreferences: (hass: HomeAssistant, prefs: Partial<EnergyPreferences>) => Promise<EnergyPreferences>;
 export type FossilEnergyConsumption = Record<string, number>;
 export declare const getFossilEnergyConsumption: (hass: HomeAssistant, startTime: Date, energy_statistic_ids: string[], co2_statistic_id: string, endTime?: Date, period?: "5minute" | "hour" | "day" | "month") => Promise<FossilEnergyConsumption>;
-interface EnergySourceByType {
+export interface EnergySourceByType {
     grid?: GridSourceTypeEnergyPreference[];
     solar?: SolarSourceTypeEnergyPreference[];
     battery?: BatterySourceTypeEnergyPreference[];
@@ -98,6 +98,7 @@ export interface EnergyData {
     end?: Date;
     startCompare?: Date;
     endCompare?: Date;
+    compareMode?: CompareMode;
     prefs: EnergyPreferences;
     info: EnergyInfo;
     stats: Statistics;
@@ -110,14 +111,19 @@ export interface EnergyData {
     gasUnit: string;
 }
 export declare const getReferencedStatisticIds: (prefs: EnergyPreferences, info: EnergyInfo, includeTypes?: string[]) => string[];
+export declare const enum CompareMode {
+    NONE = "",
+    PREVIOUS = "previous",
+    YOY = "yoy"
+}
 export interface EnergyCollection extends Collection<EnergyData> {
     start: Date;
     end?: Date;
-    compare?: boolean;
+    compare?: CompareMode;
     prefs?: EnergyPreferences;
     clearPrefs(): void;
     setPeriod(newStart: Date, newEnd?: Date): void;
-    setCompare(compare: boolean): void;
+    setCompare(compare: CompareMode): void;
     _refreshTimeout?: number;
     _updatePeriodTimeout?: number;
     _active: number;

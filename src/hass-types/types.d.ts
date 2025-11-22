@@ -1,6 +1,6 @@
 import type { DurationFormatConstructor } from "@formatjs/intl-durationformat/src/types";
 import type { Auth, Connection, HassConfig, HassEntities, HassEntity, HassServices, HassServiceTarget, MessageBase } from "home-assistant-js-websocket";
-import type { EntityNameType } from "./common/translations/entity-state";
+import type { EntityNameItem, EntityNameOptions } from "./common/entity/compute_entity_name_display";
 import type { LocalizeFunc } from "./common/translations/localize";
 import type { AreaRegistryEntry } from "./data/area_registry";
 import type { DeviceRegistryEntry } from "./data/device_registry";
@@ -195,7 +195,7 @@ export interface HomeAssistant {
     formatEntityState(stateObj: HassEntity, state?: string): string;
     formatEntityAttributeValue(stateObj: HassEntity, attribute: string, value?: any): string;
     formatEntityAttributeName(stateObj: HassEntity, attribute: string): string;
-    formatEntityName(stateObj: HassEntity, type: EntityNameType | EntityNameType[], separator?: string): string;
+    formatEntityName(stateObj: HassEntity, type: EntityNameItem | EntityNameItem[], separator?: EntityNameOptions): string;
 }
 export interface Route {
     prefix: string;

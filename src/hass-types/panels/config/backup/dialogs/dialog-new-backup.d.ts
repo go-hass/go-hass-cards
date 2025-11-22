@@ -1,10 +1,8 @@
 import type { CSSResultGroup } from "lit";
 import { LitElement, nothing } from "lit";
-import "../../../../components/ha-dialog-header";
-import "../../../../components/ha-icon-button";
 import "../../../../components/ha-icon-next";
-import "../../../../components/ha-md-dialog";
 import "../../../../components/ha-md-list";
+import "../../../../components/ha-wa-dialog";
 import "../../../../components/ha-md-list-item";
 import "../../../../components/ha-svg-icon";
 import type { HassDialog } from "../../../../dialogs/make-dialog-manager";
@@ -14,7 +12,6 @@ declare class DialogNewBackup extends LitElement implements HassDialog {
     hass: HomeAssistant;
     private _opened;
     private _params?;
-    private _dialog?;
     showDialog(params: NewBackupDialogParams): void;
     closeDialog(): boolean;
     private _dialogClosed;
