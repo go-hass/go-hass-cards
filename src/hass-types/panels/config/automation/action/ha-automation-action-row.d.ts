@@ -30,7 +30,7 @@ import "./types/ha-automation-action-set_conversation_response";
 import "./types/ha-automation-action-stop";
 import "./types/ha-automation-action-wait_for_trigger";
 import "./types/ha-automation-action-wait_template";
-export declare const getAutomationActionType: import("memoize-one").MemoizedFn<(action: Action | undefined) => "repeat" | "stop" | "action" | "sequence" | "event" | "service" | "device_id" | "parallel" | "delay" | "wait_template" | "wait_for_trigger" | "choose" | "if" | "variables" | "set_conversation_response" | "condition" | "play_media" | "repeat_count" | "repeat_while" | "repeat_until" | "repeat_for_each">;
+export declare const getAutomationActionType: import("memoize-one").MemoizedFn<(action: Action | undefined) => "repeat" | "stop" | "action" | "event" | "sequence" | "service" | "device_id" | "parallel" | "delay" | "wait_template" | "wait_for_trigger" | "choose" | "if" | "variables" | "set_conversation_response" | "condition" | "play_media" | "repeat_count" | "repeat_while" | "repeat_until" | "repeat_for_each">;
 export interface ActionElement extends LitElement {
     action: Action;
     expandAll?: () => void;

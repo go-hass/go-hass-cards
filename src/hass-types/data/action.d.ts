@@ -21,7 +21,7 @@ export declare const ACTION_ICONS: {
     readonly variables: string;
     readonly set_conversation_response: string;
 };
-export declare const YAML_ONLY_ACTION_TYPES: Set<"repeat" | "stop" | "sequence" | "event" | "service" | "device_id" | "parallel" | "delay" | "wait_template" | "wait_for_trigger" | "choose" | "if" | "variables" | "set_conversation_response" | "condition" | "play_media" | "repeat_count" | "repeat_while" | "repeat_until" | "repeat_for_each">;
+export declare const YAML_ONLY_ACTION_TYPES: Set<"repeat" | "stop" | "event" | "sequence" | "service" | "device_id" | "parallel" | "delay" | "wait_template" | "wait_for_trigger" | "choose" | "if" | "variables" | "set_conversation_response" | "condition" | "play_media" | "repeat_count" | "repeat_while" | "repeat_until" | "repeat_for_each">;
 export declare const ACTION_GROUPS: AutomationElementGroup;
 export declare const SERVICE_PREFIX = "__SERVICE__";
 export declare const isService: (key: string | undefined) => boolean | undefined;
