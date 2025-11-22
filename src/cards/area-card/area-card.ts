@@ -112,10 +112,10 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     if (!area || !config) return nothing;
 
     return html`
-      <ha-card class="go-area-card${this.config?.navigation_path ? ' clickable' : ''}" @click=${this.navigate}>
+      <ha-card class="go-area-card">
         <div class="picture"></div>
         ${isDev ? html`<div class="dev-mode">🛠️ DEV MODE</div>` : ''}
-        <div class="content">
+        <div class="content${this.config?.navigation_path ? ' clickable' : ''}" @click=${this.navigate}>
           ${this.renderTopCards()}
           <div class="bottom">
             <div class="left">
@@ -145,12 +145,12 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
 
   protected renderTopCards() {
     if (!this.config?.top_cards?.length) return nothing;
-    return html`<hui-vertical-stack-card class="top-cards" .hass=${this._hass} />`;
+    return html`<hui-vertical-stack-card class="top-cards" .hass=${this._hass} @click=${this.stopPropagation} />`;
   }
 
   protected renderSideCards() {
     if (!this.config?.side_cards?.length) return nothing;
-    return html`<hui-vertical-stack-card class="side-cards" .hass=${this._hass} />`;
+    return html`<hui-vertical-stack-card class="side-cards" .hass=${this._hass} @click=${this.stopPropagation} />`;
   }
 
   protected firstUpdated() {
@@ -165,8 +165,13 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
     }
   }
 
-  private navigate() {
+  private stopPropagation(event: PointerEvent | TouchEvent) {
+    event.stopPropagation();
+  }
+
+  private navigate(event: PointerEvent | TouchEvent) {
     if (this.config?.navigation_path) {
+      event.stopPropagation();
       navigate(this.config.navigation_path);
     }
   }
@@ -177,9 +182,6 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
         .go-area-card {
           --area-picture: url('${area.picture}');
           --area-aspect-ratio-padding: ${(100 / this.getAspectRatio(config.aspect_ratio)).toFixed(2)}%;
-        }
-        .go-area-card.clickable {
-          cursor: pointer;
         }
       </style>
     `;
@@ -207,6 +209,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           height: 100%;
           display: flex;
           flex-direction: column;
+          align-items: flex-start;
           justify-content: space-between;
           /* TODO: Do not add bright top fade if no chips are present */
           background:
@@ -215,6 +218,10 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           padding: 16px;
           box-sizing: border-box;
           gap: 8px;
+        }
+
+        .content.clickable {
+          cursor: pointer;
         }
 
         .top-cards {
@@ -226,6 +233,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           justify-content: space-between;
           align-items: flex-end;
           margin-top: auto;
+          width: 100%;
           gap: 8px;
 
           .left {
@@ -233,10 +241,6 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
             flex-direction: column;
             flex-shrink: 0;
             gap: 8px;
-          }
-
-          .side-cards {
-            flex: 1;
           }
         }
 
