@@ -6,6 +6,16 @@ release_version="v$(jq -r '.version' < package.json)"
 release_exists="$(git tag --list $release_version)"
 
 echo "releaseVersion=$release_version" >> $GITHUB_OUTPUT
+echo "GITHUB_REF=$GITHUB_REF"
+
+# If this is triggered from a PR, only release if the tag is an RC tag
+if [[ $GITHUB_REF == refs/pull/*/merge ]]; then
+    if [[ $release_version != *-rc.* ]]; then
+        echo "Release $release_version is not an RC tag. Skipping release."
+        echo "releaseExists=true" >> $GITHUB_OUTPUT
+        exit 0
+    fi
+fi
 
 if [ -z "$release_exists" ]; then
     echo "Release $release_version does not exist. Creating it..."
