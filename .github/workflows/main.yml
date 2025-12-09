@@ -13,6 +13,9 @@ on:
       - 'tsconfig.json'
       - 'build.ts'
       - 'hacs.json'
+  pull_request:
+    paths:
+      - 'package.json'
   workflow_dispatch:
 
 jobs:
