@@ -92,6 +92,11 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
   }
 
   static async getConfigElement() {
+    // Trigger lazy loading of the config element from the built-in HA stack card
+    const stackCard = document.createElement('hui-vertical-stack-card');
+    if ('getConfigElement' in stackCard.constructor && stackCard.constructor.getConfigElement instanceof Function) {
+      stackCard.constructor.getConfigElement();
+    }
     return document.createElement(editorCardName);
   }
 
