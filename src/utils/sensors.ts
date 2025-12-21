@@ -42,7 +42,7 @@ export function createSensorManager(
           unit = defaultSensorUnits[type];
         }
 
-        return { unit, value };
+        return { unit, value: +value.toFixed(2) };
       }
     },
   };
