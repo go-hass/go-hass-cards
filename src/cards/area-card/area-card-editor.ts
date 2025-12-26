@@ -170,8 +170,8 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
           @value-changed=${this.updateSensorClasses}
         ></ha-selector>
         <p>
-          Select the sensors you want to include in the area card sensor value calculations. All ${area?.name || 'Area'}
-          sensors are used by default unless you select specific sensors in the selectors below.
+          Select the sensors you want to include/exclude in the area card sensor value calculations. All
+          ${area?.name || 'Area'} sensors are used by default unless you select specific sensors in the selectors below.
         </p>
         ${sensorClasses.includes('temperature')
           ? html`
@@ -180,6 +180,13 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
                   <ha-icon icon="mdi:thermometer"></ha-icon>
                   Temperature Sensors
                   <div class="right">
+                    <ha-formfield label="Exclude selected">
+                      <ha-switch
+                        name="temperature"
+                        @change=${this.excludeSensorsToggled}
+                        .checked=${sensorEntities.temperature?.exclude}
+                      ></ha-switch>
+                    </ha-formfield>
                     <ha-button name="temperature" variant="neutral" size="small" @click=${this.resetSensorEntities}>
                       <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
                       Reset
@@ -203,6 +210,13 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
                   <ha-icon icon="mdi:water-percent"></ha-icon>
                   Humidity Sensors
                   <div class="right">
+                    <ha-formfield label="Exclude selected">
+                      <ha-switch
+                        name="humidity"
+                        @change=${this.excludeSensorsToggled}
+                        .checked=${sensorEntities.humidity?.exclude}
+                      ></ha-switch>
+                    </ha-formfield>
                     <ha-button name="humidity" variant="neutral" size="small" @click=${this.resetSensorEntities}>
                       <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
                       Reset
@@ -226,6 +240,13 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
                   <ha-icon icon="mdi:flash"></ha-icon>
                   Power Sensors
                   <div class="right">
+                    <ha-formfield label="Exclude selected">
+                      <ha-switch
+                        name="power"
+                        @change=${this.excludeSensorsToggled}
+                        .checked=${sensorEntities.power?.exclude}
+                      ></ha-switch>
+                    </ha-formfield>
                     <ha-button name="power" variant="neutral" size="small" @click=${this.resetSensorEntities}>
                       <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
                       Reset
@@ -246,6 +267,19 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     `;
   }
 
+  private excludeSensorsToggled(ev: InputEvent) {
+    const target = ev.target as HTMLInputElement;
+    const name = target.getAttribute('name') as SensorType;
+    const exclude = target.checked;
+    const currentSensorConfig = this.config?.sensor_entities?.[name];
+    this.configChanged({
+      sensor_entities: {
+        ...this.config?.sensor_entities,
+        [name]: { exclude, entities: currentSensorConfig?.entities },
+      },
+    });
+  }
+
   private resetSensorEntities(ev: Event) {
     const target = ev.target as HTMLInputElement;
     const name = target.name as SensorType;
@@ -254,6 +288,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
         ...this.config?.sensor_entities,
         [name]: {
           entities: getSensorEntityIds(findSensorStates(this.hass, this.config?.area || ''), name),
+          exclude: false,
         },
       },
     });
@@ -262,11 +297,13 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
   private updateSensorEntities(ev: SimpleInputEvent<string[]>) {
     const target = ev.target as HTMLInputElement;
     const name = target.name as SensorType;
+    const currentSensorConfig = this.config?.sensor_entities?.[name];
     this.configChanged({
       sensor_entities: {
         ...this.config?.sensor_entities,
         [name]: {
           entities: ev.detail.value,
+          exclude: currentSensorConfig?.exclude ?? false,
         },
       },
     });
@@ -327,12 +364,15 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
       const sensorStates = findSensorStates(this.hass, config.area || '');
       sensorEntities.temperature = sensorEntities.temperature || {
         entities: getSensorEntityIds(sensorStates, 'temperature'),
+        exclude: false,
       };
       sensorEntities.humidity = sensorEntities.humidity || {
         entities: getSensorEntityIds(sensorStates, 'humidity'),
+        exclude: false,
       };
       sensorEntities.power = sensorEntities.power || {
         entities: getSensorEntityIds(sensorStates, 'power'),
+        exclude: false,
       };
 
       if (!config?.sensor_classes) {
@@ -390,7 +430,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
               display: flex;
               align-items: center;
               margin-left: auto;
-              gap: 4px;
+              gap: 16px;
             }
           }
         }

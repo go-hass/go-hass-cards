@@ -26,10 +26,15 @@ export function createSensorManager(
     return { entityIds: [], getState: () => undefined };
   }
 
-  const sensorEntities = this.config?.sensor_entities || {};
-  const entityIds = sensorEntities[type]?.entities.length
-    ? sensorEntities[type]?.entities
-    : getSensorEntityIds(sensorStates, type);
+  const sensorEntityConfig = this.config?.sensor_entities?.[type];
+  const sensorEntityIds =
+    sensorEntityConfig?.entities?.length && !sensorEntityConfig?.exclude
+      ? sensorEntityConfig?.entities
+      : getSensorEntityIds(sensorStates, type);
+
+  const entityIds = sensorEntityConfig?.exclude
+    ? sensorEntityIds.filter((id) => !sensorEntityConfig?.entities.includes(id))
+    : sensorEntityIds;
 
   return {
     entityIds,

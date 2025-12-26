@@ -15,12 +15,15 @@ export type AreaCardConfig = LovelaceCardConfig & {
   sensor_entities?: {
     temperature?: {
       entities: string[];
+      exclude: boolean;
     };
     humidity?: {
       entities: string[];
+      exclude: boolean;
     };
     power?: {
       entities: string[];
+      exclude: boolean;
     };
   };
 };
