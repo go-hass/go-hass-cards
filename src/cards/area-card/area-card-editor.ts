@@ -159,32 +159,6 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     const sensorEntities = config?.sensor_entities || {};
     const sensorClasses = config?.sensor_classes || [];
 
-    // Logic to resolve default available sensors if not specified
-    if (!config?.sensor_classes || !sensorEntities.temperature || !sensorEntities.humidity || !sensorEntities.power) {
-      const sensorStates = findSensorStates(this.hass, this.config?.area || '');
-      sensorEntities.temperature = sensorEntities.temperature || {
-        entities: getSensorEntityIds(sensorStates, 'temperature'),
-      };
-      sensorEntities.humidity = sensorEntities.humidity || {
-        entities: getSensorEntityIds(sensorStates, 'humidity'),
-      };
-      sensorEntities.power = sensorEntities.power || {
-        entities: getSensorEntityIds(sensorStates, 'power'),
-      };
-
-      if (!config?.sensor_classes) {
-        if (sensorEntities.temperature.entities.length > 0) {
-          sensorClasses.push('temperature');
-        }
-        if (sensorEntities.humidity.entities.length > 0) {
-          sensorClasses.push('humidity');
-        }
-        if (sensorEntities.power.entities.length > 0) {
-          sensorClasses.push('power');
-        }
-      }
-    }
-
     return html`
       <div class="sensors card-content flex">
         <ha-selector
@@ -196,8 +170,8 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
           @value-changed=${this.updateSensorClasses}
         ></ha-selector>
         <p>
-          Select the sensors you want to display in the area card. All ${area?.name || 'Area'} sensors are used by
-          default unless you select specific sensors in the selectors below.
+          Select the sensors you want to include in the area card sensor value calculations. All ${area?.name || 'Area'}
+          sensors are used by default unless you select specific sensors in the selectors below.
         </p>
         ${sensorClasses.includes('temperature')
           ? html`
@@ -216,8 +190,8 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
                   name="temperature"
                   .hass=${this.hass}
                   .selector=${temperatureSelectorSchema}
-                  .value=${sensorEntities.temperature.entities}
-                  @value-changed=${this.updateSensors}
+                  .value=${sensorEntities.temperature?.entities}
+                  @value-changed=${this.updateSensorEntities}
                 ></ha-selector>
               </div>
             `
@@ -239,8 +213,8 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
                   name="humidity"
                   .hass=${this.hass}
                   .selector=${humiditySelectorSchema}
-                  .value=${sensorEntities.humidity.entities}
-                  @value-changed=${this.updateSensors}
+                  .value=${sensorEntities.humidity?.entities}
+                  @value-changed=${this.updateSensorEntities}
                 ></ha-selector>
               </div>
             `
@@ -262,8 +236,8 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
                   name="power"
                   .hass=${this.hass}
                   .selector=${powerSelectorSchema}
-                  .value=${sensorEntities.power.entities}
-                  @value-changed=${this.updateSensors}
+                  .value=${sensorEntities.power?.entities}
+                  @value-changed=${this.updateSensorEntities}
                 ></ha-selector>
               </div>
             `
@@ -285,12 +259,15 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     });
   }
 
-  private updateSensors(ev: SimpleInputEvent<string[]>) {
+  private updateSensorEntities(ev: SimpleInputEvent<string[]>) {
     const target = ev.target as HTMLInputElement;
+    const name = target.name as SensorType;
     this.configChanged({
       sensor_entities: {
         ...this.config?.sensor_entities,
-        [target.name]: { entities: ev.detail.value },
+        [name]: {
+          entities: ev.detail.value,
+        },
       },
     });
   }
@@ -340,8 +317,42 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     this.configChanged({ sensor_classes: ev.detail.value });
   }
 
-  setConfig(config: AreaCardConfig) {
-    this.config = resolveConfigWithDeprecations(config);
+  setConfig(passedConfig: AreaCardConfig) {
+    const config = resolveConfigWithDeprecations(passedConfig);
+    const sensorEntities = config.sensor_entities || {};
+    const sensorClasses = config.sensor_classes || [];
+
+    // Logic to resolve default available sensors if not specified
+    if (!config.sensor_classes || !sensorEntities.temperature || !sensorEntities.humidity || !sensorEntities.power) {
+      const sensorStates = findSensorStates(this.hass, config.area || '');
+      sensorEntities.temperature = sensorEntities.temperature || {
+        entities: getSensorEntityIds(sensorStates, 'temperature'),
+      };
+      sensorEntities.humidity = sensorEntities.humidity || {
+        entities: getSensorEntityIds(sensorStates, 'humidity'),
+      };
+      sensorEntities.power = sensorEntities.power || {
+        entities: getSensorEntityIds(sensorStates, 'power'),
+      };
+
+      if (!config?.sensor_classes) {
+        if (sensorEntities.temperature.entities.length > 0) {
+          sensorClasses.push('temperature');
+        }
+        if (sensorEntities.humidity.entities.length > 0) {
+          sensorClasses.push('humidity');
+        }
+        if (sensorEntities.power.entities.length > 0) {
+          sensorClasses.push('power');
+        }
+      }
+    }
+
+    this.config = {
+      ...config,
+      sensor_entities: sensorEntities,
+      sensor_classes: sensorClasses,
+    };
   }
 
   configChanged(config: Partial<AreaCardConfig>) {
