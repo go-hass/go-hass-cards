@@ -139,7 +139,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     }
 
     if (this._selectedCard.id === 'sensors') {
-      return html`<div class="sensors card-content flex">${this.renderSensorSelector()}</div> `;
+      return this.renderSensorSelector();
     }
 
     return html`
@@ -186,55 +186,103 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     }
 
     return html`
-      <ha-selector
-        label="Sensor Classes"
-        name="sensor_classes"
-        .hass=${this.hass}
-        .value=${sensorClasses}
-        .selector=${sensorClassesSchema}
-        @value-changed=${this.updateSensorClasses}
-      ></ha-selector>
-      <p>
-        Select the sensors you want to display in the area card. All ${area?.name || 'Area'} sensors are used by default
-        unless you select specific sensors in the selectors below.
-      </p>
-      ${sensorClasses.includes('temperature')
-        ? html`
-            <ha-selector
-              label="Temperature Sensors"
-              name="temperature"
-              .hass=${this.hass}
-              .selector=${temperatureSelectorSchema}
-              .value=${sensorEntities.temperature.entities}
-              @value-changed=${this.updateSensors}
-            ></ha-selector>
-          `
-        : nothing}
-      ${sensorClasses.includes('humidity')
-        ? html`
-            <ha-selector
-              label="Humidity Sensors"
-              name="humidity"
-              .hass=${this.hass}
-              .selector=${humiditySelectorSchema}
-              .value=${sensorEntities.humidity.entities}
-              @value-changed=${this.updateSensors}
-            ></ha-selector>
-          `
-        : nothing}
-      ${sensorClasses.includes('power')
-        ? html`
-            <ha-selector
-              label="Power Sensors"
-              name="power"
-              .hass=${this.hass}
-              .selector=${powerSelectorSchema}
-              .value=${sensorEntities.power.entities}
-              @value-changed=${this.updateSensors}
-            ></ha-selector>
-          `
-        : nothing}
+      <div class="sensors card-content flex">
+        <ha-selector
+          label="Sensor Classes"
+          name="sensor_classes"
+          .hass=${this.hass}
+          .value=${sensorClasses}
+          .selector=${sensorClassesSchema}
+          @value-changed=${this.updateSensorClasses}
+        ></ha-selector>
+        <p>
+          Select the sensors you want to display in the area card. All ${area?.name || 'Area'} sensors are used by
+          default unless you select specific sensors in the selectors below.
+        </p>
+        ${sensorClasses.includes('temperature')
+          ? html`
+              <div>
+                <label>
+                  <ha-icon icon="mdi:thermometer"></ha-icon>
+                  Temperature Sensors
+                  <div class="right">
+                    <ha-button name="temperature" variant="neutral" size="small" @click=${this.resetSensorEntities}>
+                      <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
+                      Reset
+                    </ha-button>
+                  </div>
+                </label>
+                <ha-selector
+                  name="temperature"
+                  .hass=${this.hass}
+                  .selector=${temperatureSelectorSchema}
+                  .value=${sensorEntities.temperature.entities}
+                  @value-changed=${this.updateSensors}
+                ></ha-selector>
+              </div>
+            `
+          : nothing}
+        ${sensorClasses.includes('humidity')
+          ? html`
+              <div>
+                <label>
+                  <ha-icon icon="mdi:water-percent"></ha-icon>
+                  Humidity Sensors
+                  <div class="right">
+                    <ha-button name="humidity" variant="neutral" size="small" @click=${this.resetSensorEntities}>
+                      <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
+                      Reset
+                    </ha-button>
+                  </div>
+                </label>
+                <ha-selector
+                  name="humidity"
+                  .hass=${this.hass}
+                  .selector=${humiditySelectorSchema}
+                  .value=${sensorEntities.humidity.entities}
+                  @value-changed=${this.updateSensors}
+                ></ha-selector>
+              </div>
+            `
+          : nothing}
+        ${sensorClasses.includes('power')
+          ? html`
+              <div>
+                <label>
+                  <ha-icon icon="mdi:flash"></ha-icon>
+                  Power Sensors
+                  <div class="right">
+                    <ha-button name="power" variant="neutral" size="small" @click=${this.resetSensorEntities}>
+                      <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
+                      Reset
+                    </ha-button>
+                  </div>
+                </label>
+                <ha-selector
+                  name="power"
+                  .hass=${this.hass}
+                  .selector=${powerSelectorSchema}
+                  .value=${sensorEntities.power.entities}
+                  @value-changed=${this.updateSensors}
+                ></ha-selector>
+              </div>
+            `
+          : nothing}
+      </div>
     `;
+  }
+
+  private resetSensorEntities(ev: Event) {
+    const target = ev.target as HTMLInputElement;
+    const name = target.name as SensorType;
+    this.configChanged({
+      sensor_entities: {
+        ...this.config?.sensor_entities,
+        [name]: {
+          entities: getSensorEntityIds(findSensorStates(this.hass, this.config?.area || ''), name),
+        },
+      },
+    });
   }
 
   private updateSensors(ev: SimpleInputEvent<string[]>) {
@@ -319,6 +367,20 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
 
           > div > * {
             width: 100%;
+          }
+        }
+
+        .sensors {
+          label {
+            display: flex;
+            align-items: center;
+
+            .right {
+              display: flex;
+              align-items: center;
+              margin-left: auto;
+              gap: 4px;
+            }
           }
         }
       }
