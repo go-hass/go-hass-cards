@@ -9,7 +9,7 @@ import type { LovelaceCardEditor } from '@hass/panels/lovelace/types';
 import type { HomeAssistant } from '@hass/types';
 import { findSensorStates, getSensorEntityIds, type SensorType } from '@/utils/sensors';
 import { editorCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
-import type { AreaCardConfig } from './types';
+import type { AreaCardConfig, AreaCardConfigSensorEntity } from './types';
 
 const sensorClassesSchema: SelectSelector = {
   select: {
@@ -28,6 +28,18 @@ const sensorClassesSchema: SelectSelector = {
         value: 'power',
         label: 'Power',
       },
+      {
+        value: 'motion',
+        label: 'Motion',
+      },
+      {
+        value: 'presence',
+        label: 'Presence',
+      },
+      {
+        value: 'occupancy',
+        label: 'Occupancy',
+      },
     ],
   },
 };
@@ -44,6 +56,9 @@ function getSensorSelectorSchema(deviceClass: string): EntitySelector {
 const temperatureSelectorSchema = getSensorSelectorSchema('temperature');
 const humiditySelectorSchema = getSensorSelectorSchema('humidity');
 const powerSelectorSchema = getSensorSelectorSchema('power');
+const motionSelectorSchema = getSensorSelectorSchema('motion');
+const presenceSelectorSchema = getSensorSelectorSchema('presence');
+const occupancySelectorSchema = getSensorSelectorSchema('occupancy');
 
 const cards = [
   {
@@ -139,7 +154,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     }
 
     if (this._selectedCard.id === 'sensors') {
-      return this.renderSensorSelector();
+      return this.renderSensorSelectors();
     }
 
     return html`
@@ -153,7 +168,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     `;
   }
 
-  protected renderSensorSelector() {
+  protected renderSensorSelectors() {
     const config = this.config;
     const area = this.hass.areas[config?.area || ''];
     const sensorEntities = config?.sensor_entities || {};
@@ -174,95 +189,86 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
           ${area?.name || 'Area'} sensors are used by default unless you select specific sensors in the selectors below.
         </p>
         ${sensorClasses.includes('temperature')
-          ? html`
-              <div>
-                <label>
-                  <ha-icon icon="mdi:thermometer"></ha-icon>
-                  Temperature Sensors
-                  <div class="right">
-                    <ha-formfield label="Exclude selected">
-                      <ha-switch
-                        name="temperature"
-                        @change=${this.excludeSensorsToggled}
-                        .checked=${sensorEntities.temperature?.exclude}
-                      ></ha-switch>
-                    </ha-formfield>
-                    <ha-button name="temperature" variant="neutral" size="small" @click=${this.resetSensorEntities}>
-                      <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
-                      Reset
-                    </ha-button>
-                  </div>
-                </label>
-                <ha-selector
-                  name="temperature"
-                  .hass=${this.hass}
-                  .selector=${temperatureSelectorSchema}
-                  .value=${sensorEntities.temperature?.entities}
-                  @value-changed=${this.updateSensorEntities}
-                ></ha-selector>
-              </div>
-            `
+          ? this.renderSensorEntitySelector({
+              name: 'temperature',
+              label: 'Temperature Sensors',
+              icon: 'mdi:thermometer',
+              selector: temperatureSelectorSchema,
+              value: sensorEntities.temperature,
+            })
           : nothing}
         ${sensorClasses.includes('humidity')
-          ? html`
-              <div>
-                <label>
-                  <ha-icon icon="mdi:water-percent"></ha-icon>
-                  Humidity Sensors
-                  <div class="right">
-                    <ha-formfield label="Exclude selected">
-                      <ha-switch
-                        name="humidity"
-                        @change=${this.excludeSensorsToggled}
-                        .checked=${sensorEntities.humidity?.exclude}
-                      ></ha-switch>
-                    </ha-formfield>
-                    <ha-button name="humidity" variant="neutral" size="small" @click=${this.resetSensorEntities}>
-                      <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
-                      Reset
-                    </ha-button>
-                  </div>
-                </label>
-                <ha-selector
-                  name="humidity"
-                  .hass=${this.hass}
-                  .selector=${humiditySelectorSchema}
-                  .value=${sensorEntities.humidity?.entities}
-                  @value-changed=${this.updateSensorEntities}
-                ></ha-selector>
-              </div>
-            `
+          ? this.renderSensorEntitySelector({
+              name: 'humidity',
+              label: 'Humidity Sensors',
+              icon: 'mdi:water-percent',
+              selector: humiditySelectorSchema,
+              value: sensorEntities.humidity,
+            })
           : nothing}
         ${sensorClasses.includes('power')
-          ? html`
-              <div>
-                <label>
-                  <ha-icon icon="mdi:flash"></ha-icon>
-                  Power Sensors
-                  <div class="right">
-                    <ha-formfield label="Exclude selected">
-                      <ha-switch
-                        name="power"
-                        @change=${this.excludeSensorsToggled}
-                        .checked=${sensorEntities.power?.exclude}
-                      ></ha-switch>
-                    </ha-formfield>
-                    <ha-button name="power" variant="neutral" size="small" @click=${this.resetSensorEntities}>
-                      <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
-                      Reset
-                    </ha-button>
-                  </div>
-                </label>
-                <ha-selector
-                  name="power"
-                  .hass=${this.hass}
-                  .selector=${powerSelectorSchema}
-                  .value=${sensorEntities.power?.entities}
-                  @value-changed=${this.updateSensorEntities}
-                ></ha-selector>
-              </div>
-            `
+          ? this.renderSensorEntitySelector({
+              name: 'power',
+              label: 'Power Sensors',
+              icon: 'mdi:flash',
+              selector: powerSelectorSchema,
+              value: sensorEntities.power,
+            })
           : nothing}
+        ${sensorClasses.includes('motion')
+          ? this.renderSensorEntitySelector({
+              name: 'motion',
+              label: 'Motion Sensors',
+              icon: 'mdi:motion-sensor',
+              selector: motionSelectorSchema,
+              value: sensorEntities.motion,
+            })
+          : nothing}
+        ${sensorClasses.includes('presence')
+          ? this.renderSensorEntitySelector({
+              name: 'presence',
+              label: 'Presence Sensors',
+              icon: 'mdi:motion-sensor',
+              selector: presenceSelectorSchema,
+              value: sensorEntities.presence,
+            })
+          : nothing}
+        ${sensorClasses.includes('occupancy')
+          ? this.renderSensorEntitySelector({
+              name: 'occupancy',
+              label: 'Occupancy Sensors',
+              icon: 'mdi:motion-sensor',
+              selector: occupancySelectorSchema,
+              value: sensorEntities.occupancy,
+            })
+          : nothing}
+      </div>
+    `;
+  }
+
+  protected renderSensorEntitySelector({ name, label, icon, selector, value }: EntitySelectorRenderOption) {
+    return html`
+      <div>
+        <label>
+          <ha-icon icon="${icon}"></ha-icon>
+          ${label}
+          <div class="right">
+            <ha-formfield label="Exclude selected">
+              <ha-switch name="${name}" @change=${this.excludeSensorsToggled} .checked=${!!value?.exclude}></ha-switch>
+            </ha-formfield>
+            <ha-button name="${name}" variant="neutral" size="small" @click=${this.resetSensorEntities}>
+              <ha-icon slot="start" icon="mdi:refresh"></ha-icon>
+              Reset
+            </ha-button>
+          </div>
+        </label>
+        <ha-selector
+          name="${name}"
+          .hass=${this.hass}
+          .selector=${selector}
+          .value=${value?.entities}
+          @value-changed=${this.updateSensorEntities}
+        ></ha-selector>
       </div>
     `;
   }
@@ -440,3 +446,11 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
 }
 
 type SimpleInputEvent<Value = string> = CustomEvent<{ value: Value }>;
+
+type EntitySelectorRenderOption = {
+  name: string;
+  label: string;
+  icon: string;
+  selector: EntitySelector;
+  value: AreaCardConfigSensorEntity | undefined;
+};

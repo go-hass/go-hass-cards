@@ -13,17 +13,16 @@ export type AreaCardConfig = LovelaceCardConfig & {
   /** @deprecated Use side_cards instead */
   side_card?: LovelaceCardConfig;
   sensor_entities?: {
-    temperature?: {
-      entities: string[];
-      exclude: boolean;
-    };
-    humidity?: {
-      entities: string[];
-      exclude: boolean;
-    };
-    power?: {
-      entities: string[];
-      exclude: boolean;
-    };
+    temperature?: AreaCardConfigSensorEntity;
+    humidity?: AreaCardConfigSensorEntity;
+    power?: AreaCardConfigSensorEntity;
+    motion?: AreaCardConfigSensorEntity;
+    presence?: AreaCardConfigSensorEntity;
+    occupancy?: AreaCardConfigSensorEntity;
   };
+};
+
+export type AreaCardConfigSensorEntity = {
+  entities: string[];
+  exclude: boolean;
 };

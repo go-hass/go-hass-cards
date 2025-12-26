@@ -14,6 +14,7 @@ import {
 import { logger } from '@/utils/logger';
 import { navigate } from '@hass/common/navigate';
 import { editorCardName, areaCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
+import { presenceIcons } from '@/icons/presence';
 import type { AreaCardConfig } from './types';
 import './area-card-editor';
 
@@ -24,7 +25,14 @@ export class GoHassAreaCard extends LitElement implements LovelaceCard, GoCard<A
 
   @state() public area: AreaRegistryEntry | undefined;
   @state() public config: AreaCardConfig | undefined;
-  @state() public sensorStates: GoCardSensorStates = { temperature: '', humidity: '', power: '' };
+  @state() public sensorStates: GoCardSensorStates = {
+    temperature: '',
+    humidity: '',
+    power: '',
+    motion: '',
+    presence: '',
+    occupancy: '',
+  };
 
   // Whenever the state changes, a new `hass` object is set. Use this to update your content.
   set hass(hass: HomeAssistant) {
@@ -41,6 +49,9 @@ export class GoHassAreaCard extends LitElement implements LovelaceCard, GoCard<A
         humidity: createSensorManager.call(this, 'humidity', sensorStates),
         temperature: createSensorManager.call(this, 'temperature', sensorStates),
         power: createSensorManager.call(this, 'power', sensorStates, 'sum'),
+        motion: createSensorManager.call(this, 'motion', sensorStates, 'on-off'),
+        presence: createSensorManager.call(this, 'presence', sensorStates, 'on-off'),
+        occupancy: createSensorManager.call(this, 'occupancy', sensorStates, 'on-off'),
       };
     }
 
@@ -83,11 +94,17 @@ export class GoHassAreaCard extends LitElement implements LovelaceCard, GoCard<A
     const humidityState = this.sensors.humidity.getState();
     const temperatureState = this.sensors.temperature.getState();
     const powerState = this.sensors.power.getState();
+    const motionState = this.sensors.motion.getState();
+    const presenceState = this.sensors.presence.getState();
+    const occupancyState = this.sensors.occupancy.getState();
 
     this.sensorStates = {
       temperature: temperatureState ? `${temperatureState.value} ${temperatureState.unit}` : '',
       humidity: humidityState ? `${humidityState.value}${humidityState.unit}` : '',
       power: powerState ? `${powerState.value}${powerState.unit}` : '',
+      motion: motionState ? `${motionState.value}` : '',
+      presence: presenceState ? `${presenceState.value}` : '',
+      occupancy: occupancyState ? `${occupancyState.value}` : '',
     };
   }
 
@@ -136,14 +153,29 @@ export class GoHassAreaCard extends LitElement implements LovelaceCard, GoCard<A
   }
 
   protected renderSensors() {
-    const { temperature, humidity, power } = this.sensorStates;
-    if (!temperature && !humidity && !power) return nothing;
+    const { temperature, humidity, power, motion, presence, occupancy } = this.sensorStates;
+    if (!temperature && !humidity && !power && !motion && !presence && !occupancy) return nothing;
 
     return html`
       <div class="sensors">
-        ${temperature ? html`<div><ha-icon icon="mdi:thermometer"></ha-icon>${temperature}</div>` : ''}
-        ${humidity ? html`<div><ha-icon icon="mdi:water-percent"></ha-icon>${humidity}</div>` : ''}
-        ${power ? html`<div><ha-icon icon="mdi:flash"></ha-icon>${power}</div>` : ''}
+        ${temperature ? html`<div><ha-icon icon="mdi:thermometer"></ha-icon>${temperature}</div>` : nothing}
+        ${humidity ? html`<div><ha-icon icon="mdi:water-percent"></ha-icon>${humidity}</div>` : nothing}
+        ${power ? html`<div><ha-icon icon="mdi:flash"></ha-icon>${power}</div>` : nothing}
+        ${motion
+          ? html`<div class="sensor-icon ${motion}">
+              ${motion === 'on' ? presenceIcons.motion : presenceIcons.motionOff}
+            </div>`
+          : nothing}
+        ${presence
+          ? html`<div class="sensor-icon ${presence}">
+              ${presence === 'on' ? presenceIcons.presence : presenceIcons.presenceOff}
+            </div>`
+          : nothing}
+        ${occupancy
+          ? html`<div class="sensor-icon ${occupancy}">
+              ${occupancy === 'on' ? presenceIcons.occupancy : presenceIcons.occupancyOff}
+            </div>`
+          : nothing}
       </div>
     `;
   }
@@ -272,12 +304,12 @@ export class GoHassAreaCard extends LitElement implements LovelaceCard, GoCard<A
           align-items: center;
           gap: 4px;
           color: #e3e3e3;
-          opacity: 0.6;
           font-size: var(--ha-font-size-l);
           --mdc-icon-size: 24px;
           margin-left: -6px;
 
-          > div {
+          > div:not(.sensor-icon) {
+            opacity: 0.6;
             display: flex;
             align-items: center;
             gap: 2px;
@@ -285,6 +317,40 @@ export class GoHassAreaCard extends LitElement implements LovelaceCard, GoCard<A
 
           > div[hidden] {
             display: none;
+          }
+        }
+
+        .sensor-icon {
+          width: 26px;
+          height: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          > svg {
+            width: 18px;
+            height: 18px;
+          }
+
+          &.on {
+            color: var(--accent-color);
+            position: relative;
+
+            &::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: var(--accent-color);
+              border-radius: 50%;
+              opacity: 0.1;
+            }
+          }
+
+          &.off {
+            opacity: 0.6;
           }
         }
 

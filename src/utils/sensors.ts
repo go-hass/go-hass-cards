@@ -9,6 +9,9 @@ const defaultSensorUnits: Record<SensorType, string> = {
   temperature: '°C',
   humidity: '%',
   power: 'W',
+  motion: '',
+  presence: '',
+  occupancy: '',
 };
 
 export function getSensorEntityIds(sensorStates: HassEntity[], type: SensorType) {
@@ -19,7 +22,7 @@ export function createSensorManager(
   this: GoCard<AreaCardConfig>,
   type: SensorType,
   sensorStates: HassEntity[],
-  aggregation: 'sum' | 'average' = 'average',
+  aggregation: 'sum' | 'average' | 'on-off' = 'average',
 ) {
   const sensorClasses = this.config?.sensor_classes;
   if (sensorClasses && !sensorClasses.includes(type)) {
@@ -44,6 +47,9 @@ export function createSensorManager(
         .filter(Boolean)
         .filter((it) => it.state !== 'unavailable' && it.state !== 'unknown');
       if (hassEntities.length > 0) {
+        if (aggregation === 'on-off') {
+          return { unit: defaultSensorUnits[type], value: hassEntities.some((it) => it.state === 'on') ? 'on' : 'off' };
+        }
         const totalValue = hassEntities.reduce((acc, hassEntity) => acc + Number(hassEntity.state), 0);
         const value = aggregation === 'sum' ? totalValue : totalValue / hassEntities.length;
         let unit =
@@ -68,7 +74,7 @@ export function findSensorStates(hass: HomeAssistant, areaId: string) {
   );
   const entityIds = new Set(entities.map((entity) => entity.entity_id));
   const states = Object.values(hass.states).filter((state) => entityIds.has(state.entity_id));
-  const sensorStates = states.filter((state) => state.entity_id.startsWith('sensor.'));
+  const sensorStates = states.filter((state) => /(binary_)?sensor\./.test(state.entity_id));
 
   logger.log('entities', entities);
   logger.log('devices', devices);
@@ -82,6 +88,9 @@ export interface GoCardSensors {
   temperature: ReturnType<typeof createSensorManager>;
   humidity: ReturnType<typeof createSensorManager>;
   power: ReturnType<typeof createSensorManager>;
+  motion: ReturnType<typeof createSensorManager>;
+  presence: ReturnType<typeof createSensorManager>;
+  occupancy: ReturnType<typeof createSensorManager>;
 }
 
 export type SensorType = keyof GoCardSensors;
