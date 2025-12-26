@@ -18,7 +18,7 @@ import type { AreaCardConfig } from './types';
 import './area-card-editor';
 
 @customElement(areaCardName)
-export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, GoCard<AreaCardConfig> {
+export class GoHassAreaCard extends LitElement implements LovelaceCard, GoCard<AreaCardConfig> {
   _hass: HomeAssistant | undefined;
   sensors: GoCardSensors | undefined;
 
