@@ -13,13 +13,16 @@ export function getDefaultAreaCardConfig(hass: HomeAssistant): AreaCardConfig {
     area: Object.values(hass.areas)[0]?.area_id || '',
     aspect_ratio: '16:9',
     navigation_path: undefined,
-    sensor_classes: ['temperature', 'humidity', 'power'],
     top_cards: [],
     side_cards: [],
   };
 }
 
-export function resolveConfigWithDeprecations({ top_card, side_card, ...config }: AreaCardConfig): AreaCardConfig {
+export function resolveConfigWithDeprecations({
+  top_card,
+  side_card,
+  ...config
+}: AreaCardConfig): NonNullable<AreaCardConfig> {
   return {
     ...config,
     // This function is used in the Editor so as soon as the user makes any config change we'll reset the configuration

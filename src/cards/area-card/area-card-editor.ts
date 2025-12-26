@@ -1,13 +1,13 @@
 import { customElement, property, state } from 'lit/decorators.js';
-import { css, html, LitElement, type CSSResultGroup } from 'lit';
+import { css, html, LitElement, nothing, type CSSResultGroup } from 'lit';
 import type { HASSDomEvent } from '@hass/common/dom/fire_event';
 import type { LovelaceConfig } from '@hass/data/lovelace/config/types';
-import type { SelectSelector } from '@hass/data/selector';
+import type { EntitySelector, SelectSelector } from '@hass/data/selector';
 import type { StackCardConfig } from '@hass/panels/lovelace/cards/types';
 import type { ConfigChangedEvent } from '@hass/panels/lovelace/editor/hui-element-editor';
 import type { LovelaceCardEditor } from '@hass/panels/lovelace/types';
 import type { HomeAssistant } from '@hass/types';
-import type { SensorType } from '@/utils/sensors';
+import { findSensorStates, getSensorEntityIds, type SensorType } from '@/utils/sensors';
 import { editorCardName, getDefaultAreaCardConfig, resolveConfigWithDeprecations } from './utils';
 import type { AreaCardConfig } from './types';
 
@@ -32,6 +32,19 @@ const sensorClassesSchema: SelectSelector = {
   },
 };
 
+function getSensorSelectorSchema(deviceClass: string): EntitySelector {
+  return {
+    entity: {
+      multiple: true,
+      filter: { domain: ['sensor'], device_class: [deviceClass] },
+    },
+  };
+}
+
+const temperatureSelectorSchema = getSensorSelectorSchema('temperature');
+const humiditySelectorSchema = getSensorSelectorSchema('humidity');
+const powerSelectorSchema = getSensorSelectorSchema('power');
+
 const cards = [
   {
     id: 'settings',
@@ -40,13 +53,18 @@ const cards = [
   },
   {
     id: 'top-cards',
-    label: 'Top Cards',
+    label: 'Top',
     icon: 'mdi:dock-top',
   },
   {
     id: 'side-cards',
-    label: 'Side Cards',
+    label: 'Side',
     icon: 'mdi:dock-right',
+  },
+  {
+    id: 'sensors',
+    label: 'Sensors',
+    icon: 'mdi:home-thermometer-outline',
   },
 ] as const;
 
@@ -90,7 +108,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
     if (this._selectedCard.id === 'settings') {
       const area = this.hass.areas[this.config?.area || ''];
       return html`
-        <div class="settings">
+        <div class="settings card-content flex">
           <div>
             <ha-area-picker
               label="Area"
@@ -98,7 +116,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
               .hass=${this.hass}
               .value=${config.area}
               @value-changed=${this.updateArea}
-            />
+            ></ha-area-picker>
           </div>
           <div>
             <ha-textfield
@@ -106,7 +124,7 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
               placeholder="16:9"
               .value=${config.aspect_ratio}
               @input=${this.updateAspectRatio}
-            />
+            ></ha-textfield>
           </div>
           <div>
             <ha-textfield
@@ -114,20 +132,14 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
               placeholder="${area?.name?.toLowerCase().replace(/\s/g, '-') || ''}"
               .value=${config.navigation_path || ''}
               @input=${this.updateNavigationPath}
-            />
-          </div>
-          <div>
-            <ha-selector
-              label="Sensor Classes"
-              name="sensor_classes"
-              .hass=${this.hass}
-              .value=${config.sensor_classes}
-              .selector=${sensorClassesSchema}
-              @value-changed=${this.updateSensorClasses}
-            />
+            ></ha-textfield>
           </div>
         </div>
       `;
+    }
+
+    if (this._selectedCard.id === 'sensors') {
+      return html`<div class="sensors card-content flex">${this.renderSensorSelector()}</div> `;
     }
 
     return html`
@@ -137,8 +149,102 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
         .hass=${this.hass}
         .lovelace=${this.lovelace}
         .firstUpdated=${this.cardEditorUpdated}
-      />
+      ></hui-stack-card-editor>
     `;
+  }
+
+  protected renderSensorSelector() {
+    const config = this.config;
+    const area = this.hass.areas[config?.area || ''];
+    const sensorEntities = config?.sensor_entities || {};
+    const sensorClasses = config?.sensor_classes || [];
+
+    // Logic to resolve default available sensors if not specified
+    if (!config?.sensor_classes || !sensorEntities.temperature || !sensorEntities.humidity || !sensorEntities.power) {
+      const sensorStates = findSensorStates(this.hass, this.config?.area || '');
+      sensorEntities.temperature = sensorEntities.temperature || {
+        entities: getSensorEntityIds(sensorStates, 'temperature'),
+      };
+      sensorEntities.humidity = sensorEntities.humidity || {
+        entities: getSensorEntityIds(sensorStates, 'humidity'),
+      };
+      sensorEntities.power = sensorEntities.power || {
+        entities: getSensorEntityIds(sensorStates, 'power'),
+      };
+
+      if (!config?.sensor_classes) {
+        if (sensorEntities.temperature.entities.length > 0) {
+          sensorClasses.push('temperature');
+        }
+        if (sensorEntities.humidity.entities.length > 0) {
+          sensorClasses.push('humidity');
+        }
+        if (sensorEntities.power.entities.length > 0) {
+          sensorClasses.push('power');
+        }
+      }
+    }
+
+    return html`
+      <ha-selector
+        label="Sensor Classes"
+        name="sensor_classes"
+        .hass=${this.hass}
+        .value=${sensorClasses}
+        .selector=${sensorClassesSchema}
+        @value-changed=${this.updateSensorClasses}
+      ></ha-selector>
+      <p>
+        Select the sensors you want to display in the area card. All ${area?.name || 'Area'} sensors are used by default
+        unless you select specific sensors in the selectors below.
+      </p>
+      ${sensorClasses.includes('temperature')
+        ? html`
+            <ha-selector
+              label="Temperature Sensors"
+              name="temperature"
+              .hass=${this.hass}
+              .selector=${temperatureSelectorSchema}
+              .value=${sensorEntities.temperature.entities}
+              @value-changed=${this.updateSensors}
+            ></ha-selector>
+          `
+        : nothing}
+      ${sensorClasses.includes('humidity')
+        ? html`
+            <ha-selector
+              label="Humidity Sensors"
+              name="humidity"
+              .hass=${this.hass}
+              .selector=${humiditySelectorSchema}
+              .value=${sensorEntities.humidity.entities}
+              @value-changed=${this.updateSensors}
+            ></ha-selector>
+          `
+        : nothing}
+      ${sensorClasses.includes('power')
+        ? html`
+            <ha-selector
+              label="Power Sensors"
+              name="power"
+              .hass=${this.hass}
+              .selector=${powerSelectorSchema}
+              .value=${sensorEntities.power.entities}
+              @value-changed=${this.updateSensors}
+            ></ha-selector>
+          `
+        : nothing}
+    `;
+  }
+
+  private updateSensors(ev: SimpleInputEvent<string[]>) {
+    const target = ev.target as HTMLInputElement;
+    this.configChanged({
+      sensor_entities: {
+        ...this.config?.sensor_entities,
+        [target.name]: { entities: ev.detail.value },
+      },
+    });
   }
 
   protected cardEditorUpdated() {
@@ -202,11 +308,14 @@ export class HomeAssistantAreaCardEditor extends LitElement implements LovelaceC
   static get styles(): CSSResultGroup {
     return css`
       .go-area-card-editor {
-        .settings {
+        .flex {
           display: flex;
           flex-direction: column;
-          margin-top: 16px;
           gap: 16px;
+        }
+
+        .card-content {
+          margin-top: 16px;
 
           > div > * {
             width: 100%;

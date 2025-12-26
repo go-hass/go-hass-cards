@@ -10,19 +10,21 @@ const defaultSensorUnits: Record<SensorType, string> = {
   power: 'W',
 };
 
+export function getSensorEntityIds(sensorStates: HassEntity[], type: SensorType) {
+  return sensorStates.filter((state) => state.attributes.device_class === type).map((state) => state.entity_id);
+}
+
 export function createSensorManager(
   this: GoCard<any>,
   type: SensorType,
   sensorStates: HassEntity[],
   aggregation: 'sum' | 'average' = 'average',
 ) {
-  if (!this.config?.sensor_classes?.includes(type)) {
+  if (this.config?.sensor_classes && !this.config.sensor_classes.includes(type)) {
     return { entityIds: [], getState: () => undefined };
   }
 
-  const entityIds = sensorStates
-    .filter((state) => state.attributes.device_class === type)
-    .map((state) => state.entity_id);
+  const entityIds = getSensorEntityIds(sensorStates, type);
 
   return {
     entityIds,

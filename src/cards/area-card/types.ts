@@ -12,4 +12,15 @@ export type AreaCardConfig = LovelaceCardConfig & {
   top_card?: LovelaceCardConfig;
   /** @deprecated Use side_cards instead */
   side_card?: LovelaceCardConfig;
+  sensor_entities?: {
+    temperature?: {
+      entities: string[];
+    };
+    humidity?: {
+      entities: string[];
+    };
+    power?: {
+      entities: string[];
+    };
+  };
 };
