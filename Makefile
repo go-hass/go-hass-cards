@@ -18,3 +18,8 @@ ssh-deploy: build ## Deploy Home Assistant Area Card over SSH
 
 hass: ## Generate utils & types from https://github.com/home-assistant/frontend.git
 	./scripts/generate-hass.sh
+
+# Misc tasks
+clean-files: ## Remove all generated files
+	rm -rf node_modules dist && \
+		bun i

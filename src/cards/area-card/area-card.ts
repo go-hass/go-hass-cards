@@ -150,12 +150,20 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
 
   protected renderTopCards() {
     if (!this.config?.top_cards?.length) return nothing;
-    return html`<hui-vertical-stack-card class="top-cards" .hass=${this._hass} @click=${this.stopPropagation} />`;
+    return html`<hui-vertical-stack-card
+      class="top-cards"
+      .hass=${this._hass}
+      @click=${this.stopPropagation}
+    ></hui-vertical-stack-card>`;
   }
 
   protected renderSideCards() {
     if (!this.config?.side_cards?.length) return nothing;
-    return html`<hui-vertical-stack-card class="side-cards" .hass=${this._hass} @click=${this.stopPropagation} />`;
+    return html`<hui-vertical-stack-card
+      class="side-cards"
+      .hass=${this._hass}
+      @click=${this.stopPropagation}
+    ></hui-vertical-stack-card>`;
   }
 
   protected firstUpdated() {
@@ -217,6 +225,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
           width: 100%;
           height: 100%;
           display: flex;
+          align-items: flex-start;
           flex-direction: column;
           justify-content: space-between;
           /* TODO: Do not add bright top fade if no chips are present */
@@ -234,6 +243,7 @@ export class HomeAssistantAreaCard extends LitElement implements LovelaceCard, G
 
         .top-cards,
         .side-cards {
+          height: auto;
           overflow: auto;
           /* Some cards add unnecessary margins around itself for spacing between elements, so we need to hide scrollbars */
           -ms-overflow-style: none; /* Internet Explorer 10+ */
