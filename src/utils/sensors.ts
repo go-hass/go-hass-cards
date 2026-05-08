@@ -52,7 +52,7 @@ export function findSensorStates(hass: HomeAssistant, areaId: string) {
   const devices = Object.values(hass.devices).filter((device) => device.area_id === areaId);
   const deviceIds = new Set(devices.map((device) => device.id));
   const entities = Object.values(hass.entities).filter(
-    (entity) => entity.area_id === areaId || (entity.device_id && deviceIds.has(entity.device_id)),
+    (entity) => !entity.hidden && (entity.area_id === areaId || (entity.device_id && deviceIds.has(entity.device_id))),
   );
   const entityIds = new Set(entities.map((entity) => entity.entity_id));
   const states = Object.values(hass.states).filter((state) => entityIds.has(state.entity_id));
